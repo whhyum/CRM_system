@@ -2,51 +2,27 @@
 <div class="container">
   <div class="box">
     <h1 style="text-align: center">客户关系管理系统</h1>
-    <el-form ref="form" :model="form" label-width="120px">
+    <el-form ref="form" :model="form" label-width="120px" :rules="rules">
       <h3 class="login_title" style="text-align: center">系统登录</h3>
-      <el-form-item
-        prop="name"
-        label="用 户 名 :"
-        :rules="[
-        { required: true, message: '请输入用户名', trigger: 'blur' }
-      ]">
+      <el-form-item prop="username" label="用 户 名 :">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-      <el-form-item
-        prop="password"
-        label="用 户 密 码 :"
-        :rules="[
-        { required: true, message: '请输入用户密码', trigger: 'blur' }
-      ]">
-        <el-input v-model="form.password"></el-input>
+      <el-form-item prop="password" label="用 户 密 码 :">
+        <el-input v-model="form.password"  type="password"></el-input>
       </el-form-item>
-      <el-form-item
-        prop="email"
-        label="用 户 邮 箱 :"
-        :rules="[
-        { required: true, message: '请输入用户邮箱', trigger: 'blur' },
-        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
-      ]"
-      >
+      <el-form-item ref="email" prop="email" label="用 户 邮 箱 :">
         <el-input v-model="form.email"></el-input>
       </el-form-item>
 
       <el-row>
         <el-col :span="13">
-          <el-form-item
-            prop="num"
-            label="验 证 码 :"
-            :rules="[
-        { required: true, message: '请输入验证码', trigger: 'blur' }
-      ]"
-            style="width: 130%">
-            <el-input v-model="form.num"></el-input>
-
+          <el-form-item prop="code" label="验 证 码 :" style="width: 130%">
+            <el-input v-model="form.code"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="1">
-          <el-form-item>
-            <el-button type="primary" plain @click="checkInfo('form.num')">获取验证码</el-button>
+          <el-form-item prop="">
+            <el-button type="primary" plain @click="sendCode()" style="margin-left: -3vw">获取验证码</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -78,7 +54,7 @@ export default {
         type: [],
         resource: '',
         desc: '',
-        num: ''
+        code: ''
       },
       dynamicValidateForm: {
         domains: [{
@@ -86,13 +62,18 @@ export default {
           value: ''
         }],
         email: ''
+      },
+      rules: {
+        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入用户密码', trigger: 'blur'}],
+        email: [ { required: true, message: '请输入用户邮箱', trigger: 'blur' },
+        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
+        code: { required: true, message: '请输入验证码', trigger: 'blur'},
+
       }
     }
   },
   methods: {
-    beforeCreate () {
-      document.querySelector('body').setAttribute('style', 'margin: 0 auto; width: 100%; max-width: 750px;min-width: 300px; background-color:#D1E8D4; overflow-x: hidden;height: 100%;');
-    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -106,15 +87,16 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    checkInfo(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!');
+    sendCode() {
+      console.log()
+        if (this.form.email!= null) {
+          this.$message.success('获取验证码')
+          console.log(this.form.email)
         } else {
-          console.log('error submit!!');
+          this.$message.error('请输入邮箱')
           return false;
         }
-      });
+
     }
   }
 }
@@ -132,19 +114,17 @@ export default {
 .box{
   margin-top: 8vh;
   /*padding: 30px;*/
-  width: 560px;
+  width: 450px;
+  /*background-color: #D1E8D4;*/
 }
 form{
   background-color: white;
   border: 1px black solid;
   border-radius: 5px;
-  padding-right: 30px;
-  padding-left: 10px;
+  padding-right: 40px;
+  /* padding-left: 10px; */
 }
 template{
-  background-color: #D1E8D4;
-  width: 26%;
-  height: 24%;
   position:fixed;
   background-size:100% 100%;
 
