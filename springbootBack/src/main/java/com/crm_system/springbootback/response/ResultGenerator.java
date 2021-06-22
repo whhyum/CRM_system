@@ -1,5 +1,6 @@
 package com.crm_system.springbootback.response;
 
+import com.crm_system.springbootback.dto.statusFlagDTO;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -17,6 +18,11 @@ public class ResultGenerator {
    */
   public static <T> Result<T> genOkResult(final T data) {
     return new Result<T>().setCode(HttpStatus.OK.value()).setData(data);
+  }
+  public static <T> Result<T> genOkResult(boolean flag) {
+    statusFlagDTO statusFlagDTO=new statusFlagDTO();
+    statusFlagDTO.setFlag(flag);
+    return new Result<T>().setCode(HttpStatus.OK.value()).setData((T) statusFlagDTO);
   }
 
   /**
