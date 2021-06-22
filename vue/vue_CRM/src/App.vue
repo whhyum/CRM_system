@@ -19,13 +19,14 @@ export default {
   /*color: #2c3e50;*/
   /*margin: -20px;*/
   margin: 0;
-  height:100%;
-  width: 100%;
+
 
 }
-body{
+html, body{
   margin:0;
   padding:0;
+  height:100%;
+  width: 100%;
   background-color: #ECF5FF;
 }
 </style>

@@ -1,0 +1,12 @@
+返回的格式：
+{code： ，
+mes： ，
+data：[{ },{ }]
+}
+
+
+登录：http://127.0.0.1:8081/employee/findAll
+参数：username，password
+
+
+

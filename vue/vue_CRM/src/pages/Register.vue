@@ -7,7 +7,7 @@
                label-width="120px"
                :rules="rules">
         <h3 class="login_title"
-            style="text-align: center">系统登录</h3>
+            style="text-align: center">系统注册</h3>
         <el-form-item prop="username"
                       label="用 户 名 :">
           <el-input v-model="form.name"></el-input>
@@ -17,6 +17,29 @@
           <el-input v-model="form.password"
                     type="password"></el-input>
         </el-form-item>
+        <el-form-item ref="email"
+                      prop="email"
+                      label="用 户 邮 箱 :">
+          <el-input v-model="form.email"></el-input>
+        </el-form-item>
+
+        <el-row>
+          <el-col :span="13">
+            <el-form-item prop="code"
+                          label="验 证 码 :"
+                          style="width: 130%">
+              <el-input v-model="form.code"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="1">
+            <el-form-item prop="">
+              <el-button type="primary"
+                         plain
+                         @click="sendCode()"
+                         style="margin-left: -3vw">获取验证码</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <el-form-item>
           <el-button type="primary"
@@ -24,7 +47,7 @@
                      @click="resetForm('form')">重置</el-button>
           <el-button type="primary"
                      plain
-                     @click="submitForm('form')">登录</el-button>
+                     @click="submitForm('form')">注册</el-button>
           <el-button plain>Cancel</el-button>
         </el-form-item>
       </el-form>
@@ -37,7 +60,7 @@
 <script>
 
 export default {
-  name: "Login",
+  name: "Register",
   data () {
     return {
       form: {
@@ -105,9 +128,9 @@ export default {
   align-items: center;
 }
 .box {
-  margin-top: 15vh;
+  margin-top: 8vh;
   /*padding: 30px;*/
-  width: 500px;
+  width: 450px;
   /*background-color: #D1E8D4;*/
 }
 form {
