@@ -26,9 +26,13 @@ public class Email {
         mailReceiver.sendSimpleMail("1452588824@qq.com", "2466921236@qq.com", "1452588824@qq.com", "验证码",s );
         return ResultGenerator.genOkResult("true");
     }
+    @PostMapping("/test")
+    private String test(){
+        return s;
+    }
     @PostMapping("/checkCore")
     private Result checkCore(@RequestBody AddUserDTO addUserDTO){
-        if (addUserDTO.getCore().equals(s))
+        if (!addUserDTO.getCore().equals(s))
             return ResultGenerator.genOkResult(false);
         else if(userService.selectOne(addUserDTO)==null){
             return ResultGenerator.genFailedResult("用户名已存在，请重新输入！");

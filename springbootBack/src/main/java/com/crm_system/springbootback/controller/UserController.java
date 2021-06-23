@@ -34,7 +34,8 @@ public class UserController {
      */
     @PostMapping("/user/add")
     public Result addUser(@RequestBody User user){
-        return ResultGenerator.genOkResult(userService.addUser(user));
+
+        return ResultGenerator.genFailedResult("hhh",userService.addUser(user));
     }
 
     /**

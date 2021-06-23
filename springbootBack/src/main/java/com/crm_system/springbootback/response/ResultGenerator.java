@@ -17,6 +17,7 @@ public class ResultGenerator {
    * @return 响应结果
    */
   public static <T> Result<T> genOkResult(final T data) {
+
     return new Result<T>().setCode(HttpStatus.OK.value()).setData(data);
   }
   public static <T> Result<T> genOkResult(boolean flag) {
