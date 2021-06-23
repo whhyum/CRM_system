@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @Autowired
     LoginService loginService;
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/api/login")
     @CrossOrigin
     public Result login(@RequestBody LoginDTO loginDTO){
       return loginService.login(loginDTO);

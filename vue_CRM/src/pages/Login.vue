@@ -10,16 +10,14 @@
           <img src="../assets/MainLogo.png"
                class="Main_img">
         </div>
-        <!-- <h3 class="login_title"
-            style="text-align: center">系统登录</h3> -->
         <el-form-item prop="username"
                       label="用 户 名 :">
-          <el-input v-model="form.username"></el-input>
+          <el-input v-model="form.username">111</el-input>
         </el-form-item>
         <el-form-item prop="password"
                       label="用 户 密 码 :">
           <el-input v-model="form.password"
-                    type="password"></el-input>
+                    type="password">111</el-input>
         </el-form-item>
 
         <el-form-item style="text-align:right;margin-right:20px">
@@ -30,11 +28,9 @@
           <el-button type="primary"
                      plain
                      @click="regsForm()">注册</el-button>
-          <!-- <el-button plain>注册</el-button> -->
         </el-form-item>
       </el-form>
     </div>
-    <!--<Tabs></Tabs>-->
   </div>
 
 </template>
