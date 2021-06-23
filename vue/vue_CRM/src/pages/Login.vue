@@ -1,13 +1,17 @@
 <template>
   <div class="container">
     <div class="box">
-      <h1 style="text-align: center">客户关系管理系统</h1>
+      <h1 style="text-align: center">客户关系管理系统登录</h1>
       <el-form ref="form"
                :model="form"
                label-width="120px"
                :rules="rules">
-        <h3 class="login_title"
-            style="text-align: center">系统登录</h3>
+        <div style="width:500px;text-align:center;">
+          <img src="../assets/MainLogo.png"
+               class="Main_img">
+        </div>
+        <!-- <h3 class="login_title"
+            style="text-align: center">系统登录</h3> -->
         <el-form-item prop="username"
                       label="用 户 名 :">
           <el-input v-model="form.name"></el-input>
@@ -18,14 +22,15 @@
                     type="password"></el-input>
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary"
-                     plain
-                     @click="resetForm('form')">重置</el-button>
+        <el-form-item style="text-align:right;margin-right:20px">
+
           <el-button type="primary"
                      plain
                      @click="submitForm('form')">登录</el-button>
-          <el-button plain>Cancel</el-button>
+          <el-button type="primary"
+                     plain
+                     @click="regsForm()">注册</el-button>
+          <!-- <el-button plain>注册</el-button> -->
         </el-form-item>
       </el-form>
     </div>
@@ -73,27 +78,30 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          // 通过验证
+          // if(r){} 加本地存储
+          this.$axios.post('/', {
+            username: this.form.username,
+            password: this.form.password
+
+          }).then(successResponse => {
+            if (successResponse.data.code === 200) {
+              this.$router.replace({ path: '/main' })
+            }
+          }).catch(failResponse => {
+            alert('失败')
+          })
+          // alert('submit!');
         } else {
-          console.log('error submit!!');
+          alert('error submit!!');
           return false;
         }
       });
     },
-    resetForm (formName) {
-      this.$refs[formName].resetFields();
+    regsForm () {
+      // this.$refs[formName].resetFields();
+      this.$router.replace({ path: '/regs' })
     },
-    sendCode () {
-      console.log()
-      if (this.form.email != null) {
-        this.$message.success('获取验证码')
-        console.log(this.form.email)
-      } else {
-        this.$message.error('请输入邮箱')
-        return false;
-      }
-
-    }
   }
 }
 </script>
@@ -107,10 +115,12 @@ export default {
 .box {
   margin-top: 15vh;
   /*padding: 30px;*/
+
   width: 500px;
   /*background-color: #D1E8D4;*/
 }
 form {
+  height: 350px;
   background-color: white;
   border: 1px black solid;
   border-radius: 5px;
@@ -122,4 +132,11 @@ form {
 /*  background-size:100% 100%;*/
 
 /*}*/
+
+.Main_img {
+  width: 150px;
+}
+botton {
+  width: 300px;
+}
 </style>

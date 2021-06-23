@@ -1,15 +1,20 @@
 <template>
   <div class="out">
+
     <div>
       <NavMenu></NavMenu>
     </div>
     <div class="main">
-      <!-- <el-card class="top-card"> -->
-      <NavTop class="main_top"></NavTop>
+
+      <div style="display:flex;flex-direction:column">
+
+        <!-- <el-card class="top-card"> -->
+        <NavTop class="main_top"></NavTop>
+      </div>
+
       <!-- </el-card> -->
       <el-card class="box-card">
 
-     
       </el-card>
 
     </div>

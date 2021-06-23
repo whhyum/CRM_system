@@ -1,21 +1,35 @@
 <template>
   <div class="container">
     <div class="box">
-      <h1 style="text-align: center">客户关系管理系统</h1>
+      <h1 style="text-align: center">客户关系管理系统注册</h1>
       <el-form ref="form"
                :model="form"
                label-width="120px"
                :rules="rules">
-        <h3 class="login_title"
-            style="text-align: center">系统注册</h3>
         <el-form-item prop="username"
                       label="用 户 名 :">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item prop="password"
                       label="用 户 密 码 :">
           <el-input v-model="form.password"
                     type="password"></el-input>
+        </el-form-item>
+        <el-form-item prop="usertype"
+                      label="用 户 身 份 :">
+          <el-radio-group v-model="USERTYPE">
+            <el-radio v-for="(item) in usertypes"
+                      :key="item.num"
+                      :value="item.num"
+                      :label="item.type"
+                      @change="chooseType(item.num)"></el-radio>
+
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item v-if="form.usertype === 3"
+                      prop="user_id"
+                      label="身 份 码 :">
+          <el-input v-model="form.user_id"></el-input>
         </el-form-item>
         <el-form-item ref="email"
                       prop="email"
@@ -63,9 +77,24 @@ export default {
   name: "Register",
   data () {
     return {
+      USERTYPE: 1,
+      usertypes: [
+        {
+          num: 1,
+          type: '客户'
+        },
+        {
+          num: 2,
+          type: '员工'
+        },
+        {
+          num: 3,
+          type: '经理'
+        }],
       form: {
-        name: '',
+        username: '',
         password: '',
+        usertype: '',
         region: '',
         date1: '',
         date2: '',
@@ -73,7 +102,8 @@ export default {
         type: [],
         resource: '',
         desc: '',
-        code: ''
+        code: '',
+        user_id: '',
       },
       dynamicValidateForm: {
         domains: [{
@@ -88,7 +118,7 @@ export default {
         email: [{ required: true, message: '请输入用户邮箱', trigger: 'blur' },
         { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
         code: { required: true, message: '请输入验证码', trigger: 'blur' },
-
+        usertype: { required: true, message: '请选择用户身份', trigger: 'blur' }
       }
     }
   },
@@ -116,6 +146,11 @@ export default {
         return false;
       }
 
+    },
+    chooseType (num) {
+      console.log(num)
+      this.form.usertype = num
+      // this.USERTYPE = num
     }
   }
 }
@@ -134,6 +169,7 @@ export default {
   /*background-color: #D1E8D4;*/
 }
 form {
+  padding-top: 30px;
   background-color: white;
   border: 1px black solid;
   border-radius: 5px;

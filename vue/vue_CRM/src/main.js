@@ -6,9 +6,10 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// import axios from 'axios'
-// Vue.prototype.$http = axios
-// axios.default.baseURI = "http://localhost:9090"
+import axios from 'axios'
+Vue.prototype.$http = axios
+// 跨域 1
+axios.default.baseURI = "http://localhost:8081"
 
 Vue.use(ElementUI)
 

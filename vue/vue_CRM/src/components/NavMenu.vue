@@ -11,7 +11,7 @@
                  active-text-color="#ffd04b"
                  style="height:100%">
           <div style="width:250px;text-align:center;height:120px">
-            <img src="../assets/电子数据.png"
+            <img src="../assets/MainLogo.png"
                  class="Main_img">
           </div>
           <h2 style="margin:20px auto;text-align:center;color:white">CRM管理系统</h2>
@@ -75,7 +75,6 @@ body {
   background-color: white;
 }
 menu {
-  
   width: 1000px;
 }
 .Main_img {

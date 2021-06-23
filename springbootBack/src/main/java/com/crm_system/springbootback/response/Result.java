@@ -4,10 +4,15 @@ import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-/**
- * @author MoShuying
- * @date 2018/07/15
- */
+/*
+状态码改成枚举类：
+        202 成功
+400 数据字段缺少
+404 数据错误
+500 其他
+*/
+
+
 @ApiModel(value = "响应结果")
 public class Result<T> {
   @ApiModelProperty(value = "状态码")
@@ -17,37 +22,36 @@ public class Result<T> {
   private String message;
 
   @ApiModelProperty(value = "数据")
-  private T data;
-
-  @Override
-  public String toString() {
-    return JSON.toJSONString(this);
-  }
+  private Object data;
 
   public Integer getCode() {
-    return this.code;
+    return code;
   }
 
-  public Result<T> setCode(final Integer code) {
+  public void setCode(Integer code) {
     this.code = code;
-    return this;
   }
 
   public String getMessage() {
-    return this.message;
+    return message;
   }
 
-  public Result<T> setMessage(final String message) {
+  public void setMessage(String message) {
     this.message = message;
-    return this;
   }
 
-  public T getData() {
-    return this.data;
+  public Object getData() {
+    return data;
   }
 
-  public Result<T> setData(final T data) {
+  public void setData(Object data) {
     this.data = data;
-    return this;
   }
+
+  public Result(int code, String msg, Object o) {
+    this.code = code;
+    this.message = msg;
+    this.data = o;
+  }
+
 }

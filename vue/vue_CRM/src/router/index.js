@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import NavMenu from "@/components/NavMenu";
@@ -12,8 +11,8 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/Main_test',
-      name: 'NavMenu',
+      path: '/main',
+      name: 'Main',
       component: Main_m
     },
     // {
@@ -28,7 +27,7 @@ export default new Router({
       hidden: true
     },
     {
-      path: '/Register',
+      path: '/regs',
       name: 'Register',
       component: Register,
     }
