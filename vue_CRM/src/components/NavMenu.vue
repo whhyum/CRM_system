@@ -22,6 +22,7 @@
             </template>
             <!-- <el-menu-item-group title="分组2"> -->
             <el-menu-item index="1-1">添加客户</el-menu-item>
+            <el-menu-item index="1-2">用户管理</el-menu-item>
             <!-- </el-menu-item-group> -->
           </el-submenu>
           <el-menu-item index="2">

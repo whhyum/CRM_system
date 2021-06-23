@@ -5,19 +5,18 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import VueResource from 'vue-resource';
+// import VueResource from 'vue-resource';
 import axios from 'axios';
 import qs from 'qs'
 // var axios = require('axios')
-axios.defaults.baseURL = "http://localhost:8081/api"
-// axios.defaults.baseURL
-// Vue.use
+axios.defaults.baseURL = "http://localhost:8081/"
+
 Vue.prototype.$axios = axios
 // 跨域 1
-Vue.prototype.HOME = 'api' 
-Vue.use(VueResource)
+// Vue.prototype.HOME = 'api' 
+// Vue.use(VueResource)
 Vue.use(ElementUI)
-Vue.prototype.qs = qs
+Vue.prototype.$qs = qs
 Vue.config.productionTip = false
 //
 // import {getRequest} from "./utils/api";
@@ -31,8 +30,6 @@ Vue.config.productionTip = false
 // Vue.prototype.putRequest = putRequest;
 
 
-
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
