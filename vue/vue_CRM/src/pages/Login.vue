@@ -14,7 +14,7 @@
             style="text-align: center">系统登录</h3> -->
         <el-form-item prop="username"
                       label="用 户 名 :">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item prop="password"
                       label="用 户 密 码 :">
@@ -67,9 +67,6 @@ export default {
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }],
-        email: [{ required: true, message: '请输入用户邮箱', trigger: 'blur' },
-        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
-        code: { required: true, message: '请输入验证码', trigger: 'blur' },
 
       }
     }
@@ -80,7 +77,7 @@ export default {
         if (valid) {
           // 通过验证
           // if(r){} 加本地存储
-          this.$axios.post('/', {
+          this.$axios.post('/login', {
             username: this.form.username,
             password: this.form.password
 

@@ -20,11 +20,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Result login(LoginDTO loginDTO) {
         if (StringUtils.isEmpty(loginDTO.getUsername())){
-
-            return ResultUtil.fail("账号不能为空","");
+            return ResultUtil.fail("用户名不能为空","");
         }
         if (StringUtils.isEmpty(loginDTO.getPassword())){
-
             return ResultUtil.fail("密码不能为空","");
         }
         //通过登录名查询用户
