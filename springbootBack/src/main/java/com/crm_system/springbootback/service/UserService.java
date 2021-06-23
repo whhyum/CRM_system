@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.crm_system.springbootback.dto.AddUserDTO;
 import com.crm_system.springbootback.dto.QueryDTO;
 import com.crm_system.springbootback.entity.User;
-import com.crm_system.springbootback.response.ResultGenerator;
 
 import java.util.List;
 

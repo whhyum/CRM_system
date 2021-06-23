@@ -18,25 +18,30 @@ public class User {
     @TableId(type = IdType.AUTO)
     @Id
     private Integer id;
-    private String loginName;
-    private String userName;
+//    private String loginName;
+    private String username;
     private String password;
-    private String sex;
-    private String email;
-    private String address;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+//    private String sex;
+//    private String email;
+//    private String address;
     //省略getter、setter等
 
-    public User(String loginName, String userName, String password, String sex, String email, String address) {
-        this.id = id;
-        this.loginName = loginName;
-        this.userName = userName;
-        this.password = password;
-        this.sex = sex;
-        this.email = email;
-        this.address = address;
-    }
-
-    public User() {
-
-    }
+//    public User(String loginName, String userName, String password, String sex, String email, String address) {
+//        this.id = id;
+//        this.loginName = loginName;
+//        this.userName = userName;
+//        this.password = password;
+//        this.sex = sex;
+//        this.email = email;
+//        this.address = address;
+//    }
+//
+//    public User() {
+//
+//    }
 }

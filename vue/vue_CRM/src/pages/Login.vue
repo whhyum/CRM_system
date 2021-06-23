@@ -1,48 +1,49 @@
 <template>
-<div class="container">
-  <div class="box">
-    <h1 style="text-align: center">客户关系管理系统</h1>
-    <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-      <h3 class="login_title" style="text-align: center">系统登录</h3>
-      <el-form-item prop="username" label="用 户 名 :">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-form-item prop="password" label="用 户 密 码 :">
-        <el-input v-model="form.password"  type="password"></el-input>
-      </el-form-item>
-      <el-form-item ref="email" prop="email" label="用 户 邮 箱 :">
-        <el-input v-model="form.email"></el-input>
-      </el-form-item>
+  <div class="container">
+    <div class="box">
+      <h1 style="text-align: center">客户关系管理系统登录</h1>
+      <el-form ref="form"
+               :model="form"
+               label-width="120px"
+               :rules="rules">
+        <div style="width:500px;text-align:center;">
+          <img src="../assets/MainLogo.png"
+               class="Main_img">
+        </div>
+        <!-- <h3 class="login_title"
+            style="text-align: center">系统登录</h3> -->
+        <el-form-item prop="username"
+                      label="用 户 名 :">
+          <el-input v-model="form.username"></el-input>
+        </el-form-item>
+        <el-form-item prop="password"
+                      label="用 户 密 码 :">
+          <el-input v-model="form.password"
+                    type="password"></el-input>
+        </el-form-item>
 
-      <el-row>
-        <el-col :span="13">
-          <el-form-item prop="code" label="验 证 码 :" style="width: 130%">
-            <el-input v-model="form.code"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="1">
-          <el-form-item prop="">
-            <el-button type="primary" plain @click="sendCode()" style="margin-left: -3vw">获取验证码</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-form-item style="text-align:right;margin-right:20px">
 
-      <el-form-item>
-        <el-button type="primary" plain @click="resetForm('form')">重置</el-button>
-        <el-button type="primary" plain @click="submitForm('form')">提交</el-button>
-        <el-button  plain>Cancel</el-button>
-      </el-form-item>
-    </el-form>
+          <el-button type="primary"
+                     plain
+                     @click="submitForm('form')">登录</el-button>
+          <el-button type="primary"
+                     plain
+                     @click="regsForm()">注册</el-button>
+          <!-- <el-button plain>注册</el-button> -->
+        </el-form-item>
+      </el-form>
+    </div>
+    <!--<Tabs></Tabs>-->
   </div>
-
-</div>
 
 </template>
 
 <script>
+
 export default {
   name: "Login",
-  data() {
+  data () {
     return {
       form: {
         name: '',
@@ -65,69 +66,74 @@ export default {
       },
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入用户密码', trigger: 'blur'}],
-        email: [ { required: true, message: '请输入用户邮箱', trigger: 'blur' },
-        { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }],
-        code: { required: true, message: '请输入验证码', trigger: 'blur'},
+        password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }],
 
       }
     }
   },
   methods: {
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          // 通过验证
+          // if(r){} 加本地存储
+          this.$axios.post('/login', {
+            username: this.form.username,
+            password: this.form.password
+
+          }).then(successResponse => {
+            if (successResponse.data.code === 200) {
+              this.$router.replace({ path: '/main' })
+            }
+          }).catch(failResponse => {
+            alert('失败')
+          })
+          // alert('submit!');
         } else {
-          console.log('error submit!!');
+          alert('error submit!!');
           return false;
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    regsForm () {
+      // this.$refs[formName].resetFields();
+      this.$router.replace({ path: '/regs' })
     },
-    sendCode() {
-      console.log()
-        if (this.form.email!= null) {
-          this.$message.success('获取验证码')
-          console.log(this.form.email)
-        } else {
-          this.$message.error('请输入邮箱')
-          return false;
-        }
-
-    }
   }
 }
 </script>
 
 <style scoped>
 .container {
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-
 }
-.box{
-  margin-top: 8vh;
+.box {
+  margin-top: 15vh;
   /*padding: 30px;*/
-  width: 450px;
+
+  width: 500px;
   /*background-color: #D1E8D4;*/
 }
-form{
+form {
+  height: 350px;
   background-color: white;
   border: 1px black solid;
   border-radius: 5px;
   padding-right: 40px;
   /* padding-left: 10px; */
 }
-template{
-  position:fixed;
-  background-size:100% 100%;
+/*template{*/
+/*  position:fixed;*/
+/*  background-size:100% 100%;*/
 
+/*}*/
+
+.Main_img {
+  width: 150px;
 }
-
+botton {
+  width: 300px;
+}
 </style>
