@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value = "响应结果")
 public class Result<T> {
   @ApiModelProperty(value = "状态码")
-  private Integer code;
+  private Integer status;
 
   @ApiModelProperty(value = "消息")
   private String message;
@@ -24,12 +24,12 @@ public class Result<T> {
   @ApiModelProperty(value = "数据")
   private Object data;
 
-  public Integer getCode() {
-    return code;
+  public Integer getStatus() {
+    return status;
   }
 
-  public void setCode(Integer code) {
-    this.code = code;
+  public void setStatus(Integer status) {
+    this.status = status;
   }
 
   public String getMessage() {
@@ -48,8 +48,8 @@ public class Result<T> {
     this.data = data;
   }
 
-  public Result(int code, String msg, Object o) {
-    this.code = code;
+  public Result(int status, String msg, Object o) {
+    this.status = status;
     this.message = msg;
     this.data = o;
   }
