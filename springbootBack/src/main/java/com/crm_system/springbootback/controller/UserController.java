@@ -33,11 +33,11 @@ public class UserController {
      * @param user
      * @return
      */
-    @PostMapping("/user/add")
-    public Result addUser(@RequestBody UserDTO userDTO){
-
-        return ResultUtil.success("用户添加成功！",userService.addUser(userDTO));
-    }
+//    @PostMapping("/user/add")
+//    public Result addUser(@RequestBody UserDTO userDTO){
+//
+//        return ResultUtil.success("用户添加成功！",userService.addUser(userDTO));
+//    }
 
     /**
      * 更新

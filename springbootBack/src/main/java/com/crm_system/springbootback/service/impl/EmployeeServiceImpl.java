@@ -1,7 +1,7 @@
 package com.crm_system.springbootback.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.crm_system.springbootback.dto.EmployeeDTO;
+import com.crm_system.springbootback.dto.RegisterDTO;
 import com.crm_system.springbootback.entity.Employee;
 import com.crm_system.springbootback.mapper.EmployeeMapper;
 import com.crm_system.springbootback.service.EmployeeService;
@@ -18,8 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        return employeeMapper.selectUserPage(page,queryDTO.getKeyword());
 //    }
     @Override
-    public Integer addEmployee(EmployeeDTO employeeDTO) {
-        Employee employee=new Employee(employeeDTO.getUsername(),employeeDTO.getPassword(),employeeDTO.getEmail(),employeeDTO.getUsertype());
+    public Integer addEmployee(RegisterDTO registerDTO) {
+        Employee employee=new Employee(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getUsertype());
         return employeeMapper.insert(employee);
     }
     @Override
@@ -37,10 +37,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.deleteBatchIds(ids);
     }
     @Override
-    public  Employee selectOne(EmployeeDTO employeeDTO){
+    public  Employee selectOne(RegisterDTO registerDTO){
         //通过登录名查询用户
         QueryWrapper<Employee> wrapper = new QueryWrapper();
-        wrapper.eq("username", employeeDTO.getUsername());
+        wrapper.eq("username", registerDTO.getUsername());
         Employee employee=employeeMapper.selectOne(wrapper);
         System.out.println(employee);
         return employee;
