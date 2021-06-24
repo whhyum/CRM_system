@@ -30,7 +30,14 @@ public class LoginServiceImpl implements LoginService {
         wrapper.eq("username", loginDTO.getUsername());
         Employee employee= loginMapper.selectOne(wrapper);
         //比较密码
+<<<<<<< HEAD
         if (employee!=null&&employee.getPassword().equals(loginDTO.getPassword())){
+=======
+        if(user == null){
+            return ResultUtil.fail("用户名不存在", user);
+        }
+        if (user!=null&&user.getPassword().equals(loginDTO.getPassword())){
+>>>>>>> dd7561b808b4cd33c04f7afe20ed21c64c5910df
 //            System.out.println(user.getUsername());
             return ResultUtil.success("登录成功", employee);
         }else if(!employee.getPassword().equals(loginDTO.getPassword())){

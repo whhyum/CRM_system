@@ -1,6 +1,6 @@
 <template>
   <div class="top">
-    <span style="margin-right:750px">页面</span>
+
     <!-- <span></span> -->
     <el-input placeholder="请输入任务编号"
               prefix-icon="el-icon-search"

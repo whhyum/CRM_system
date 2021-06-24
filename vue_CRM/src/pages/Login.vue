@@ -10,8 +10,6 @@
           <img src="../assets/MainLogo.png"
                class="Main_img">
         </div>
-        <!-- <h3 class="login_title"
-            style="text-align: center">系统登录</h3> -->
         <el-form-item prop="username"
                       label="用 户 名 :">
           <el-input v-model="form.username"></el-input>
@@ -30,11 +28,9 @@
           <el-button type="primary"
                      plain
                      @click="regsForm()">注册</el-button>
-          <!-- <el-button plain>注册</el-button> -->
         </el-form-item>
       </el-form>
     </div>
-    <!--<Tabs></Tabs>-->
   </div>
 
 </template>
@@ -46,11 +42,9 @@ export default {
   data () {
     return {
       form: {
-        name: '',
-        password: '',
+        username: 1,
+        password: 1,
         region: '',
-        date1: '',
-        date2: '',
         delivery: false,
         type: [],
         resource: '',
@@ -77,16 +71,22 @@ export default {
         if (valid) {
           // 通过验证
           // if(r){} 加本地存储
-          this.$axios.post('/login', {
+
+          console.log(this.form.username);
+          this.$axios.post('api/login', this.$qs.stringify({
             username: this.form.username,
             password: this.form.password
-
-          }).then(successResponse => {
+          })).then(successResponse => {
+            // console.log(2);
             if (successResponse.data.code === 200) {
               this.$router.replace({ path: '/main' })
+              this.$message(successResponse.data.message)
+              console.log(successResponse.data.message)
+            } else {
+              this.$message(successResponse.data.message)
             }
           }).catch(failResponse => {
-            alert('失败')
+            alert('登录出错')
           })
           // alert('submit!');
         } else {
