@@ -5,11 +5,13 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// import VueResource from 'vue-resource';
+import store from './store'
 import axios from 'axios';
 import qs from 'qs'
+import FullCalendar from 'vue-fullcalendar'
+Vue.use(FullCalendar)
 // var axios = require('axios')
-axios.defaults.baseURL = "http://localhost:8081/"
+axios.defaults.baseURL = "http://a331c7816ed5.ngrok.io/api"
 
 Vue.prototype.$axios = axios
 // 跨域 1
@@ -30,9 +32,29 @@ Vue.config.productionTip = false
 // Vue.prototype.putRequest = putRequest;
 
 
+//钩子函数，访问路由前调用
+router.beforeEach((to, from, next) => {
+  //路由需要认证
+  if (to.meta.requireAuth) {
+    //判断store里是否有token
+    if (store.state.token) {
+      next()
+    } else {
+      next({
+        path: 'login',
+        query: { redirect: to.fullPath }
+      })
+    }
+  } else {
+    next()
+  }
+}
+)
+
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

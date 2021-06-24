@@ -36,14 +36,14 @@
 </template>
 
 <script>
-
+import { userLogin } from "@/api/user";
 export default {
   name: "Login",
   data () {
     return {
       form: {
-        username: 1,
-        password: 1,
+        username: 'whh',
+        password: 123456,
         region: '',
         delivery: false,
         type: [],
@@ -69,25 +69,53 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // 通过验证
-          // if(r){} 加本地存储
-
-          console.log(this.form.username);
-          this.$axios.post('api/login', this.$qs.stringify({
-            username: this.form.username,
-            password: this.form.password
-          })).then(successResponse => {
-            // console.log(2);
-            if (successResponse.data.code === 200) {
-              this.$router.replace({ path: '/main' })
-              this.$message(successResponse.data.message)
-              console.log(successResponse.data.message)
-            } else {
-              this.$message(successResponse.data.message)
+          let _that = this
+          console.log(this.form.username)
+          userLogin({
+            username: _that.form.username,
+            password: _that.form.password,
+            status: 2
+          }).then((successResponse) => {
+            let code = successResponse.data.status;
+            if (code === 200) {
+              let data = successResponse.data.data;
+              let token = successResponse.data.token;
+              let user = successResponse.data.employee;
+              //存储token
+              _this.$store.commit('SET_TOKENN', token);
+              //存储user，优雅一点的做法是token和user分开获取
+              _this.$store.commit('SET_USER', user);
+              console.log(_this.$store.state.token);
+              var path = this.$route.query.redirect
+              this.$router.replace({ path: path === '/index/manageCus' || path === undefined ? '/' : path })
             }
-          }).catch(failResponse => {
-            alert('登录出错')
+
           })
+
+
+
+
+
+
+          // console.log(this.form.username);
+          // this.$axios.post('api/login', this.$qs.stringify({
+          //   username: this.form.username,
+          //   password: this.form.password
+          // })).then(successResponse => {
+          //   console.log(2);
+          //   if (successResponse.data.code === 200) {
+          //     this.$router.replace({ path: '/main' })
+          //     this.$message(successResponse.data.message)
+          //     console.log(successResponse.data.message)
+          //   } else {
+          //     this.$message(successResponse.data.message)
+          //   }
+
+          // }).catch(failResponse => {
+          //   alert('登录出错')
+          // })
+
+
           // alert('submit!');
         } else {
           alert('error submit!!');
