@@ -17,7 +17,6 @@ import java.util.Date;
 @TableName(value="user")
 public class User {
     @TableId(type = IdType.AUTO)
-    @Id
     private Integer id;
     private String username;
     private String gender;

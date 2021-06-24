@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 24/06/2021 12:51:15
+ Date: 24/06/2021 22:05:32
 */
 
 SET NAMES utf8mb4;
@@ -60,7 +60,7 @@ CREATE TABLE `contract`  (
   `creat_time` datetime(0) NULL DEFAULT NULL,
   `finish_time` datetime(0) NULL DEFAULT NULL,
   `server_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `money` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `money` int(255) NULL DEFAULT NULL,
   `pay_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `money_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `contract_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -89,19 +89,24 @@ CREATE TABLE `employee`  (
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `age` int(11) NULL DEFAULT NULL,
-  `deparment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `department` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `hire_date` datetime(0) NULL DEFAULT NULL,
   `state` int(255) NULL DEFAULT NULL,
   `admin` int(255) NULL DEFAULT NULL,
   `role_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of employee
 -- ----------------------------
 INSERT INTO `employee` VALUES (1, 'whh', '123456', NULL, 22, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `employee` VALUES (2, 'lhp', '131400', NULL, 23, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `employee` VALUES (3, 'EWRTRERrrr', 'FEERRr', '1452588824@qq.com', NULL, NULL, '2021-06-24 19:30:27', NULL, NULL, 2);
+INSERT INTO `employee` VALUES (4, 'EWRTRERuuu', 'FEERRr', '1452588824@qq.com', NULL, NULL, '2021-06-24 19:33:11', NULL, NULL, 2);
+INSERT INTO `employee` VALUES (5, 'EWR', 'FEERRr', '1452588824@qq.com', NULL, NULL, '2021-06-24 19:38:19', NULL, NULL, 2);
+INSERT INTO `employee` VALUES (6, 'EWRee', 'FEERRr', '1452588824@qq.com', NULL, NULL, '2021-06-24 19:41:18', NULL, NULL, 2);
+INSERT INTO `employee` VALUES (7, 'wwhw', '22222', '1452588824@qq.com', NULL, NULL, '2021-06-24 19:46:11', NULL, NULL, 1);
 
 -- ----------------------------
 -- Table structure for judge
@@ -109,9 +114,20 @@ INSERT INTO `employee` VALUES (2, 'lhp', '131400', NULL, 23, NULL, NULL, NULL, N
 DROP TABLE IF EXISTS `judge`;
 CREATE TABLE `judge`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `proportion` double(10, 2) NULL DEFAULT NULL,
+  `score` int(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of judge
+-- ----------------------------
+INSERT INTO `judge` VALUES (1, '工作能力', 0.40, NULL);
+INSERT INTO `judge` VALUES (2, '工作态度', 0.20, NULL);
+INSERT INTO `judge` VALUES (3, '环境行为', 0.10, NULL);
+INSERT INTO `judge` VALUES (4, '纪律', 0.20, NULL);
+INSERT INTO `judge` VALUES (5, '扣分项', 0.10, NULL);
 
 -- ----------------------------
 -- Table structure for plan
@@ -138,9 +154,9 @@ CREATE TABLE `role`  (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES (0, '市场经理');
-INSERT INTO `role` VALUES (1, '市场人员');
-INSERT INTO `role` VALUES (2, '客户');
+INSERT INTO `role` VALUES (1, '客户');
+INSERT INTO `role` VALUES (2, '员工');
+INSERT INTO `role` VALUES (3, '经理');
 
 -- ----------------------------
 -- Table structure for trace
@@ -154,7 +170,7 @@ CREATE TABLE `trace`  (
   `trace_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `trace_result` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `customer_id` int(11) NULL DEFAULT NULL,
-  `process-status` double(255, 0) NULL DEFAULT NULL,
+  `process_status` double(255, 0) NULL DEFAULT NULL,
   `input_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `process_day` int(255) NULL DEFAULT NULL,
@@ -169,7 +185,7 @@ DROP TABLE IF EXISTS `transfer`;
 CREATE TABLE `transfer`  (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `customer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `trans-user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `trans_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `trans_time` datetime(0) NULL DEFAULT NULL,
   `old_seller` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `new_seller` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
@@ -197,7 +213,7 @@ CREATE TABLE `user`  (
   `status` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '5个状态',
   `positive_time` datetime(0) NULL DEFAULT NULL COMMENT '最终提交时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -210,5 +226,8 @@ INSERT INTO `user` VALUES (5, 'eer', 'wer', 'ew', NULL, 'wr', NULL, NULL, NULL, 
 INSERT INTO `user` VALUES (6, 'we', 'err', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `user` VALUES (7, 'www', '女', '1452588824@qq.com', 22, '17876656571', '', '', '华东', '你猜', '别人介绍', '2021-06-24 11:51:56', '', '2021-06-24 11:51:56');
 INSERT INTO `user` VALUES (8, 'luguo', '男', '1452588824@qq.com', 23, '17876656571', '', '', '华东', '你猜', '别人介绍', '2021-06-24 12:13:44', '', '2021-06-24 12:13:44');
+INSERT INTO `user` VALUES (9, 'luguoww', '女', '1452588824@qq.com', 29, '17876656571', '', '', '华东', '你猜', '别人介绍', '2021-06-24 13:19:44', '', '2021-06-24 13:19:44');
+INSERT INTO `user` VALUES (10, 'lug', '女', '1452588824@qq.com', 29, '17876656571', '', '', '华东', '你猜', '别人介绍', '2021-06-24 16:25:04', '', '2021-06-24 16:25:04');
+INSERT INTO `user` VALUES (11, 'lugERT', '女', '1452588824@qq.com', 29, '17876656571', '', '', '华东', '你猜', '别人介绍', '2021-06-24 16:26:13', '', '2021-06-24 16:26:13');
 
 SET FOREIGN_KEY_CHECKS = 1;

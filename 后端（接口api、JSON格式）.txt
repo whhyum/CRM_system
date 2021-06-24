@@ -1,3 +1,14 @@
 专员添加用户信息[基本信息，其余字段可以在后期改]
 登录：http://127.0.0.1:8082/user/add
 参数：username    age   gender    tel   email    job    source   area
+
+注册时发送邮箱验证码
+http://localhost:8082/send
+点击注册按钮后（验证是否验证码正确，是否有重名，最后提示成功，加入数据库中，并发送邮箱欢迎入职）
+http://localhost:8082/checkCore
+
+
+status状态码
+200成功
+500没有token
+404失败
