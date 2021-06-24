@@ -3,8 +3,8 @@ package com.crm_system.springbootback.dto;
 import lombok.Data;
 
 @Data
-
-public class AddUserDTO {
+public
+class UserDTO {
     private String core;
     private Integer id;
     private String loginName;

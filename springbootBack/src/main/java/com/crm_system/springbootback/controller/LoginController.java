@@ -18,9 +18,9 @@ public class LoginController {
     public Result login(@RequestBody LoginDTO loginDTO){
       return loginService.login(loginDTO);
     }
-
-    @PostMapping("/test")
-    public User test(){
-        return new User("111","1111");
-    }
+//
+//    @PostMapping("/test")
+//    public User test(){
+//        return new User("111","1111");
+//    }
 }

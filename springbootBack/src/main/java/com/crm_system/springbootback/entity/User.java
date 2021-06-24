@@ -26,22 +26,4 @@ public class User {
         this.username = username;
         this.password = password;
     }
-//    private String sex;
-//    private String email;
-//    private String address;
-    //省略getter、setter等
-
-//    public User(String loginName, String userName, String password, String sex, String email, String address) {
-//        this.id = id;
-//        this.loginName = loginName;
-//        this.userName = userName;
-//        this.password = password;
-//        this.sex = sex;
-//        this.email = email;
-//        this.address = address;
-//    }
-//
-//    public User() {
-//
-//    }
 }

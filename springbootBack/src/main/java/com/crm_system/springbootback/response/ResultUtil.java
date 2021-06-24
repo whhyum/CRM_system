@@ -19,4 +19,10 @@ public class ResultUtil {
         return new Result(404, msg, data);
     }
 
+    public static Result msg(int code, String msg, Object data){
+        return new Result(code, msg, data);
+    }
+
+
+
 }
