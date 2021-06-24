@@ -1,6 +1,7 @@
 package com.crm_system.springbootback.controller;
 
 import com.crm_system.springbootback.dto.QueryDTO;
+import com.crm_system.springbootback.dto.UserDTO;
 import com.crm_system.springbootback.entity.User;
 import com.crm_system.springbootback.response.Result;
 import com.crm_system.springbootback.response.ResultUtil;
@@ -33,9 +34,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/add")
-    public Result addUser(@RequestBody User user){
+    public Result addUser(@RequestBody UserDTO userDTO){
 
-        return ResultUtil.success("true",userService.addUser(user));
+        return ResultUtil.success("用户添加成功！",userService.addUser(userDTO));
     }
 
     /**

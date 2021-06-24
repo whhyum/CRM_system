@@ -30,18 +30,18 @@ public class Email {
     private String test(){
         return s;
     }
-    @PostMapping("/checkCore")
-    private Result checkCore(@RequestBody UserDTO addUserDTO){
-        if (!addUserDTO.getCore().equals(s))
-            return null ;
-        else if(userService.selectOne(addUserDTO)==null){
-            return null;
-        }
-        else {
-            return null;
-        }
-
-
-    }
+//    @PostMapping("/checkCore")
+//    private Result checkCore(@RequestBody UserDTO addUserDTO){
+//        if (!UserDTO.getCore().equals(s))
+//            return null ;
+//        else if(userService.selectOne(addUserDTO)==null){
+//            return null;
+//        }
+//        else {
+//            return null;
+//        }
+//
+//
+//    }
 
 }

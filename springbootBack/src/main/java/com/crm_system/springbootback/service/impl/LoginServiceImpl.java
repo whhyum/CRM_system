@@ -2,7 +2,7 @@ package com.crm_system.springbootback.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.crm_system.springbootback.dto.LoginDTO;
-import com.crm_system.springbootback.entity.User;
+import com.crm_system.springbootback.entity.Employee;
 import com.crm_system.springbootback.mapper.LoginMapper;
 import com.crm_system.springbootback.mapper.UserMapper;
 import com.crm_system.springbootback.response.Result;
@@ -26,14 +26,14 @@ public class LoginServiceImpl implements LoginService {
             return ResultUtil.fail("密码不能为空","");
         }
         //通过登录名查询用户
-        QueryWrapper<User> wrapper = new QueryWrapper();
+        QueryWrapper<Employee> wrapper = new QueryWrapper();
         wrapper.eq("username", loginDTO.getUsername());
-        User user= loginMapper.selectOne(wrapper);
+        Employee employee= loginMapper.selectOne(wrapper);
         //比较密码
-        if (user!=null&&user.getPassword().equals(loginDTO.getPassword())){
+        if (employee!=null&&employee.getPassword().equals(loginDTO.getPassword())){
 //            System.out.println(user.getUsername());
-            return ResultUtil.success("登录成功", user);
-        }else if(!user.getPassword().equals(loginDTO.getPassword())){
+            return ResultUtil.success("登录成功", employee);
+        }else if(!employee.getPassword().equals(loginDTO.getPassword())){
             return ResultUtil.fail("用户名或密码出错","");
         }else
         return ResultUtil.fail("登录失败","");

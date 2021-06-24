@@ -26,7 +26,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer addUser(User user) {
+    public Integer addUser(UserDTO userDTO) {
+        User user=new User(userDTO.getUsername(),userDTO.getGender(),userDTO.getEmail(),userDTO.getAge(),userDTO.getTel(),
+        userDTO.getArea(),userDTO.getJob(),userDTO.getSource());
         return userMapper.insert(user);
     }
 
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
     public  User selectOne(UserDTO userDTO){
         //通过登录名查询用户
         QueryWrapper<User> wrapper = new QueryWrapper();
-        wrapper.eq("login_name", userDTO.getLoginName());
+        wrapper.eq("username", userDTO.getUsername());
         User uer=userMapper.selectOne(wrapper);
         return uer;
     }

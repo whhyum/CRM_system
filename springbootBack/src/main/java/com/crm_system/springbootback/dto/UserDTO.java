@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public
 class UserDTO {
-    private String core;
-    private Integer id;
-    private String loginName;
-    private String userName;
-    private String password;
-    private String sex;
+    private String username;
+    private String age;
+    private String gender;
+    private String tel;
     private String email;
-    private String address;
+    private String job;
+    private String source;
+    private String area;
 }

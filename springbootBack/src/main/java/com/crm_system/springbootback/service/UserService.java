@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
     public IPage<User> selectUserPage(QueryDTO queryDTO);
-    public Integer addUser(User user);
+    public Integer addUser(UserDTO UserDTO);
     public Integer updateUser(User user);
     public Integer deleteUser(Integer id);
     public void batchDelete(List<Integer> ids);
