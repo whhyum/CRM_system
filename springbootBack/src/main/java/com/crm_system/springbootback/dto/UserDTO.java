@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
+    public  String employee;
     private String username;
-    private String age;
+    private Integer age;
     private String gender;
     private String tel;
     private String email;

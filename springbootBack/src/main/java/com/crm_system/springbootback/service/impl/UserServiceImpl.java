@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crm_system.springbootback.dto.QueryDTO;
 import com.crm_system.springbootback.dto.RegisterDTO;
 import com.crm_system.springbootback.dto.UserDTO;
-import com.crm_system.springbootback.entity.Employee;
 import com.crm_system.springbootback.entity.User;
 import com.crm_system.springbootback.mapper.UserMapper;
 import com.crm_system.springbootback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -27,12 +28,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUserPage(page,queryDTO.getKeyword());
     }
 
-//    @Override
-//    public Integer addUser(UserDTO userDTO) {
-//        User user=new User(userDTO.getUsername(),userDTO.getGender(),userDTO.getEmail(),userDTO.getAge(),userDTO.getTel(),
-//        userDTO.getArea(),userDTO.getJob(),userDTO.getSource());
-//        return userMapper.insert(user);
-//    }
+    @Override
+    public Integer addUser(UserDTO userDTO) {
+        User user=new User(userDTO.getEmployee(),userDTO.getUsername(),userDTO.getGender(),userDTO.getEmail(),userDTO.getAge(),userDTO.getTel(),
+        userDTO.getArea(),userDTO.getJob(),userDTO.getSource());
+        return userMapper.insert(user);
+    }
     @Override
     public Integer addUser(RegisterDTO registerDTO) {
         User user=new User(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail());
@@ -68,5 +69,21 @@ public class UserServiceImpl implements UserService {
         wrapper.eq("username", registerDTO.getUsername());
         User uer=userMapper.selectOne(wrapper);
         return uer;
+    }
+
+    @Override
+    public Integer setTime(Integer id) {
+        return userMapper.setTime(id);
+    }
+
+    @Override
+    public Object updateStatus(Integer id, String status) {
+        return userMapper.updateStatus(id,status);
+    }
+
+    @Override
+    public Object updateSeller(String customer, String new_seller) {
+
+        return userMapper.updateSeller(customer,new_seller);
     }
 }

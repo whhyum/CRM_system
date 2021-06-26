@@ -4,9 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.Date;
 
 @Data
@@ -17,6 +14,7 @@ public class Employee {
     private String username;
     private String password;
     private String email;
+    private String gender;
     private Integer age;
     private String department;
     private Date hire_date;

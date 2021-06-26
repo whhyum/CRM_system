@@ -9,8 +9,8 @@ import com.crm_system.springbootback.service.UserService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -30,14 +30,20 @@ public class UserController {
 
     /**
      * 添加
-     * @param user
+     * @param userDTO
      * @return
      */
-//    @PostMapping("/user/add")
-//    public Result addUser(@RequestBody UserDTO userDTO){
-//
-//        return ResultUtil.success("用户添加成功！",userService.addUser(userDTO));
-//    }
+    @PostMapping("/user/add")
+    public Result addUser(@RequestBody UserDTO userDTO){
+        if(userDTO.getUsername()==null)
+            return ResultUtil.fail("用户名不可以为空",null);
+        else{
+        if(userService.addUser(userDTO)==1)
+             return ResultUtil.success("用户添加成功！",userService.addUser(userDTO));
+        else
+            return ResultUtil.fail("用户信息不规范或者重名，请检查信息后重新录入",null);
+    }
+    }
 
     /**
      * 更新
@@ -48,7 +54,14 @@ public class UserController {
     public Result updateUser(@RequestBody User user){
         return ResultUtil.success("true",userService.updateUser(user));
     }
-
+    @PostMapping("/user/updateTime")
+    public Result updateUser(Integer id){
+        return ResultUtil.success("true",userService.setTime(id));
+    }
+    @PostMapping("/user/updateStatus")
+    public Result updateUser(Integer id,String status){
+        return ResultUtil.success("true",userService.updateStatus(id,status));
+    }
     /**
      * 删除
      * @param id
@@ -56,16 +69,19 @@ public class UserController {
      */
     @PostMapping("/user/delete")
     public Result deleteUser(Integer id){
-        return ResultUtil.success("true",userService.deleteUser(id));
+        if(userService.deleteUser(id)==1)
+             return ResultUtil.success("用户已删除",userService.deleteUser(id));
+        else
+            return ResultUtil.fail("删除用户失败",userService.deleteUser(id));
     }
 
     /**
      * 批量删除
-     * @param ids
+
      * @return
      */
     @PostMapping("/user/delete/batch")
-    public Result batchDeleteUser(@RequestBody List<Integer> ids){
+    public Result batchDeleteUser(@RequestParam(value = "ids",required = false) List<Integer> ids){
         userService.batchDelete(ids);
         return ResultUtil.success("true",null);
     }

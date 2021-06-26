@@ -6,7 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crm_system.springbootback.entity.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public interface UserMapper extends BaseMapper<User> {
     IPage<User> selectUserPage(Page<User> page, String keyword);
+    Integer setTime(Integer id);
+    Integer updateStatus(Integer id,String status);
+    Integer updateSeller(String customer,String new_seller);
 }

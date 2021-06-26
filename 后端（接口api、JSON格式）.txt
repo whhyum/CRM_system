@@ -1,14 +1,72 @@
+status状态码
+200成功
+500没有token
+404各种失败
+
 专员添加用户信息[基本信息，其余字段可以在后期改]
 登录：http://127.0.0.1:8082/user/add
-参数：username    age   gender    tel   email    job    source   area
+参数：employ[创建人：当前登录人名]  username    age   gender    tel   email    job    source   area
 
 注册时发送邮箱验证码
 http://localhost:8082/send
 点击注册按钮后（验证是否验证码正确，是否有重名，最后提示成功，加入数据库中，并发送邮箱欢迎入职）
 http://localhost:8082/checkCore
 
+专员查询全部用户信息的时候，分页查询
+http://localhost:8082/user/list
+参数
+pageNo[第几页码]
+pageSize[页码大小]
+keyword[可以按名字或者邮箱或者地区或者用户状态模糊查询，或者不带就是全部查询]
 
-status状态码
-200成功
-500没有token
-404失败
+登录
+http://localhost:8082/api/login
+参数
+usernamen  password  status[1,2,3]
+
+按照id删除用户
+ http://127.0.0.1:8082/user/delete
+参数一个名为ids的List对象
+
+修改用户信息
+http://localhost:8082/user/update
+传入参数为整个user对象
+（前期查询到的所有数据，改动那一行就把对应id的那一行数据返回就是13个字段）
+关于时间的两个字段不可更改（也就不用带这两个参数）
+
+设置客户转正时间[后台设置为当前操作时间]
+http://localhost:8082/user/updateTime
+传入参数id
+
+设置客户状态
+http://localhost:8082/user/updateStatus
+传入参数id status
+
+对于不同状态的客户，特别是潜在客户，可以进行移交操作
+[添加移交记录，以及修改客户表中的负责人]
+http://localhost:8082/transfer
+参数
+[客户名]customer,trans_user[当前专员名]，修改前的old_seller,修改后的new_seller,移交原因trans_reason
+
+专员或者经理查询移交信息的时候，分页查询
+http://localhost:8082/tansfer/list
+参数
+pageNo[第几页码]
+pageSize[页码大小]
+keyword[可以按客户名字或者不带就是全部查询]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

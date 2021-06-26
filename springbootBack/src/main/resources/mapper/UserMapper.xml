@@ -5,11 +5,29 @@
         select * from user
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or login_name like CONCAT('%',#{keyword},'%')
-                or user_name like CONCAT('%',#{keyword},'%')
+                or username like CONCAT('%',#{keyword},'%')
                 or email like CONCAT('%',#{keyword},'%')
-                or address like CONCAT('%',#{keyword},'%')
+                or area like CONCAT('%',#{keyword},'%')
+                or status like CONCAT('%',#{keyword},'%')
             </if>
         </where>
     </select>
+    <update id="setTime">
+        update user set positive_time=now()
+        <where>
+            id=#{id}
+        </where>
+    </update>
+    <update id="updateStatus">
+        update user set status=#{status}
+        <where>
+            id=#{id}
+        </where>
+    </update>
+    <update id="updateSeller">
+        update user set seller=#{new_seller}
+        <where>
+            username=#{customer}
+        </where>
+    </update>
 </mapper>

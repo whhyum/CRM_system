@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm_system.springbootback.mapper.ContractMapper">
+    <select id="selectContractPage" resultType="com.crm_system.springbootback.entity.Contract">
+        select * from contract
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or servername like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -46,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
                 String token = tokenService.getToken(employee);
                 jsonObject.put("token", token);
                 jsonObject.put("status", 200);
-                jsonObject.put("employee", employee);
+                jsonObject.put("data", employee);
                 jsonObject.put("msg", "登录成功");
             } else if (!employee.getPassword().equals(loginDTO.getPassword())) {
                 jsonObject.put("msg", "用户名或密码出错");
@@ -66,7 +66,7 @@ public class LoginServiceImpl implements LoginService {
                 String token = tokenService.getToken(user);
                 jsonObject.put("token", token);
                 jsonObject.put("status", 200);
-                jsonObject.put("employee", user);
+                jsonObject.put("data", user);
                 jsonObject.put("msg", "登录成功");
             } else if (!user.getPassword().equals(loginDTO.getPassword())) {
                 jsonObject.put("msg", "用户名或密码出错");

@@ -10,7 +10,7 @@ import java.util.Date;
 public class Contract {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String name;
+    private String servername;
     private String part_a;
     private String part_b;
     private Integer server_id;
