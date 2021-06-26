@@ -22,7 +22,7 @@ keyword[可以按名字或者邮箱或者地区或者用户状态模糊查询，
 登录
 http://localhost:8082/api/login
 参数
-usernamen  password  status[1,2,3]
+username  password  status[1,2,3]
 
 按照id删除用户
  http://127.0.0.1:8082/user/delete
@@ -54,6 +54,7 @@ http://localhost:8082/tansfer/list
 pageNo[第几页码]
 pageSize[页码大小]
 keyword[可以按客户名字或者不带就是全部查询]
+
 
 
 
