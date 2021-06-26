@@ -2,11 +2,17 @@
   <el-card class="out">
     <div>
       <el-container>
-        <el-aside style="width:200px">
+        <el-aside style="width:200px;height:auto">
           <el-menu class="el-menu-vertical-demo"
                    @open="handleOpen"
                    @close="handleClose"
-                   router>
+                   router
+                   style="height:100%;width:auto">
+            <el-avatar shape="square"
+                       style="margin:auto;text-align:center"
+                       :size="80"
+                       :fit="fit"
+                       :src="url"></el-avatar>
             <h1 style="width:200px;text-align:center">CRM_System</h1>
             <el-menu-item v-for="(item,index) in menu"
                           :key=index
@@ -42,27 +48,27 @@ export default {
         },
         {
           name: '服务管理',
-          index: '/index/addCustomer'
+          index: '/index/server'
         },
         {
           name: '合同管理',
-          index: '/index/addCustomer'
+          index: '/index/contract'
         },
         {
           name: '计划日程',
-          index: '/index/addCustomer'
+          index: '/index/plan'
         },
         {
           name: '业绩考核',
-          index: '/index/addCustomer'
+          index: '/index/examine'
         },
         {
           name: '访谈记录（待定）',
-          index: '/index/addCustomer'
+          index: '/index/visit'
         },
         {
           name: '客户投诉',
-          index: '/index/addCustomer'
+          index: '/index/complain'
         },
       ]
     }
@@ -88,13 +94,9 @@ export default {
 .out {
   /* display: flex; */
   border-radius: 20px;
-  /* justify-content: flex-start;
-  align-items: center; */
+
   margin: 20px;
   height: 100%;
-  /* overflow: hidden; */
-  /* height: 80%; */
-  /* background-color: #abccc1; */
 }
 
 head {
@@ -115,5 +117,8 @@ head {
 }
 .mm {
   padding-top: 30px;
+}
+.el-menu-vertical-demo {
+  height: auto;
 }
 </style>

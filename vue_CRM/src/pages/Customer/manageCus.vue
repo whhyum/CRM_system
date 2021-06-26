@@ -12,6 +12,7 @@
     </div>
 
     <el-card style="width:100%;height:100%;border-radius: 10px;">
+      <h1 style="margin-left:10px">客户管理</h1>
       <el-tag class="unit tag"
               v-for="tag in tags"
               :key="tag.name"
@@ -24,7 +25,8 @@
                 v-model="input2"
                 class="search_input unit">
       </el-input>
-      <el-button @click="clearFilter">清除所有过滤器</el-button>
+      <el-button @click="clearFilter"
+                 style="margin-bottom:10px">清除所有过滤器</el-button>
       <el-table :data="tableData"
                 border
                 class="unit"
@@ -95,7 +97,7 @@ import Calendar from '@/components/Calendar.vue'
 export default {
   computed: {
     userName () {
-      return this.$store.state.user.userName
+      // return this.$store.state.user.userName
     }
   },
   methods: {

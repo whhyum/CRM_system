@@ -12,7 +12,6 @@
   </div>
 </template>
 <script>
-import { FullCalendar } from 'vue-fullcalendar'
 export default {
   data () {
     return {

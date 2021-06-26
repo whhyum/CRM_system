@@ -31,10 +31,10 @@
                       label="身 份 码 :">
           <el-input v-model="form.user_id"></el-input>
         </el-form-item>
-        <el-form-item ref="email"
-                      prop="email"
+        <el-form-item prop="email"
                       label="用 户 邮 箱 :">
-          <el-input v-model="form.email"></el-input>
+          <el-input ref="email"
+                    v-model="form.email"></el-input>
         </el-form-item>
 
         <el-row>
@@ -62,7 +62,8 @@
           <el-button type="primary"
                      plain
                      @click="submitForm('form')">注册</el-button>
-          <el-button plain>Cancel</el-button>
+          <el-button plain
+                     @click="cancel()">Cancel</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -72,12 +73,12 @@
 </template>
 
 <script>
-
+import { userSend } from "@/api/user";
 export default {
   name: "Register",
   data () {
     return {
-      USERTYPE: 1,
+      USERTYPE: '',
       usertypes: [
         {
           num: 1,
@@ -95,15 +96,9 @@ export default {
         username: '',
         password: '',
         usertype: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-        code: '',
-        user_id: '',
+        email: '',
+        usertype: '',
+
       },
       dynamicValidateForm: {
         domains: [{
@@ -123,9 +118,16 @@ export default {
     }
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm (form) {
+      this.$refs[form].validate((valid) => {
         if (valid) {
+          let fd = new FormData({
+            username: this.form.username,
+            password: this.form.password,
+            email: this.form.email,
+            usertypes: this.form.usertype
+
+          })
           alert('submit!');
         } else {
           console.log('error submit!!');
@@ -137,10 +139,25 @@ export default {
       this.$refs[formName].resetFields();
     },
     sendCode () {
-      console.log()
-      if (this.form.email != null) {
-        this.$message.success('获取验证码')
-        console.log(this.form.email)
+      console.log(this.$refs.email)
+
+      if (this.form.email != '') {
+
+        let fd = new FormData();
+        fd.append('email', this.form.email)
+        // test:2466921236@qq.com
+        this.$message.info('获取验证码中....')
+        userSend(fd).then(success => {
+          if (success.data.status === 200) {
+            this.$message.success(success.data.msg)
+          } else {
+            this.$message.info('获取失败...')
+          }
+        }).catch(error => {
+          this.$message.info('获取失败...')
+          this.$message.error(error)
+        })
+        // console.log(this.form.email)
       } else {
         this.$message.error('请输入邮箱')
         return false;
@@ -151,6 +168,9 @@ export default {
       console.log(num)
       this.form.usertype = num
       // this.USERTYPE = num
+    },
+    cancel () {
+      this.$router.replace({ path: '/' })
     }
   }
 }

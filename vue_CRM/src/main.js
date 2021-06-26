@@ -9,10 +9,12 @@ import store from './store'
 import axios from 'axios';
 import qs from 'qs'
 import FullCalendar from 'vue-fullcalendar'
+
+
 Vue.use(FullCalendar)
 // var axios = require('axios')
-axios.defaults.baseURL = "http://a331c7816ed5.ngrok.io/api"
-
+// axios.defaults.baseURL = "http://cbd277c00321.ngrok.io/api"
+// http://cbd277c00321.ngrok.io
 Vue.prototype.$axios = axios
 // 跨域 1
 // Vue.prototype.HOME = 'api' 

@@ -9,13 +9,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api':{
-        target: 'http://a331c7816ed5.ngrok.io/',
-        changeOrigin: true,
-        pathRewrite:{
-          '^/api':''
-        }
-      }
+      // '/api':{
+      //   target: 'http://cbd277c00321.ngrok.io',
+      //   changeOrigin: true,
+      //   pathRewrite:{
+      //     '^/api':''
+      //   }
+      
     },
 
     // Various Dev Server settings

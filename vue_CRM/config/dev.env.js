@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BASE_API: '"http://a331c7816ed5.ngrok.io/api"'
+  BASE_API: '"http://129f711a3b23.ngrok.io"'
 })

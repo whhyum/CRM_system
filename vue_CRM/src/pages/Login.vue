@@ -10,6 +10,18 @@
           <img src="../assets/MainLogo.png"
                class="Main_img">
         </div>
+        <el-form-item prop="usertype"
+                      label="用 户 身 份 :">
+          <el-radio-group v-model="USERTYPE"
+                          style="padding-left:20px">
+            <el-radio v-for="(item) in usertypes"
+                      :key="item.num"
+                      :value="item.num"
+                      :label="item.type"
+                      @change="chooseType(item.num)"></el-radio>
+
+          </el-radio-group>
+        </el-form-item>
         <el-form-item prop="username"
                       label="用 户 名 :">
           <el-input v-model="form.username"></el-input>
@@ -41,15 +53,30 @@ export default {
   name: "Login",
   data () {
     return {
+      USERTYPE: '',
+      usertypes: [
+        {
+          num: 1,
+          type: '客户'
+        },
+        {
+          num: 2,
+          type: '员工'
+        },
+        {
+          num: 3,
+          type: '经理'
+        }],
       form: {
         username: 'whh',
-        password: 123456,
+        password: '123456',
         region: '',
         delivery: false,
         type: [],
         resource: '',
         desc: '',
-        code: ''
+        status: '',
+        usertype: '',
       },
       dynamicValidateForm: {
         domains: [{
@@ -61,62 +88,46 @@ export default {
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         password: [{ required: true, message: '请输入用户密码', trigger: 'blur' }],
+        usertype: { required: true, message: '请选择用户身份', trigger: 'blur' }
 
       }
     }
   },
   methods: {
     submitForm (formName) {
+      var _this = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let _that = this
-          console.log(this.form.username)
-          userLogin({
-            username: _that.form.username,
-            password: _that.form.password,
-            status: 2
-          }).then((successResponse) => {
-            let code = successResponse.data.status;
+          let fd = new FormData();
+          fd.append('username', this.form.username);
+          fd.append('password', this.form.password);
+          fd.append('status', this.form.usertype);
+          userLogin(fd).then((success) => {
+            let code = success.data.status;
             if (code === 200) {
-              let data = successResponse.data.data;
-              let token = successResponse.data.token;
-              let user = successResponse.data.employee;
+              // let data = success.data.data;
+              let token = success.data.token;
+              let user = success.data.data;
               //存储token
               _this.$store.commit('SET_TOKENN', token);
               //存储user，优雅一点的做法是token和user分开获取
               _this.$store.commit('SET_USER', user);
               console.log(_this.$store.state.token);
               var path = this.$route.query.redirect
-              this.$router.replace({ path: path === '/index/manageCus' || path === undefined ? '/' : path })
+              this.$router.replace({ path: '/index/manageCus' })
+            } else {
+              console.log(success.data.msg);
+              this.$message({
+                message: success.data.msg,
+                type: 'warning'
+              });
             }
 
+          }).catch(error => {
+            console.log(error)
+            alert(error)
           })
 
-
-
-
-
-
-          // console.log(this.form.username);
-          // this.$axios.post('api/login', this.$qs.stringify({
-          //   username: this.form.username,
-          //   password: this.form.password
-          // })).then(successResponse => {
-          //   console.log(2);
-          //   if (successResponse.data.code === 200) {
-          //     this.$router.replace({ path: '/main' })
-          //     this.$message(successResponse.data.message)
-          //     console.log(successResponse.data.message)
-          //   } else {
-          //     this.$message(successResponse.data.message)
-          //   }
-
-          // }).catch(failResponse => {
-          //   alert('登录出错')
-          // })
-
-
-          // alert('submit!');
         } else {
           alert('error submit!!');
           return false;
@@ -127,6 +138,11 @@ export default {
       // this.$refs[formName].resetFields();
       this.$router.replace({ path: '/regs' })
     },
+    chooseType (num) {
+      console.log(num)
+      this.form.usertype = num
+      // this.USERTYPE = num
+    }
   }
 }
 </script>
@@ -145,18 +161,13 @@ export default {
   /*background-color: #D1E8D4;*/
 }
 form {
-  height: 350px;
+  height: auto;
   background-color: white;
   border: 1px black solid;
   border-radius: 5px;
   padding-right: 40px;
   /* padding-left: 10px; */
 }
-/*template{*/
-/*  position:fixed;*/
-/*  background-size:100% 100%;*/
-
-/*}*/
 
 .Main_img {
   width: 150px;
