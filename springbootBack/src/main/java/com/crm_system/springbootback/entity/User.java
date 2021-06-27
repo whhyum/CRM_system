@@ -19,6 +19,34 @@ public class User {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String username;
+<<<<<<< HEAD
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+=======
     private String password="123456";
     private String gender;
     private String email;
@@ -32,6 +60,7 @@ public class User {
     private Date input_time;
     private String status="";
     private Date positive_time;
+>>>>>>> 86c99d11c46bbe92de42bddc2d8b04f1c1c967f8
 
     public User(Integer id, String username, String password, String gender, String email, Integer age, String tel, String seller, String input_user, String area, String job, String source, Date input_time, String status, Date positive_time) {
         this.id = id;

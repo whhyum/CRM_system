@@ -2,42 +2,31 @@
   <div>
     <el-container style="height:100%">
       <el-aside style="height:100vh;width:250px;margin-right:0px;">
-        <el-menu default-active="2"
+        <el-menu :default-active='$route.path'
                  class="el-menu-vertical-demo"
                  @open="handleOpen"
                  @close="handleClose"
-                 background-color="#545c64"
-                 text-color="#fff"
-                 active-text-color="#ffd04b"
+                 router
                  style="height:100%">
           <div style="width:250px;text-align:center;height:120px">
             <img src="../assets/MainLogo.png"
                  class="Main_img">
           </div>
           <h2 style="margin:20px auto;text-align:center;color:white">CRM管理系统</h2>
-          <el-submenu index="1">
+          <el-submenu index="1"
+                      v-for="(items,index) in menu"
+                      :key=index>
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>客户管理</span>
+              <span>{{ items.title }}</span>
             </template>
-            <!-- <el-menu-item-group title="分组2"> -->
-            <el-menu-item index="1-1">添加客户</el-menu-item>
-            <el-menu-item index="1-2">用户管理</el-menu-item>
-            <!-- </el-menu-item-group> -->
+            <el-menu-item v-for="(item,index) in items.menuItem"
+                          :key="index"
+                          :index="item.index">
+              <!-- <router-link to="/a"></router-link> -->
+              {{ item.name }}
+            </el-menu-item>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3"
-                        disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -53,7 +42,30 @@
 
 export default {
   name: "NavMenu",
+  data () {
+    return {
+      sidebarItem: '',
+      menu: [
+        {
+          title: '客户管理',
+          menuItem: [
+            {
+              name: '添加客户',
+              index: '/main/a'
+            },
+            {
+              name: '客户管理',
+              index: '/main/b'
+            },
+          ]
+        },
+      ]
+    }
+  },
   methods: {
+    c () {
+      console.log('aaaaaaaaaa')
+    },
     handleOpen (key, keyPath) {
       console.log(key, keyPath);
     },

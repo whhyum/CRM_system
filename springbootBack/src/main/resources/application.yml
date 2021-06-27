@@ -18,7 +18,7 @@ spring:
     properties.mail.stmp.socketFactory.class: javax.net.ssl.SSLSocketFactory
     properties.mail.debug: true
 server:
-  port: 8082
+  port: 8081
 mybatis:
   # 存放实体的位置
   type-aliases-package: com.crm_system.springbootback.entity

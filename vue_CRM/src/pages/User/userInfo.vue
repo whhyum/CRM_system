@@ -1,0 +1,1 @@
+ <el-avatar shape="square" :size="100" :fit="fit" :src="url"></el-avatar>
