@@ -10,6 +10,8 @@ import Plan from '@/pages/Plan/plan'
 import Examine from '@/pages/Examine/examine'
 import seeMore from '@/pages/Server/seeMore'
 import Complain from '@/pages/Complain/complain'
+import Welcome from '@/pages/Welcome'
+// import aa from '@/component/Welcome'
 
 
 Vue.use(Router)
@@ -24,6 +26,14 @@ export default new Router({
         requireAuth: true
       },
       children:[
+        {
+          path:'/index/welcome',
+          name:'Welcome',
+          component:Welcome,
+          meta:{
+            title: '欢迎使用'
+          }
+        },
         {
           path: '/index/manageCus',
           name: 'manageCus',

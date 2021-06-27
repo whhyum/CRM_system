@@ -6,20 +6,23 @@
           <el-menu class="el-menu-vertical-demo"
                    @open="handleOpen"
                    @close="handleClose"
+                   default-active=0
                    router
                    style="height:100%;width:auto">
             <el-avatar shape="square"
-                       style="margin:auto;text-align:center"
+                       style="margin-left:30%;text-align:center"
                        :size="80"
-                       :fit="fit"
+                       fit="fit"
                        :src="url"></el-avatar>
             <h1 style="width:200px;text-align:center">CRM_System</h1>
-            <el-menu-item v-for="(item,index) in menu"
-                          :key=index
-                          :index="item.index">
-              <i class="el-icon-menu"></i>
-              <span slot="title">{{ item.name }}</span>
-            </el-menu-item>
+            <div v-for="(item,index) in menu"
+                 :key=index>
+              <el-menu-item :index="item.index"
+                            v-if="item.limit===userLimit||item.limit<userLimit">
+                <i class="el-icon-menu"></i>
+                <span slot="title">{{ item.name }}</span>
+              </el-menu-item>
+            </div>
           </el-menu>
         </el-aside>
         <el-main>
@@ -41,36 +44,51 @@ export default {
   data () {
     return {
       sidebarItem: '',
+      userLimit: 2,
       menu: [
         {
+          name: '欢迎使用',
+          index: '/index/welcome',
+          limit: 2
+        },
+        {
           name: '客户管理',
-          index: '/index/manageCus'
+          index: '/index/manageCus',
+          limit: 2
         },
         {
           name: '服务管理',
-          index: '/index/server'
+          index: '/index/server',
+          limit: 2
         },
         {
           name: '合同管理',
-          index: '/index/contract'
+          index: '/index/contract',
+          limit: 2
         },
         {
           name: '计划日程',
-          index: '/index/plan'
+          index: '/index/plan',
+          limit: 2
         },
         {
           name: '业绩考核',
-          index: '/index/examine'
+          index: '/index/examine',
+          limit: 2
         },
         {
           name: '访谈记录（待定）',
-          index: '/index/visit'
+          index: '/index/visit',
+          limit: 2
         },
         {
           name: '客户投诉',
-          index: '/index/complain'
+          index: '/index/complain',
+          limit: 1
         },
-      ]
+      ],
+      url: '',
+
     }
   },
   methods: {
@@ -94,7 +112,7 @@ export default {
 .out {
   /* display: flex; */
   border-radius: 20px;
-
+  min-height: 93vh;
   margin: 20px;
   height: 100%;
 }

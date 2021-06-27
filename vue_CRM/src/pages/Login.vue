@@ -108,12 +108,10 @@ export default {
               // let data = success.data.data;
               let token = success.data.token;
               let user = success.data.data;
-              //存储token
               _this.$store.commit('SET_TOKENN', token);
-              //存储user，优雅一点的做法是token和user分开获取
               _this.$store.commit('SET_USER', user);
               console.log(_this.$store.state.token);
-              var path = this.$route.query.redirect
+              console.log(_this.$store.state.user.status);
               this.$router.replace({ path: '/index/manageCus' })
             } else {
               console.log(success.data.msg);
