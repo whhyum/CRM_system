@@ -26,6 +26,7 @@
     "echarts": "^5.1.2",
     "element-ui": "^2.15.2",
     "qs.js": "^0.1.12",
+    "tippy.js": "^6.3.1",
     "vue": "^2.5.2",
     "vue-axios": "^3.2.4",
     "vue-fullcalendar": "^1.0.9",

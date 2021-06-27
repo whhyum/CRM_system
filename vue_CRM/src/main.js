@@ -10,6 +10,7 @@ import axios from 'axios';
 import qs from 'qs'
 import fullCalendar from 'vue-fullcalendar'
 // import echarts from 'echarts'
+// import FullCalendar from '@fullcalendar/vue'
 import * as echarts from 'echarts'
 Vue.prototype.$echarts=echarts;
 

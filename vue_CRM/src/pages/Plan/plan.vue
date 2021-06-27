@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <el-card style="margin-bottom:10px;height:auto">
       <div style="flex:1;display:flex;flex-direction:row">
         <div style="height: auto;">
@@ -47,6 +47,7 @@
         本月日程
       </h1>
       <Calendar></Calendar>
+      <cal></cal>
     </el-card>
   </div>
 
@@ -54,6 +55,9 @@
 </template>
 
 <script>
+
+import cal from '../../components/Calendar/calendar.vue'
+// test
 import Calendar from '../../components/aa.vue'
 import choose from './chooseserver.vue'
 import newplan from './newplan.vue'
@@ -81,7 +85,7 @@ export default {
     }
   },
   components: {
-    choose, newplan, ok, Calendar
+    choose, newplan, ok, Calendar, cal
   },
   // components: { Calendar, Newplan },
   methods: {
