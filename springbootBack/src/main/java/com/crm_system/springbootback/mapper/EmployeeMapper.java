@@ -5,4 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface EmployeeMapper extends BaseMapper<Employee> {
+     Object select(String date, String username) ;
+    void updatePerformance(String judged_people, double performance);
 }

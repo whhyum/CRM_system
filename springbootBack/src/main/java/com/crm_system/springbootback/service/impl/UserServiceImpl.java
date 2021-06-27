@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.crm_system.springbootback.dto.QueryDTO;
 import com.crm_system.springbootback.dto.RegisterDTO;
 import com.crm_system.springbootback.dto.UserDTO;
+import com.crm_system.springbootback.entity.Employee;
 import com.crm_system.springbootback.entity.User;
 import com.crm_system.springbootback.mapper.UserMapper;
 import com.crm_system.springbootback.service.UserService;
@@ -18,6 +19,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired(required = false)
     private UserMapper userMapper;
+
+    @Override
+    public List<User> selectStar() {
+        return userMapper.selectStar();
+    }
 
     /**
     * 分页查询
@@ -85,5 +91,16 @@ public class UserServiceImpl implements UserService {
     public Object updateSeller(String customer, String new_seller) {
 
         return userMapper.updateSeller(customer,new_seller);
+    }
+
+    @Override
+    public Integer selectByName(String name) {
+
+        return userMapper.selectByName(name);
+    }
+    @Override
+    public User findUserById(int parseInt){
+        User user= userMapper.selectById(parseInt);
+        return user;
     }
 }

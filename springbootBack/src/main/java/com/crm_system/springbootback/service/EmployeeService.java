@@ -13,4 +13,5 @@ public interface EmployeeService {
     public void batchDelete(List<Integer> ids);
     public Employee selectOne(RegisterDTO registerDTO);
     public Employee findEmployById(int parseInt);
+    void updatePerformance(String judged_people, double performance);
 }

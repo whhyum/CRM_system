@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
             jsonObject.put("status", 404);
         }
         //通过登录名查询用户
-        if(loginDTO.getStatus()!=1) {
+        if(loginDTO.getRole_id()!=1) {
             QueryWrapper<Employee> wrapper = new QueryWrapper();
             wrapper.eq("username", loginDTO.getUsername());
             Employee employee = employeeMapper.selectOne(wrapper);
@@ -53,7 +53,7 @@ public class LoginServiceImpl implements LoginService {
                 jsonObject.put("status", 404);
             }
         }
-        else if(loginDTO.getStatus()==1){
+        else if(loginDTO.getRole_id()==1){
             QueryWrapper<User> wrapper = new QueryWrapper();
             wrapper.eq("username", loginDTO.getUsername());
             User user = userMapper.selectOne(wrapper);

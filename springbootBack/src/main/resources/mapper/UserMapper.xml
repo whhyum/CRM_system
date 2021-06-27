@@ -30,4 +30,18 @@
             username=#{customer}
         </where>
     </update>
+    <select id="selectByName" resultType="com.crm_system.springbootback.entity.User">
+        select * from user
+        <where>
+            <if test="name !=null and name !='' ">
+               username=#{name}
+            </if>
+        </where>
+    </select>
+    <select id="selectStar" resultType="com.crm_system.springbootback.entity.User">
+            select * from user
+            <where>
+                star=1
+            </where>
+    </select>
 </mapper>

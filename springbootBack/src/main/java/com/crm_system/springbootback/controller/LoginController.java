@@ -10,21 +10,14 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 public class LoginController {
     @Autowired
     LoginService loginService;
     @PostMapping(value = "/api/login")
-    @CrossOrigin
+    @ResponseBody
     public JSONObject login(@RequestBody LoginDTO loginDTO){
       return loginService.login(loginDTO);
-    }
-    //测试方法
-    @GetMapping("/getMessage")
-    @ResponseBody
-    @UserToken
-    public String getMessage(){
-        System.out.println("访问成功");
-        return "你已通过验证";
     }
 }

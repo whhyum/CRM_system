@@ -9,4 +9,10 @@
             </if>
         </where>
     </select>
+    <select id="select" resultType="com.crm_system.springbootback.entity.Complain">
+        select * from complain
+        <where>
+            input_user=#{input_user} and complain_time between #{date} and DATE_SUB(#{date},INTERVAL -30 day)
+        </where>
+    </select>
 </mapper>

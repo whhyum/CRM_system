@@ -6,13 +6,15 @@ import com.crm_system.springbootback.entity.User;
 import com.crm_system.springbootback.response.Result;
 import com.crm_system.springbootback.response.ResultUtil;
 import com.crm_system.springbootback.service.UserService;
+import com.crm_system.springbootback.tool.UserToken;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 public class UserController {
     @Autowired
@@ -24,6 +26,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/list")
+    @UserToken
     public Result userList(@RequestBody QueryDTO queryDTO){
         return ResultUtil.success("true",userService.selectUserPage(queryDTO));
     }
@@ -34,12 +37,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/add")
+    @UserToken
     public Result addUser(@RequestBody UserDTO userDTO){
         if(userDTO.getUsername()==null)
             return ResultUtil.fail("用户名不可以为空",null);
         else{
         if(userService.addUser(userDTO)==1)
-             return ResultUtil.success("用户添加成功！",userService.addUser(userDTO));
+             return ResultUtil.success("用户添加成功！",null);
         else
             return ResultUtil.fail("用户信息不规范或者重名，请检查信息后重新录入",null);
     }
@@ -51,14 +55,17 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/update")
+//    @UserToken
     public Result updateUser(@RequestBody User user){
         return ResultUtil.success("true",userService.updateUser(user));
     }
     @PostMapping("/user/updateTime")
+//    @UserToken
     public Result updateUser(Integer id){
         return ResultUtil.success("true",userService.setTime(id));
     }
     @PostMapping("/user/updateStatus")
+//    @UserToken
     public Result updateUser(Integer id,String status){
         return ResultUtil.success("true",userService.updateStatus(id,status));
     }
@@ -68,6 +75,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/delete")
+//    @UserToken
     public Result deleteUser(Integer id){
         if(userService.deleteUser(id)==1)
              return ResultUtil.success("用户已删除",userService.deleteUser(id));
@@ -81,9 +89,16 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/delete/batch")
+//    @UserToken
     public Result batchDeleteUser(@RequestParam(value = "ids",required = false) List<Integer> ids){
         userService.batchDelete(ids);
         return ResultUtil.success("true",null);
     }
+    @PostMapping("/user/selectStar")
+    @UserToken
+    public Result selectStar(){
+        return ResultUtil.success("true",userService.selectStar());
+    }
+
 }
 

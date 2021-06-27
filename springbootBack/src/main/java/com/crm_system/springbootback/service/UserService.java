@@ -4,11 +4,10 @@ import com.crm_system.springbootback.dto.QueryDTO;
 import com.crm_system.springbootback.dto.RegisterDTO;
 import com.crm_system.springbootback.entity.User;
 import com.crm_system.springbootback.dto.UserDTO;
-
-import java.util.Date;
 import java.util.List;
 
 public interface UserService {
+    public List<User> selectStar() ;
     public IPage<User> selectUserPage(QueryDTO queryDTO);
     public Integer addUser(UserDTO UserDTO);
     public Integer addUser(RegisterDTO registerDTO);
@@ -20,4 +19,6 @@ public interface UserService {
     public Integer setTime(Integer id);
     Object updateStatus(Integer id, String status);
     Object updateSeller(String customer, String new_seller);
+    Integer selectByName(String name);
+    User findUserById(int parseInt);
 }

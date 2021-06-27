@@ -7,11 +7,13 @@ import com.crm_system.springbootback.response.Result;
 import com.crm_system.springbootback.response.ResultUtil;
 import com.crm_system.springbootback.service.TransferService;
 import com.crm_system.springbootback.service.UserService;
+import com.crm_system.springbootback.tool.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+@CrossOrigin
 @RestController
 public class TransferController {
     @Autowired
@@ -19,6 +21,7 @@ public class TransferController {
     @Autowired
     private TransferService transferService;
     @PostMapping("/transfer")
+    @UserToken
     public Result addTransfer(@RequestBody TransferDTO transferDTO){
         Transfer transfer=new Transfer(transferDTO);
         userService.updateSeller(transfer.getCustomer(),transfer.getNew_seller());
@@ -31,7 +34,10 @@ public class TransferController {
      * @return
      */
     @PostMapping("/transfer/list")
+    @UserToken
     public Result userList(@RequestBody QueryDTO queryDTO){
         return ResultUtil.success("true",transferService.selectTransferPage(queryDTO));
     }
+
+
 }

@@ -7,8 +7,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.crm_system.springbootback.entity.Employee;
+import com.crm_system.springbootback.entity.User;
 import com.crm_system.springbootback.response.ResultUtil;
 import com.crm_system.springbootback.service.EmployeeService;
+import com.crm_system.springbootback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,9 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-public class Authentication implements HandlerInterceptor{
+public class Authentication implements HandlerInterceptor {
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    UserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
@@ -37,7 +41,7 @@ public class Authentication implements HandlerInterceptor{
             if (userToken.required()) {
                 // 执行认证
                 if (token == null) {
-                     ResultUtil.fail("无token", null);
+                    ResultUtil.fail("无token", null);
 //                    throw new RuntimeException("无token，请重新登录");
                 }
                 // 获取 token 中的 user id
@@ -49,20 +53,30 @@ public class Authentication implements HandlerInterceptor{
                     throw new RuntimeException("401");
                 }
                 Employee employee = employeeService.findEmployById(Integer.parseInt(userId));
-                if (employee == null) {
+                User user = userService.findUserById(Integer.parseInt(userId));
+                if (employee == null && user == null) {
                     throw new RuntimeException("用户不存在，请重新登录");
                 }
                 // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(employee.getPassword())).build();
-                try {
-                    jwtVerifier.verify(token);
-                } catch (JWTVerificationException e) {
-                    throw new RuntimeException("401");
+                else if (employee != null && user == null) {
+                    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(employee.getPassword())).build();
+                    try {
+                        jwtVerifier.verify(token);
+                    } catch (JWTVerificationException e) {
+                        throw new RuntimeException("401");
+                    }
+                    return true;
+                } else {
+                    JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+                    try {
+                        jwtVerifier.verify(token);
+                    } catch (JWTVerificationException e) {
+                        throw new RuntimeException("401");
+                    }
+                    return true;
                 }
-                return true;
             }
         }
         return true;
     }
-
 }

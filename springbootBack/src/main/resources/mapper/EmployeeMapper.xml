@@ -9,4 +9,10 @@
             </if>
         </where>
     </select>
+    <update id="updatePerformance">
+        update employee set performance=#{performance}
+        <where>
+            username=#{judged_people}
+        </where>
+    </update>
 </mapper>

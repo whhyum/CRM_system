@@ -9,4 +9,16 @@
             </if>
         </where>
     </select>
+    <select id="selectByUsername" resultType="com.crm_system.springbootback.entity.Contract">
+        select * from contract
+        <where>
+            part_b=#{username}
+        </where>
+    </select>
+    <select id="selectByTrace_id" resultType="com.crm_system.springbootback.entity.Contract">
+        select * from contract
+        <where>
+            trace_id=#{trace_id}
+        </where>
+    </select>
 </mapper>

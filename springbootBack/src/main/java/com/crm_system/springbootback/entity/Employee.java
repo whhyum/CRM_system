@@ -21,6 +21,7 @@ public class Employee {
     private String state;
     private Integer admin;
     private Integer role_id;
+    private Double performance;
 
     public Employee(String username, String password, String email, Integer usertype) {
         this.username=username;

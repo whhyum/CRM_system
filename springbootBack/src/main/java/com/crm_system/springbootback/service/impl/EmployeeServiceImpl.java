@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //    }
     @Override
     public Integer addEmployee(RegisterDTO registerDTO) {
-        Employee employee=new Employee(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getUsertype());
+        Employee employee=new Employee(registerDTO.getUsername(), registerDTO.getPassword(), registerDTO.getEmail(), registerDTO.getRole_id());
         return employeeMapper.insert(employee);
     }
     @Override
@@ -49,5 +49,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findEmployById(int parseInt){
        Employee employee= employeeMapper.selectById(parseInt);
        return employee;
+    }
+
+    @Override
+    public void updatePerformance(String judged_people, double performance) {
+        employeeMapper.updatePerformance(judged_people,performance);
     }
 }
