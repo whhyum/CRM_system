@@ -13,7 +13,13 @@
                        style="margin-left:30%;text-align:center"
                        :size="80"
                        fit="fit"
-                       :src="url"></el-avatar>
+                       :src="url"
+                       @click="drawer = true"></el-avatar>
+            <el-drawer title="我是标题"
+                       :visible.sync="drawer"
+                       :with-header="false">
+              <span>我来啦!</span>
+            </el-drawer>
             <h1 style="width:200px;text-align:center">CRM_System</h1>
             <div v-for="(item,index) in menu"
                  :key=index>
@@ -43,8 +49,9 @@ export default {
   // components: { Main },
   data () {
     return {
+      drawer: false,
       sidebarItem: '',
-      userLimit: 2,
+      userLimit: 3,
       menu: [
         {
           name: '欢迎使用',
@@ -77,9 +84,9 @@ export default {
           limit: 2
         },
         {
-          name: '访谈记录（待定）',
-          index: '/index/visit',
-          limit: 2
+          name: '季度分析',
+          index: '/index/analyse',
+          limit: 3
         },
         {
           name: '客户投诉',

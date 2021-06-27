@@ -9,6 +9,12 @@ import store from './store'
 import axios from 'axios';
 import qs from 'qs'
 import fullCalendar from 'vue-fullcalendar'
+// import echarts from 'echarts'
+import * as echarts from 'echarts'
+Vue.prototype.$echarts=echarts;
+
+
+
 Vue.component('full-calendar', fullCalendar)
 
 // Vue.use(FullCalendar)

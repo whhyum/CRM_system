@@ -11,8 +11,11 @@ import Examine from '@/pages/Examine/examine'
 import seeMore from '@/pages/Server/seeMore'
 import Complain from '@/pages/Complain/complain'
 import Welcome from '@/pages/Welcome'
+import Choose from '@/pages/Plan/chooseserver'
+import New from '@/pages/Plan/newplan'
+import ok from '@/components/ok'
 // import aa from '@/component/Welcome'
-
+import Analyse from '@/pages/achievement/analyse.vue'
 
 Vue.use(Router)
 
@@ -64,7 +67,31 @@ export default new Router({
           component: Plan,
           meta:{
             title: '计划日程'
-          }
+          },
+          children:[
+            {
+              path: '/index/choose',
+              name: 'Choose',
+              component: Choose,
+              meta:{
+                title: '选择服务'
+              },
+            },{
+              path: '/index/new',
+              name: 'New',
+              component: New,
+              meta:{
+                title: '新建计划'
+              },
+            },{
+              path: '/index/ok',
+              name: 'ok',
+              component: ok,
+              meta:{
+                title: '添加成功'
+              }
+            }
+          ]
         },
         {
           path: '/index/examine',
@@ -72,6 +99,14 @@ export default new Router({
           component: Examine,
           meta:{
             title: '业绩考核'
+          }
+        },
+        {
+          path: '/index/analyse',
+          name: 'Analyse',
+          component: Analyse,
+          meta:{
+            title: '季度分析'
           }
         },
         {

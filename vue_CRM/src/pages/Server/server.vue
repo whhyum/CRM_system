@@ -27,15 +27,15 @@
       </el-timeline>
     </div>
     <el-card style="flex:1;margin-left:20px;border-radius:10px;display:flex;flex-direction:column">
-      <h1>服务状态</h1>
+      <h1>客户状态</h1>
       <div style="text-align:center;width:100%">
-        
+
         <el-progress type="circle"
                      :percentage="0"
                      format="ssss">
 
         </el-progress>
-  
+
         <el-progress type="circle"
                      :percentage="25"></el-progress>
         <el-progress type="circle"
@@ -83,7 +83,7 @@
 
           <el-table-column align="right">
             <template slot="header"
-                      slot-scope="">
+                      slot-scope="scope">
               <el-input v-model="search"
                         size="mini"
                         placeholder="输入关键字搜索" />
@@ -92,35 +92,6 @@
 
               <el-button size="mini"
                          @click="seeMore()">查看</el-button>
-
-              <!-- <el-dialog :visible.sync="dialogFormVisible">
-                <el-form :model="form"
-                         style="display:flex;flex-direction:column;align-items:flex-start;width:auto">
-                  <h2 style="margin-left:30px">详细信息</h2>
-                  <el-form-item label="活动名称"
-                                :label-width="formLabelWidth">
-                    <el-input v-model="form.name"
-                              autocomplete="off"></el-input>
-                  </el-form-item>
-                  <el-form-item label="活动区域"
-                                :label-width="formLabelWidth">
-                    <el-select v-model="form.region"
-                               placeholder="请选择活动区域">
-                      <el-option label="区域一"
-                                 value="shanghai"></el-option>
-                      <el-option label="区域二"
-                                 value="beijing"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-form>
-                <div slot="footer"
-                     class="dialog-footer">
-                  <el-button @click="dialogFormVisible = false">取 消</el-button>
-                  <el-button type="primary"
-                             @click="dialogFormVisible = false">确 定</el-button>
-                </div>
-              </el-dialog> -->
-
               <el-button size="mini"
                          @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
               <el-button size="mini"
