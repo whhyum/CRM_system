@@ -16,33 +16,33 @@ public class Complain {
     private Integer id;
     private  String username="匿名";
     private String context;
-    private String input_user;
+    private String inputUser;
     private Integer core;
-    private Date complain_time;
+    private Date complainTime;
 
     public Complain(String context, String input_user, int core) {
         this.context = context;
-        this.input_user = input_user;
+        this.inputUser = input_user;
         this.core = core;
         DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //HH表示24小时制；
-        this.complain_time=new Date();
+        this.complainTime=new Date();
     }
 
     public Complain(Integer id, String username, String context, String input_user, Integer core) {
         this.id = id;
         this.username = username;
         this.context = context;
-        this.input_user = input_user;
+        this.inputUser = input_user;
         this.core = core;
-        this.complain_time=new Date();
+        this.complainTime=new Date();
     }
 
     public Complain(Integer id, String username, String context, String input_user, Integer core, Date complain_time) {
         this.id = id;
         this.username = username;
         this.context = context;
-        this.input_user = input_user;
+        this.inputUser = input_user;
         this.core = core;
-        this.complain_time = complain_time;
+        this.complainTime = complain_time;
     }
 }

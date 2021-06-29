@@ -18,4 +18,8 @@ public class TransferService {
         Page<Transfer> page = new Page<>(queryDTO.getPageNo(), queryDTO.getPageSize());
         return transferMapper.selectTransferPage(page,queryDTO.getKeyword());
     }
+
+    public Integer selectNum(String keyWord) {
+        return transferMapper.selectNum(keyWord);
+    }
 }

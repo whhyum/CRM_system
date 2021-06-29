@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { userLogin } from "@/api/user";
+import { userLogin, userSend, userReg } from "@/api/user";
 export default {
   name: "Login",
   data () {
@@ -101,7 +101,7 @@ export default {
           let fd = new FormData();
           fd.append('username', this.form.username);
           fd.append('password', this.form.password);
-          fd.append('status', this.form.usertype);
+          fd.append('role_id', this.form.usertype);
           userLogin(fd).then((success) => {
             let code = success.data.status;
             if (code === 200) {
@@ -109,10 +109,17 @@ export default {
               let token = success.data.token;
               let user = success.data.data;
               _this.$store.commit('SET_TOKENN', token);
-              _this.$store.commit('SET_USER', user);
+              _this.$store.commit('SET_USER', {
+                username: user.username,
+                role_id: user.roleId
+              });
+              // _this.$store.commit('SET_USERNAME', user.username);
+              // _this.$store.commit('SET_USERSTATUS', user.status);
+              sessionStorage.setItem('username', user.username)
+              sessionStorage.setItem('role_id', user.roleId)
               console.log(_this.$store.state.token);
               console.log(_this.$store.state.user.status);
-              this.$router.replace({ path: '/index/manageCus' })
+              this.$router.replace({ path: '/index/welcome' })
             } else {
               console.log(success.data.msg);
               this.$message({
@@ -122,12 +129,11 @@ export default {
             }
 
           }).catch(error => {
-            console.log(error)
-            alert(error)
+            this.$message.error('出错了，请联系管理员');
           })
 
         } else {
-          alert('error submit!!');
+          this.$message.error('提交失败，请提交所有信息');
           return false;
         }
       });

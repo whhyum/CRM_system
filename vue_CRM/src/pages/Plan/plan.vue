@@ -46,7 +46,7 @@
       <h1>
         本月日程
       </h1>
-      <Calendar></Calendar>
+      <!--      <Calendar></Calendar>-->
       <cal></cal>
     </el-card>
   </div>
@@ -115,6 +115,9 @@ export default {
       console.log(this.active);
 
     },
+
+  },
+  created () {
 
   }
 }

@@ -4,59 +4,51 @@
       <div style="display:flex;flex-direction:column;padding-right:10px;width:800px;height:auto">
         <!-- 员工列表 -->
         <h1>员工列表</h1>
-        <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))">
+        <el-table :data="tableData.filter(data => !search || data.username.toLowerCase().includes(search.toLowerCase()))">
           <el-table-column type="expand">
             <template slot-scope="props">
+              <!-- 
+
+
+                员工信息
+
+
+               -->
               <el-form label-position="left"
                        inline
+                       :model="form"
                        class="demo-table-expand">
                 <el-form-item label="员工姓名">
-                  <el-input v-model="form.name"></el-input>
+                  <el-input v-model="props.row.username"></el-input>
                 </el-form-item>
                 <el-form-item label="所属部门">
-                  <el-input v-model="props.row.name"></el-input>
+                  <el-input v-model="props.row.department"></el-input>
                 </el-form-item>
-                <el-form-item label="活动名称">
-                  <el-input v-model="form.name"></el-input>
+                <el-form-item label="员工邮箱">
+                  <el-input v-model="props.row.email"></el-input>
                 </el-form-item>
-                <el-form-item label="商品名称">
+                <el-form-item label="员工性别">
+                  <el-input v-model="props.row.gender"></el-input>
+                </el-form-item>
 
-                  <span>{{ props.row.name }}</span>
-                </el-form-item>
-                <el-form-item label="所属店铺">
-                  <span>{{ props.row.shop }}</span>
-                </el-form-item>
-                <el-form-item label="商品 ID">
-                  <span>{{ props.row.id }}</span>
-                </el-form-item>
-                <el-form-item label="店铺 ID">
-                  <span>{{ props.row.shopId }}</span>
-                </el-form-item>
-                <el-form-item label="商品分类">
-                  <span>{{ props.row.category }}</span>
-                </el-form-item>
-                <el-form-item label="店铺地址">
-                  <span>{{ props.row.address }}</span>
-                </el-form-item>
-                <el-form-item label="商品描述">
-                  <span>{{ props.row.desc }}</span>
-                </el-form-item>
                 <el-form-item>
                   <el-button type="primary"
-                             @click="onSubmit">立即创建</el-button>
-                  <el-button>取消</el-button>
+                             @click="onSubmit">立即修改</el-button>
+                  <!-- <el-button>取消</el-button> -->
                 </el-form-item>
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column label="Date"
-                           prop="date">
+          <el-table-column label="入职时间"
+                           prop="hireDate">
           </el-table-column>
-          <el-table-column label="Name"
-                           prop="name">
+          <el-table-column label="员工姓名"
+                           prop="username">
           </el-table-column>
-
-          <el-table-column prop="tag"
+          <el-table-column label="所属部门"
+                           prop="department">
+          </el-table-column>
+          <!-- <el-table-column prop="tag"
                            label="标签"
                            width="100"
                            :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
@@ -66,7 +58,7 @@
               <el-tag :type="scope.row.tag === '家' ? 'primary' : 'success'"
                       disable-transitions>{{scope.row.tag}}</el-tag>
             </template>
-          </el-table-column>
+          </el-table-column> -->
 
           <el-table-column align="right">
             <template slot="header"
@@ -78,6 +70,7 @@
             <template slot-scope="scope">
               <el-button size="mini"
                          @click="handleEdit(scope.$index, scope.row)">考核</el-button>
+              <!-- :disabled='exstatus' -->
               <el-button size="mini"
                          type="danger"
                          @click="handleDelete(scope.$index, scope.row)">移除</el-button>
@@ -89,85 +82,83 @@
 
           <el-pagination background
                          layout="prev, pager, next"
-                         :total="1000">
+                         :total="total">
           </el-pagination>
         </div>
 
       </div>
-      <el-card>
-        <h1>考核表单</h1>1111
-        <el-form :model="ruleForm"
+
+      <!-- 考核
+
+
+表单 -->
+
+      <el-card style="width:600px">
+        <h1>考核表单</h1>
+        <el-form :model="exForm"
                  :rules="rules"
-                 ref="ruleForm"
-                 label-width="100px"
-                 class="demo-ruleForm">
-          <el-form-item label="活动名称"
-                        prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+                 ref="exForm"
+                 class="demo-exForm">
+
+          <el-form-item label="考核时间"
+                        label-width="">
+            {{ exForm.judge_time }}
           </el-form-item>
-          <el-form-item label="活动区域"
-                        prop="region">
-            <el-select v-model="ruleForm.region"
-                       placeholder="请选择活动区域">
-              <el-option label="区域一"
-                         value="shanghai"></el-option>
-              <el-option label="区域二"
-                         value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="考核员工"
+                        label-width="">
+            {{ exForm.judged_people }}
           </el-form-item>
-          <el-form-item label="活动时间"
-                        required>
-            <el-col :span="11">
-              <el-form-item prop="date1">
-                <el-date-picker type="date"
-                                placeholder="选择日期"
-                                v-model="ruleForm.date1"
-                                style="width: 100%;"></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col class="line"
-                    :span="2">-</el-col>
-            <el-col :span="11">
-              <el-form-item prop="date2">
-                <el-time-picker placeholder="选择时间"
-                                v-model="ruleForm.date2"
-                                style="width: 100%;"></el-time-picker>
-              </el-form-item>
-            </el-col>
+
+          <el-form-item label="工作能力[40%]1-10分"
+                        prop=""
+                        label-width="">
+            <el-input v-model="exForm.working_ability"
+                      placeholder="请输入工作能力分值"></el-input>
           </el-form-item>
-          <el-form-item label="即时配送"
-                        prop="delivery">
-            <el-switch v-model="ruleForm.delivery"></el-switch>
+          <el-form-item label="工作态度[20%]1-10分"
+                        prop=""
+                        label-width="">
+            <el-input v-model="exForm.working_atitude"
+                      placeholder="请输入工作能力分值"></el-input>
           </el-form-item>
-          <el-form-item label="活动性质"
-                        prop="type">
-            <el-checkbox-group v-model="ruleForm.type">
-              <el-checkbox label="美食/餐厅线上活动"
-                           name="type"></el-checkbox>
-              <el-checkbox label="地推活动"
-                           name="type"></el-checkbox>
-              <el-checkbox label="线下主题活动"
-                           name="type"></el-checkbox>
-              <el-checkbox label="单纯品牌曝光"
-                           name="type"></el-checkbox>
-            </el-checkbox-group>
+          <el-form-item label="环境行为[10%]1-10分"
+                        prop=""
+                        label-width="">
+            <el-input v-model="exForm.working_ability"
+                      placeholder="请输入工作能力分值"></el-input>
           </el-form-item>
-          <el-form-item label="特殊资源"
-                        prop="resource">
-            <el-radio-group v-model="ruleForm.resource">
-              <el-radio label="线上品牌商赞助"></el-radio>
-              <el-radio label="线下场地免费"></el-radio>
-            </el-radio-group>
+
+          <el-form-item label="纪律[10%]1-10分"
+                        prop=""
+                        label-width="">
+            <el-input v-model="exForm.working_ability"
+                      placeholder="请输入工作能力分值"></el-input>
           </el-form-item>
-          <el-form-item label="活动形式"
-                        prop="desc">
+          <el-form-item label="加分项[20%]1-10分"
+                        label-width="">
+            <el-input v-model="exForm.bonus_point"
+                      placeholder="请输入工作能力分值"></el-input>
+          </el-form-item>
+          <el-form-item label="扣分项[10%]1-10分"
+                        label-width="">
+            <el-input v-model="exForm.deduct_point"
+                      placeholder="请输入工作能力分值"></el-input>
+          </el-form-item>
+
+          <el-form-item label="备注">
             <el-input type="textarea"
-                      v-model="ruleForm.desc"></el-input>
+                      v-model="exForm.desc"></el-input>
           </el-form-item>
+
+          <el-form-item label="考核经理"
+                        label-width="">
+            {{ exForm.juage_people }}
+          </el-form-item>
+
           <el-form-item>
             <el-button type="primary"
-                       @click="submitForm('ruleForm')">立即创建</el-button>
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                       @click="submitForm('exForm')">提交考核</el-button>
+            <el-button @click="resetForm(exForm)">重置</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -176,11 +167,44 @@
 </template>
 
 <script>
+
+import { } from '../../api/server'
+import { exNum, exAdd, employeeDel, exUp } from '@/api/ex'
+
 export default {
+  created () {
+    exNum().then((success) => {
+      if (success.data.status === 200) {
+
+        // this.$message.success(success.data.message);
+        console.log('获取考核员工总信息', success.data.message);
+        this.total = success.data.data
+      } else {
+        this.$message.info(success.data.message);
+      }
+      // console.log("jljklhklh" + this.ruleForm.username);
+    }).catch(error => {
+      this.$message.error('出错了，请联系管理员');
+
+    })
+  },
+  mounted () {
+
+    let nowDate = new Date();
+    let date = {
+      year: nowDate.getFullYear(),
+      month: nowDate.getMonth() + 1,
+      date: nowDate.getDate(),
+    }
+    console.log(date);
+    let systemDate = date.year + '-' + (date.month >= 10 ? date.month : '0' + date.month) + '-' + (date.date >= 10 ? date.date : '0' + date.date);
+    this.exForm.judge_time = systemDate
+  },
   data () {
     return {
+      total: 100,
       form: {
-        name: '',
+        username: '',
         region: '',
         date1: '',
         date2: '',
@@ -189,66 +213,75 @@ export default {
         resource: '',
         desc: ''
       },
-      ruleForm: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+      exForm: {
+        working_ability: '',
+        working_atitude: '',
+        environmental_behavior: '',
+        discipline: '',
+        bonus_point: '',
+        deduct_point: '',
+        judge_time: '',//judge_time
+        juage_people: window.sessionStorage.getItem("username"),//juage_people,
+        judged_people: '',//judged_people
+
       },
       rules: {
+        workingNumber: [
+          { required: true, message: '请输入对应分值', trigger: 'blur' },
+          {
+            pattern: /^(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/,
+            message: "请输入合法的分值，最多两位小数",
+            trigger: "blur"
+          }
+        ],
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-        ],
-        region: [
-          { required: true, message: '请选择活动区域', trigger: 'change' }
-        ],
-        date1: [
-          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-        ],
-        date2: [
-          { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-        ],
-        type: [
-          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-        ],
-        resource: [
-          { required: true, message: '请选择活动资源', trigger: 'change' }
         ],
         desc: [
           { required: true, message: '请填写活动形式', trigger: 'blur' }
         ]
       },
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
+        hireDate: '2016-05-02',
+        username: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
+      },],
       search: ''
     }
   },
   methods: {
+    onSubmit () {
+      let fd = new FormData()
+      fd.append('username', this.form.username)
+      fd.append('email', this.form.email)
+      fd.append('gender', this.form.gender)
+      fd.append('department', this.form.department)
+      exUp(fd).then(success => {
+        if (success.data.status === 200) {
+          this.$message.success(success.data.message)
+          console.log('test客户' + success.data.data)
+
+
+        } else {
+          this.$message.error(success.data.message)
+
+        }
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+      })
+
+
+    },
     handleEdit (index, row) {
       console.log(row.name);
-      console.log(this.$refs.ruleForm);
-      console.log(this.$refs.ruleForm.name);
-      this.ruleForm.name = row.name
+      console.log(this.$refs.exForm);
+      console.log(this.$refs.exForm.username);
+      this.exForm.judged_people = row.username
+
+
+
+
     },
     handleDelete (index, row) {
       // console.log(index, row);
@@ -257,10 +290,30 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '移除员工' + row.name + '成功!'
-        });
+        let fd = new FormData()
+        fd.append('pageNo', 1);
+        employeeDel(fd).then((success) => {
+          if (success.data.status === 200) {
+
+            this.$message.success(success.data.message);
+            console.log('删除', success.data.message);
+            this.tableData.splice(index, 1)
+            // this.tableData = success.data.data
+            this.$message({
+              type: 'success',
+              message: '移除员工' + row.username + '成功!'
+            });
+          } else {
+            this.$message.info(success.data.message);
+          }
+          // console.log("jljklhklh" + this.ruleForm.username);
+        }).catch(error => {
+          this.$message.error('出错了，请联系管理员');
+
+        })
+
+
+
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -286,18 +339,61 @@ export default {
       return row[property] === value;
     },
     submitForm (formName) {
+
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+
+          let fd = new FormData();
+
+          //  working_ability: '',
+          //   working_atitude: '',
+          //   environmental_behavior: '',
+          //   discipline: '',
+          //   bonus_point: '',
+          //   deduct_point: '',
+          //   judge_time: '',//judge_time
+          //   juage_people: window.sessionStorage.getItem("username"),//juage_people,
+          //   judged_people: '',//judged_people
+          fd.append('working_ability', this.exForm.working_ability);
+          fd.append('working_atitude', this.exForm.working_atitude);
+          fd.append('environmental_behavior', this.exForm.environmental_behavior);
+          fd.append('discipline', this.exForm.discipline);
+          fd.append('bonus_point', this.exForm.bonus_point);
+          fd.append('deduct_point', this.exForm.deduct_point);
+          fd.append('judge_time', this.exForm.judge_time);
+          fd.append('juage_people', this.exForm.juage_people);
+          fd.append('judged_people', this.exForm.judged_people);
+
+          exAdd(fd).then((success) => {
+            if (success.data.status === 200) {
+
+              // this.$message.success(success.data.message);
+              console.log('考核', success.data.message);
+              this.$message.success(success.data.message);
+              // this.tableData = success.data.data
+            } else {
+              this.$message.info(success.data.message);
+            }
+            // console.log("jljklhklh" + this.ruleForm.username);
+          }).catch(error => {
+            this.$message.error('出错了，请联系管理员');
+
+          })
+
+
+
+
+
+          // alert('submit!');
         } else {
-          console.log('error submit!!');
+          console.log('错误提交');
           return false;
         }
       });
     },
-    resetForm (formName) {
-      this.$refs[formName].resetFields();
-    }
+    resetForm () {
+      this.$refs.exForm.resetFields();
+    },
 
   },
 }

@@ -8,26 +8,32 @@
           <el-form label-position="left"
                    inline
                    class="demo-table-expand">
-            <el-form-item label="服务名称">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="所属店铺">
-              <span>{{ props.row.shop }}</span>
-            </el-form-item>
-            <el-form-item label="合同 ID">
+            <el-form-item label="合同ID">
               <span>{{ props.row.id }}</span>
             </el-form-item>
-            <el-form-item label="店铺 ID">
-              <span>{{ props.row.shopId }}</span>
+            <el-form-item label="甲方">
+              <span>{{ props.row.part_a }}</span>
             </el-form-item>
-            <el-form-item label="商品分类">
-              <span>{{ props.row.category }}</span>
+            <el-form-item label="乙方">
+              <span>{{ props.row.part_b }}</span>
             </el-form-item>
-            <el-form-item label="店铺地址">
-              <span>{{ props.row.address }}</span>
+            <el-form-item label="创建时间">
+              <span>{{ props.row.creatTime }}</span>
             </el-form-item>
-            <el-form-item label="商品描述">
-              <span>{{ props.row.desc }}</span>
+            <el-form-item label="完成时间">
+              <span>{{ props.row.finishTime }}</span>
+            </el-form-item>
+            <el-form-item label="服务方式">
+              <span>{{ props.row.serverType }}</span>
+            </el-form-item>
+            <el-form-item label="金额">
+              <span>{{ props.row.money }}</span>
+            </el-form-item>
+            <el-form-item label="支付方式">
+              <span>{{ props.row.payType }}</span>
+            </el-form-item>
+            <el-form-item label="交易状态">
+              <span>{{ props.row.moneyStatus }}</span>
             </el-form-item>
           </el-form>
         </template>
@@ -35,35 +41,60 @@
       <el-table-column label="合同 ID"
                        prop="id">
       </el-table-column>
-      <el-table-column label="商品名称"
-                       prop="name">
+      <el-table-column label="甲方"
+                       prop="part_a">
       </el-table-column>
+      <el-table-column label="乙方"
+                       prop="part_b">
+      </el-table-column>
+      <el-table-column label="交接人"
+                       prop="seller">
+      </el-table-column>
+      <el-table-column label="交易状态"
+                       prop="moneyStatus">
+      </el-table-column>
+      <el-table-column label="成交时间"
+                       prop="finishTime">
+      </el-table-column>
+
       <el-table-column label="描述"
-                       prop="desc">
+                       prop="servername">
       </el-table-column>
     </el-table>
   </div>
 </template>
 
-<style>
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 50%;
-}
-</style>
+
 
 <script>
+
+import { contractAdd, contractList, contractServer, contractName } from "@/api/contract";
 export default {
+  created () {
+    let fd = new FormData()
+    fd.append('username', window.sessionStorage.getItem("username"));
+    fd.append('role_id', window.sessionStorage.getItem("role_id"));
+    fd.append('pageNo ', 1);
+    fd.append('pageSize ', 10);
+
+    contractList(fd).then((success) => {
+      if (success.data.status === 200) {
+        this.$message.success(success.data.message);
+        this.tableData = success.data.data
+      } else {
+        this.$message.info(success.data.message);
+      }
+      // console.log("jljklhklh" + this.ruleForm.username);
+    }).catch(error => {
+      this.$message.error('出错了，请联系管理员');
+
+    })
+
+
+  },
   data () {
     return {
+      // topDate:'',
       tableData: [{
         id: '12987122',
         name: '好滋好味鸡蛋仔',
@@ -101,3 +132,20 @@ export default {
   }
 }
 </script>
+
+
+
+<style>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+</style>

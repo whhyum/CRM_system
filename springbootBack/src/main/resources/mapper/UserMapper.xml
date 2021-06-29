@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crm_system.springbootback.mapper.UserMapper">
-    <select id="selectUserPage" resultType="com.crm_system.springbootback.entity.User">
+    <select id="queryusersByArray" resultType="com.crm_system.springbootback.entity.User">
         select * from user
         <where>
             <if test="keyword !=null and keyword !='' ">
@@ -41,7 +41,30 @@
     <select id="selectStar" resultType="com.crm_system.springbootback.entity.User">
             select * from user
             <where>
-                star=1
+                star=1 LIMIT 11
             </where>
+    </select>
+    <select id="selectNum" resultType="int">
+        select count(1) from user
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or username like CONCAT('%',#{keyword},'%')
+                or email like CONCAT('%',#{keyword},'%')
+                or area like CONCAT('%',#{keyword},'%')
+                or status like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="getTypeData" resultType="int">
+        select count(1) from user
+        <where>
+            status=#{s}
+        </where>
+    </select>
+    <select id="selectByJob" resultType="int">
+        select count(1) from user
+        <where>
+            job=#{jobs}
+        </where>
     </select>
 </mapper>

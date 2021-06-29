@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface UserService {
     public List<User> selectStar() ;
-    public IPage<User> selectUserPage(QueryDTO queryDTO);
     public Integer addUser(UserDTO UserDTO);
     public Integer addUser(RegisterDTO registerDTO);
     public Integer updateUser(User user);
@@ -21,4 +20,9 @@ public interface UserService {
     Object updateSeller(String customer, String new_seller);
     Integer selectByName(String name);
     User findUserById(int parseInt);
+    int addUser(User user);
+    Integer selectNum(String keyWord);
+    int getTypeData(String s);
+    Object selectByJob(String job);
+    List<User>  queryusersByArray(Integer pageNo, Integer pageSize, String keyword);
 }

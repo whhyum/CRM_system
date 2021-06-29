@@ -12,5 +12,7 @@ public class QueryDTO {
     private String fromTime;
     private String toTime;
     private String trace_type;
+    private Integer role_id;
+    private String username;
     //省略getter、setter
 }

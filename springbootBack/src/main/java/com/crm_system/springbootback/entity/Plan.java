@@ -14,29 +14,29 @@ import java.util.Date;
 public class Plan {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String server_name;
+    private String serverName;
     private String title;
-    private String communicate_way;
+    private String communicateWay;
     private String detail;
     private String start;
     private String end;
-    private String trace_id;
+    private String traceId;
 
 
     public Plan(Integer id, String server_name, String title, String communicate_way, String detail, String start, String end) {
         this.id = id;
-        this.server_name = server_name;
+        this.serverName = server_name;
         this.title = title;
-        this.communicate_way = communicate_way;
+        this.communicateWay = communicate_way;
         this.detail = detail;
         this.start = start;
         this.end = end;
     }
 
     public Plan(String server_name, String title, String communicate_way, String detail, String end) {
-        this.server_name = server_name;
+        this.serverName = server_name;
         this.title = title;
-        this.communicate_way = communicate_way;
+        this.communicateWay = communicate_way;
         this.detail = detail;
         this.end = end;
         DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //HH表示24小时制；

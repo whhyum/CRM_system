@@ -10,7 +10,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       // '/api':{
-      //   target: 'http://cbd277c00321.ngrok.io',
+      //   target: process.env.BASE_API,
       //   changeOrigin: true,
       //   pathRewrite:{
       //     '^/api':''

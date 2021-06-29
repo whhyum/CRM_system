@@ -9,4 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface TransferMapper extends BaseMapper<Transfer> {
     IPage<Transfer> selectTransferPage(Page<Transfer> page, String keyword);
+
+    Integer selectNum(String keyWord);
 }

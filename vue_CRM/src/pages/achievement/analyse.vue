@@ -69,6 +69,11 @@ import pierose from '../../components/echart/pierose.vue'
 import linestack from '../../components/echart/linestack.vue'
 
 export default {
+  created(){
+    this.name = '...'
+    this.xData ='....'
+
+  },
   data () {
     return {
       name: '张雪',
@@ -124,8 +129,6 @@ export default {
         address: '上海市普陀区金沙江路 1518 弄'
       }],
       multipleSelection: [],
-
-
 
     }
   },
