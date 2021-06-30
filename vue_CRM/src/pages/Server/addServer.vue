@@ -5,7 +5,7 @@
 
     <el-form-item label="客户名称">
 
-      <el-input v-model="form.customer_name"></el-input>
+      <el-input v-model="form.customerName"></el-input>
     </el-form-item>
     <el-form-item label="客户类型">
 
@@ -42,7 +42,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="服务效果">
-      <el-radio-group v-model="form.trace_result">
+      <el-radio-group v-model="form.traceResult">
         <el-radio label="优"></el-radio>
         <el-radio label="中"></el-radio>
         <el-radio label="差"></el-radio>
@@ -50,7 +50,7 @@
     </el-form-item>
 
     <el-form-item label="服务类型">
-      <el-select v-model="form.trace_type"
+      <el-select v-model="form.traceType"
                  placeholder="请选择服务方式">
         <el-option label="潜在开发计划"
                    value="潜在开发计划"></el-option>
@@ -63,7 +63,7 @@
     </el-form-item>
 
     <el-form-item label="服务进度">
-      <el-select v-model="form.process_status"
+      <el-select v-model="form.processStatus"
                  placeholder="请选择服务进度">
         <el-option label="客户交接中"
                    value="1"></el-option>
@@ -79,7 +79,7 @@
 
     <el-form-item label="服务内容">
       <el-input type="textarea"
-                v-model="form.trace_details"></el-input>
+                v-model="form.traceDetails"></el-input>
     </el-form-item>
 
     <!-- <el-form-item label="活动形式">
@@ -102,15 +102,16 @@ export default {
   data () {
     return {
       form: {
-        trace_details: '',
-        trace_type: '',
-        trace_result: '',//优中差
-        customer_name: '',
-        process_status: '',
-        process_type: '',
-        input_user: window.sessionStorage.getItem("username"),
+        traceDetails: '',
+        traceType: '',
+        traceResult: '',//优中差
+        customerName: '',
+        processStatus: '',
+        processType: '',
+        inputUser: window.sessionStorage.getItem("username"),
         status: '', //正式员工啥的 
-        type: ''
+        type: '',
+        id: ''
       }
     }
   },
@@ -118,12 +119,15 @@ export default {
     onSubmit () {
       console.log('submit!');
       let fd = new FormData()
-      fd.append('traceDetails', this.form.trace_details);
-      fd.append('traceType', this.form.trace_type);
-      fd.append('traceResult', this.form.trace_result);
-      fd.append('customerName', this.form.customer_name);
-      fd.append('processStatus', this.form.process_status);
-      fd.append('processType', this.form.process_type);
+      fd.append('traceDetails', this.form.traceDetails);
+      fd.append('traceType', this.form.traceType);
+      fd.append('traceResult', this.form.traceResult);
+      fd.append('customerName', this.form.customerName);
+      fd.append('processStatus', this.form.processStatus);
+      fd.append('processType', this.form.processType);
+      console.log('添加测试', window.sessionStorage.getItem("username"));
+      // fd.append('input_user', window.sessionStorage.getItem("username"));
+      // fd.append('id', parseInt(Math.random() * 100000));
       //时间
       let nowDate = new Date();
       let date = {
@@ -135,7 +139,7 @@ export default {
       let systemDate = date.year + '-' + (date.month >= 10 ? date.month : '0' + date.month) + '-' + (date.day >= 10 ? date.day : '0' + date.day)
       fd.append('traceTime', systemDate);//
       //改动
-      fd.append('inputUser', this.form.input_user);//
+      fd.append('inputUser', window.sessionStorage.getItem("username"));//
       fd.append('status', this.form.status);
       fd.append('type', this.form.type);
 
@@ -145,8 +149,18 @@ export default {
           this.$message.success(success.data.message);
           // this.$set(this.tableData, this.tableData., this.tableData)
           // console.log(this.form.length(), 'ssssssssssss');
-          this.$router.go(0);
-          location.reload()
+          // this.$router.go(0);
+
+
+          //通知父组件刷新
+
+          this.$emit('newform', this.form)
+
+          // location.reload()
+
+
+
+
           // this.$set(this.tableData, indexs, item);
           // this.$set(this.tableData, Object.keys(this.tableData).length, newVal)
           this.resetForm()

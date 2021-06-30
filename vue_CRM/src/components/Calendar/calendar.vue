@@ -41,8 +41,8 @@ export default {
             let eve = info.event._def.extendedProps
             tippy(info.el, {//tippy hover插件
               content: "<div style='width: 100%;background-color:#B8D6DE;padding:10px'>" +
-                "<div style='border-bottom: 0.01rem solid #B8D6DE;line-height: 0.3rem;color: white;'>" + eve.servserName + "</div>" +
-                "<div style='color: white'>客户名称：" + eve.servserName + "</div>" +
+                "<div style='border-bottom: 0.01rem solid #B8D6DE;line-height: 0.3rem;color: white;'>" + "</div>" +
+                // "<div style='color: white'>客户名称：" + eve.servserName + "</div>" +
                 "<div style='color: white'>开始时间：" + info.event.start + "</div>" +
                 "<div style='color: white'>结束时间：" + info.event.end + "</div>" +
                 "<div style='color: white'>大体需求：" + info.event.title + "</div>" +
@@ -91,6 +91,7 @@ export default {
         console.log('获取日程信息', success.data.message);
         this.planData = success.data.data
         this.calendarOptions.events = this.planData
+        console.log(this.planData);
 
         // this.calendarOptions.events.id = this.planData.tractId
         // this.calendarOptions.events.start = this.planData.start

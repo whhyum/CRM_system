@@ -12,9 +12,17 @@ export default {
       if (success.data.status === 200) {
         console.log('zuihouzuihou', this.option);
         console.log(success.data.data);
-        this.option.legend.data = success.data.data.leg
+        this.option.legend.data = [
+          "金融",
+          "教育",
+          "服务",
+          "餐饮",
+          "互联网"]
+        // success.data.data.leg
         this.option.xAxis.data = success.data.data.xData
-        this.option.series = success.data.data.yData
+        for (let index = 0; index < success.data.data.yData.length; index++) {
+          this.option.series[index] = success.data.data.yData[index]
+        }
         console.log('debug', success.data.data.yData);
         console.log('zuihouzuihou', this.option);
         this.initChart()
@@ -95,7 +103,7 @@ export default {
       //     }
       //   ]
       // };
-      getchart.setOption(this.option);
+      getchart.setOption(this.option, true);
       //随着屏幕大小调节图表
       window.addEventListener("resize", () => {
         getchart.resize();
@@ -138,36 +146,36 @@ export default {
           type: 'value'
         },
         series: [
-          {
-            name: '邮件营销',
-            type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: '联盟广告',
-            type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: '视频广告',
-            type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: '直接访问',
-            type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: '搜索引擎',
-            type: 'line',
-            stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
+          //   {
+          //     name: '邮件营销',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: [120, 132, 101, 134, 90, 230, 210]
+          //   },
+          //   {
+          //     name: '联盟广告',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: [220, 182, 191, 234, 290, 330, 310]
+          //   },
+          //   {
+          //     name: '视频广告',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: [150, 232, 201, 154, 190, 330, 410]
+          //   },
+          //   {
+          //     name: '直接访问',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: [320, 332, 301, 334, 390, 330, 320]
+          //   },
+          //   {
+          //     name: '搜索引擎',
+          //     type: 'line',
+          //     stack: '总量',
+          //     data: [820, 932, 901, 934, 1290, 1330, 1320]
+          //   }
         ]
       },
     }

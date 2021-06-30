@@ -118,7 +118,8 @@ public class UserController {
         System.out.println(all);
         for(int i=0;i<value.length;i++){
              num[i]=userService.getTypeData(value[i]);
-             map.put(value[i],num[i]/all*100);
+             Double b = Double.valueOf(new java.text.DecimalFormat("#.00").format(num[i]/all*100));
+             map.put(value[i],b);
         }
         return ResultUtil.success("true",map);
     }

@@ -35,6 +35,12 @@
           </el-date-picker>
         </div>
       </el-form-item>
+      <el-form-item label="日程颜色">
+        <div class="block">
+          <!-- <span class="demonstration">有默认值</span> -->
+          <el-color-picker v-model="form.color"></el-color-picker>
+        </div>
+      </el-form-item>
 
       <el-form-item>
         <el-button type="primary"
@@ -91,6 +97,7 @@ export default {
       fd.append('conmmunicateWay', this.form.conmmunicateWay);
       fd.append('detail', this.form.detail);
       fd.append('end', this.form.end);
+      fd.append('start', this.form.end);
       console.log('test服务id', this.serverId);
       fd.append('tract_id', this.serverId);
       fd.append('color', this.form.color);

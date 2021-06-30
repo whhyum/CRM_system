@@ -61,6 +61,14 @@
                        prop="servername">
       </el-table-column>
     </el-table>
+    <el-pagination class="bottom"
+                   style="width:100%;text-align:center;margin-top:10px"
+                   background
+                   @current-change="handleCurrentChange"
+                   :current-page="currentPage"
+                   layout="prev, pager, next"
+                   :total="total">
+    </el-pagination>
   </div>
 </template>
 
@@ -68,19 +76,14 @@
 
 <script>
 
-import { contractAdd, contractList, contractServer, contractName } from "@/api/contract";
+import { contractAdd, contractNum, contractList, contractServer, contractName } from "@/api/contract";
 export default {
   created () {
-    let fd = new FormData()
-    fd.append('username', window.sessionStorage.getItem("username"));
-    fd.append('role_id', window.sessionStorage.getItem("role_id"));
-    fd.append('pageNo ', 1);
-    fd.append('pageSize ', 10);
 
-    contractList(fd).then((success) => {
+    contractNum().then((success) => {
       if (success.data.status === 200) {
-        this.$message.success(success.data.message);
-        this.tableData = success.data.data.records
+        // this.$message.success(success.data.message);
+        this.total = success.data.data
         console.log(success);
       } else {
         this.$message.info(success.data.message);
@@ -91,11 +94,17 @@ export default {
 
     })
 
+    this.handleCurrentChange()
 
   },
   data () {
     return {
       // topDate:'',
+      currentPage: 1,
+      // keyword: '',
+      pageSize: 10,
+      pageNo: 1,
+      total: 100,
       tableData: [{
         id: '12987122',
         name: '好滋好味鸡蛋仔',
@@ -104,32 +113,37 @@ export default {
         address: '上海市普陀区真北路',
         shop: '王小虎夫妻店',
         shopId: '10333'
-      }, {
-        id: '12987123',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987125',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987126',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }]
+      },]
     }
+  },
+  methods: {
+    handleCurrentChange (e) {
+      if (isNaN(parseInt(e))) {
+        e = 1
+      }
+      this.currentPage = e
+      this.pageNo = this.currentPage
+      let fd = new FormData()
+      fd.append('username', window.sessionStorage.getItem("username"));
+      fd.append('role_id', window.sessionStorage.getItem("role_id"));
+      fd.append('pageNo ', parseInt(e));
+      fd.append('pageSize ', 10);
+
+      contractList(fd).then((success) => {
+        if (success.data.status === 200) {
+          this.$message.success(success.data.message);
+          this.tableData = success.data.data.records
+
+          console.log(success);
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+
+      })
+    },
   }
 }
 </script>
@@ -148,5 +162,8 @@ export default {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.bottom {
+  margin: 0 auto;
 }
 </style>

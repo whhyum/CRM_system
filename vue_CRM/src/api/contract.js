@@ -43,3 +43,13 @@ export function contractList(data) {
 
   })
 }
+export function contractNum(data) {
+  return request({
+      url: '/contract/num',
+      headers : {"Content-Type" : "application/json;charset=utf-8"},
+      method: 'post',
+      // dataType: "json",
+      data
+
+  })
+}

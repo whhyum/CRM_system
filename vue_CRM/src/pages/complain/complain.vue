@@ -9,10 +9,10 @@
       <el-form-item label="投诉对象"
                     prop="username">
         <el-select v-model="ruleForm.username"
-                   placeholder="请选择投诉对象"
-                   v-for="(item,index) in employee"
-                   :key="index">
-          <el-option :label="item"
+                   placeholder="请选择投诉对象">
+          <el-option v-for="(item,index) in employee"
+                     :label="item"
+                     :key="index"
                      :value="item"></el-option>
         </el-select>
       </el-form-item>

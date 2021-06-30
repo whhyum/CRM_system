@@ -14,6 +14,7 @@ import Welcome from '@/pages/Welcome'
 import Choose from '@/pages/Plan/chooseserver'
 import New from '@/pages/Plan/newplan'
 import ok from '@/components/ok'
+import back from '@/components/back'
 // import aa from '@/component/Welcome'
 import Analyse from '@/pages/achievement/analyse.vue'
 
@@ -90,7 +91,8 @@ export default new Router({
               meta:{
                 title: '添加成功'
               }
-            }
+            },
+            
           ]
         },
         {
@@ -123,6 +125,14 @@ export default new Router({
           component: seeMore,
           meta:{
             title: '查看服务'
+          }
+        },
+        {
+          path: '/index/back',
+          name: 'back',
+          component: back,
+          meta:{
+            title: '注销登录'
           }
         }
       ]

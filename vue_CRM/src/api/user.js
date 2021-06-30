@@ -16,7 +16,7 @@ export function userLogin(data) {
 
 export function userNum(data) {
   return request({
-      url: '/employee/num',
+      url: '/user/num',
       headers : {"Content-Type" : "application/json;charset=utf-8"},
       method: 'post',
       // dataType: "json",

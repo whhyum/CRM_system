@@ -233,7 +233,7 @@ export default {
       rules: {
         username: [
           { required: true, message: '请输入客户名称', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+          { min: 2, max: 15, message: '长度在 2 到 15 个字符', trigger: 'blur' }
         ],
         email: [{ required: true, message: '请输入用户邮箱', trigger: 'blur' }],
         area: [

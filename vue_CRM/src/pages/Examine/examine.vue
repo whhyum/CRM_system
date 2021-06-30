@@ -193,7 +193,7 @@ export default {
       }
       // console.log("jljklhklh" + this.ruleForm.username);
     }).catch(error => {
-      this.$message.error('出错了，请联系管理员');
+      // this.$message.error('出错了，请联系管理员');
 
     })
 
@@ -290,7 +290,7 @@ export default {
           this.$message.error(success.data.message)
         }
       }).catch(error => {
-        this.$message.error('出错了，请联系管理员');
+        // this.$message.error('出错了，请联系管理员');
       })
 
 
@@ -313,7 +313,7 @@ export default {
 
         }
       }).catch(error => {
-        this.$message.error('出错了，请联系管理员');
+        // this.$message.error('出错了，请联系管理员');
       })
 
 
@@ -353,7 +353,7 @@ export default {
           }
           // console.log("jljklhklh" + this.ruleForm.username);
         }).catch(error => {
-          this.$message.error('出错了，请联系管理员');
+          // this.$message.error('出错了，请联系管理员');
 
         })
 
@@ -423,7 +423,7 @@ export default {
             }
             // console.log("jljklhklh" + this.ruleForm.username);
           }).catch(error => {
-            this.$message.error('出错了，请联系管理员');
+            // this.$message.error('出错了，请联系管理员');
 
           })
 

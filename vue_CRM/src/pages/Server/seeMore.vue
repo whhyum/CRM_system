@@ -46,6 +46,20 @@
                            value="资源池客户"></el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="服务进度">
+              <el-select v-model="form.processStatus"
+                         placeholder="请选择服务记录">
+                <el-option label="客户交接中"
+                           value="1"></el-option>
+                <el-option label="制定需求计划"
+                           value="2"></el-option>
+                <el-option label="签订合同"
+                           value="3"></el-option>
+                <el-option label="完成服务"
+                           value="4"></el-option>
+
+              </el-select>
+            </el-form-item>
 
             <el-form-item label="服务方式">
               <el-select v-model="form.type"
@@ -174,7 +188,7 @@
             <el-timeline-item :timestamp="item.traceTime"
                               placement="top">
               <el-card>
-                <h4>{{ item.status }}:{{ item.costomerName }}</h4>
+                <h2>{{ item.status }}:{{ item.customerName }}</h2>
                 <p>{{ item.type }}</p>
                 <p>{{ item.traceDetails }}</p>
               </el-card>
@@ -199,10 +213,10 @@ export default {
       tag: '',
       serverId: '',
       form: {
-        process_status: '',
-        trace_details: '',
+        processStatus: '',
+        traceDetails: '',
         customerName: '',
-        trace_result: '',
+        traceResult: '',
         type: '',
         status: '',
       },
@@ -246,43 +260,18 @@ export default {
     fd.append('trace_id', this.serverId);
     //获取相关合同
 
-    contractServer({ fd }).then((success) => {
+    contractServer(fd).then((success) => {
       if (success.data.status === 201) {
 
         // this.$message.success(success.data.message);
         console.log('没有合同可以创建', success.data.message)
-        contract_status = false
-        let fd = new FormData()
-        fd.append('part_a', this.contractform.part_a);
-        fd.append('part_b', this.contractform.part_b);
-        fd.append('seller', this.contractform.seller);
-        fd.append('creatTime', this.contractform.creatTime);
-        fd.append('serverType', this.contractform.serverType);
-        fd.append('moneyStatus', this.contractform.moneyStatus);
-        fd.append('money', this.contractform.money);
-        fd.append('payType', this.contractform.payType);
-        fd.append('job', this.contractform.job);
-        fd.append('traceId', this.contractformform.traceId);
-        fd.append('traceId', this.serverId);
-        //创建合同
-        contractAdd(fd).then((success) => {
-          if (success.data.status === 200) {
-
-            this.$message.success(success.data.message);
-            // this.resetForm()
-          } else {
-            this.$message.info(success.data.message);
-          }
-          // console.log("jljklhklh" + this.ruleForm.username);
-        }).catch(error => {
-          this.$message.error('出错了，请联系管理员');
-
-        })
+        this.contract_status = false
+        // this.newC()
 
 
       } else if (success.data.status === 202) {
         console.log('查看合同', success.data.message)
-
+        this.contract_status = true
         this.contractform = success.data.data
 
       } else {
@@ -290,7 +279,7 @@ export default {
       }
       // console.log("jljklhklh" + this.ruleForm.username);
     }).catch(error => {
-      this.$message.error('出错了，请联系管理员');
+      // this.$message.error('出错了，请联系管理员');
 
     })
 
@@ -314,6 +303,35 @@ export default {
     '$route': 'getParams'
   },
   methods: {
+    newC () {
+      let fd = new FormData()
+      fd.append('part_a', this.contractform.part_a);
+      fd.append('part_b', this.contractform.part_b);
+      fd.append('seller', this.contractform.seller);
+      fd.append('creatTime', this.contractform.creatTime);
+      fd.append('serverType', this.contractform.serverType);
+      fd.append('moneyStatus', this.contractform.moneyStatus);
+      fd.append('money', this.contractform.money);
+      fd.append('payType', this.contractform.payType);
+      fd.append('job', this.contractform.job);
+      fd.append('traceId', this.contractformform.traceId);
+      fd.append('traceId', this.serverId);
+      console.log('youwuID', this.serverId);
+      //创建合同
+      contractAdd(fd).then((success) => {
+        if (success.data.status === 200) {
+
+          this.$message.success(success.data.message);
+          // this.resetForm()
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+
+      })
+    },
     getParams () {
       const serverId = this.$route.query.serverId
       console.log(serverId);
@@ -383,17 +401,17 @@ export default {
       //         traceId: '',
       //         job: '',
       let fd = new FormData()
-      fd.append('traceId', this.contractform.traceId);
+      // fd.append('traceId', this.contractform.traceId);
       fd.append('part_a', this.contractform.part_a);
       fd.append('part_b', this.contractform.part_b);
       fd.append('seller', this.contractform.seller);
-      fd.append('creatTime', this.contractform.creatTime);
-      fd.append('finishTime', this.contractform.finishTime);
+      fd.append('creatTime', this.now);
+      fd.append('finishTime', this.now);
       fd.append('serverType', this.contractform.serverType);
       fd.append('money', this.contractform.money);
       fd.append('payType', this.contractform.payType);
       fd.append('moneyStatus', this.contractform.moneyStatus);
-      fd.append('traceId', this.contractform.traceId);
+      fd.append('traceId', this.serverId);
       fd.append('job', this.contractform.job);
       contractAdd(fd).then((success) => {
         if (success.data.status === 200) {
@@ -401,7 +419,9 @@ export default {
           this.$message.success(success.data.message);
           // this.$forceUpdate()
           // this.tableData.splice(index, 1)
-          this.resetForm()
+          // this.resetForm()
+          // this.st
+          this.contract_status = true
         } else {
           this.$message.info(success.data.message);
         }

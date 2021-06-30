@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="box">
+      <h1 style="text-align: center">Java应用技术期末大作业</h1>
       <h1 style="text-align: center">客户关系管理系统登录</h1>
       <el-form ref="form"
                :model="form"

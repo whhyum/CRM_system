@@ -3,7 +3,8 @@
 
     <div>
       <h1>新增服务记录</h1>
-      <addServer style="width:500px"></addServer>
+      <addServer @newform="newform"
+                 style="width:500px"></addServer>
     </div>
     <div style="margin-left:30px">
       <el-card style="border-radius:10px;height:auto；padding-left:20px;width:50vw">
@@ -60,9 +61,10 @@
         <!-- <el-button style="
                 margin-top:20px"
                 @click="clearFilter">清除所有过滤器</el-button> -->
-        <el-table :data="tableData.filter(data => !search || data.customerName.toLowerCase().includes(search.toLowerCase()))"
+        <el-table :data="tableData"
                   style="width: 90%;">
-
+          <!-- :data="tableData.filter(data => !search || data.customerName.toLowerCase().includes(search.toLowerCase()))" -->
+          <!-- v-model="tableData" -->
           <el-table-column prop="traceTime"
                            label="日期"
                            sortable
@@ -84,12 +86,12 @@
 
           <el-table-column align="right"
                            width="150">
-            <template slot="header"
+            <!-- <template slot="header"
                       slot-scope="scope">
               <el-input v-model="search"
                         size="mini"
                         placeholder="输入关键字搜索" />
-            </template>
+            </template> -->
             <template slot-scope="scope"
                       style="width:500px"
                       width="300">
@@ -107,6 +109,7 @@
           </el-table-column>
 
         </el-table>
+
         <div class=""
              style="width:auto;text-align:center;margin-top:10px">
           <!-- <span class="demonstration"></span> -->
@@ -135,6 +138,7 @@ export default {
   components: { addServer },
   data () {
     return {
+      newdata: '',
       userType: '',//客户分类
       customerNum: 1,
       total: 1,
@@ -187,6 +191,8 @@ export default {
       console.log('获取数量失败');
 
     })
+
+
     serverStatus().then((success) => {
       if (success.data.status === 200) {
 
@@ -206,29 +212,58 @@ export default {
 
 
     this.handleCurrentChange()
-    let fd = new FormData();
-    fd.append('username', window.sessionStorage.getItem("username"));
-    fd.append('role_id', window.sessionStorage.getItem("role_id"));
-    fd.append('pageNo', 1);
-    fd.append('pageSize', 10);
-    serverList(fd).then((success) => {
-      if (success.data.status === 200) {
+    console.log('没有是？？');
+    this.getData()
 
-        // this.$message.success(success.data.message);
-        console.log('获取服务信息', success.data.message);
-        this.tableData = success.data.data
-      } else {
-        this.$message.info(success.data.message);
-      }
-      // console.log("jljklhklh" + this.ruleForm.username);
-    }).catch(error => {
-      this.$message.error('出错了，请联系管理员');
+    // let fd = new FormData();
+    // fd.append('username', window.sessionStorage.getItem("username"));
+    // fd.append('role_id', window.sessionStorage.getItem("role_id"));
+    // fd.append('pageNo', 1);
+    // fd.append('pageSize', 10);
+    // serverList(fd).then((success) => {
+    //   if (success.data.status === 200) {
 
-    })
+    //     // this.$message.success(success.data.message);
+    //     console.log('获取服务信息', success.data.message);
+    //     this.tableData = success.data.data
+    //   } else {
+    //     this.$message.info(success.data.message);
+    //   }
+    //   // console.log("jljklhklh" + this.ruleForm.username);
+    // }).catch(error => {
+    //   this.$message.error('出错了，请联系管理员');
+
+    // })
 
 
   },
+  updated () {
+    this.getData()
+  },
   methods: {
+    getData () {
+      let fd = new FormData();
+      fd.append('username', window.sessionStorage.getItem("username"));
+      fd.append('role_id', window.sessionStorage.getItem("role_id"));
+      fd.append('pageNo', this.currentPage);
+      fd.append('pageSize', 10);
+      serverList(fd).then((success) => {
+        if (success.data.status === 200) {
+
+          // this.$message.success(success.data.message);
+          console.log('获取服务信息', success.data.message);
+          this.tableData = success.data.data
+          this.$forceUpdate()
+          console.log('服务服务服务', this.tableData);
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+
+      })
+    },
 
     handleCurrentChange (e) {
       if (isNaN(parseInt(e))) {
@@ -264,37 +299,43 @@ export default {
     handleEdit (index, row) {
       console.log(index, row);
     },
-    handleDelete (index, row) {
-      let that = this
+    async handleDelete (index, row) {
+
+      let _that = this
       let fd = new FormData()
+      console.log('删除测试111', this.tableData, row);
+
       fd.append('id', row.id)
-      console.log('111', this.tableData);
+      // console.log('111', this.tableData);
+
       this.$confirm('此操作将删除该服务记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         serverDel(fd).then((success) => {
+
+
           if (success.data.status === 200) {
 
             this.$message.success(success.data.message);
-            // this.resetForm()
-            console.log('xiabiao', index);
-            console.log(that.tableData);
-            that.tableData.splice(index, 1)
-
-
+            // // this.resetForm()
+            // console.log('删除测试', this.tableData);
+            // _that.tableData.splice(index, 1)
+            // row = ''
+            this.getData()
+            // this.tableData = this.tableData.splice(index, 1)
+            this.tableData.splice(index, 1)
+            // this.newform(row)
           } else {
             this.$message.info(success.data.message);
           }
           // console.log("jljklhklh" + this.ruleForm.username);
         }).catch(error => {
-          this.$message.error('出错了，请联系管理员');
-          console.log(that.tableData);
+          // this.$message.error('出错了，请联系管理员');
+          console.log(_that.tableData);
 
         })
-
-
 
       }).catch(() => {
         this.$message({
@@ -331,8 +372,47 @@ export default {
           tag: 1
         }
       })
+    },
+    newform (data) {
+      // this.tableData = 
+      this.tableData.unshift(this.tableData.length, 1, data)
+      // this.$set(this.tableData.length, id, data.id)
+      console.log('测试更新', this.tableData.length, data.traceid, data.id);
+
     }
-  }//method
+  },
+  watch: {
+    //正确给 Data 赋值的 方法
+
+    // tableData: function (newVal, oldVal) {
+
+    //   this.tableData = newVal
+    //   // newVal && this.draw(); //newVal存在的话执行draw函数
+    // }
+
+  },
+
+  computed: {
+    // newform (data) {
+    //   // this.tableData.splice(this.tableData.length, 1, data)
+    //   // console.log('测试更新', this.tableData.length, data.traceid, data.id);
+
+    //   // this.tableData
+    // }
+
+    // update (data) {
+    //   this.newdata = data
+    //   console.log('这里这里', data);
+    // }
+    // newdata () {
+    //   this.tableData.splice(this.tableData.length(), 1, newdata)
+    // }
+  }
+  //method,
+
+  // updated () {
+  //   newform
+  // }
 }
 </script>
 
