@@ -35,7 +35,7 @@ export function getJobData(data) {
 
 export function getJobMoneyData(data) {
   return request({
-      url: '/getJobData',
+      url: '/getJobMoneyData',
       headers : {"Content-Type" : "application/json;charset=utf-8"},
       method: 'post',
       // dataType: "json",

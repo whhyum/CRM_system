@@ -130,7 +130,7 @@ export default {
         if (success.data.status === 200) {
 
           this.optionbar.xAxis.data = success.data.data.xData
-          this.optionbar.series.data = [111111, 11, 360, 100, 200]
+          this.optionbar.series[0].data = success.data.data.yData
           // success.data.data.yData
           // this.optionbar.legend.data = success.data.data.xData
           // this.xd = success.data.data.xData
