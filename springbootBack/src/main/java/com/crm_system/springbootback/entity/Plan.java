@@ -21,6 +21,7 @@ public class Plan {
     private String start;
     private String end;
     private String traceId;
+    private String color;
 
 
     public Plan(Integer id, String server_name, String title, String communicate_way, String detail, String start, String end) {
@@ -44,5 +45,17 @@ public class Plan {
     }
 
     public Plan() {
+    }
+
+    public Plan(Integer id, String serverName, String title, String communicateWay, String detail, String start, String end, String traceId, String color) {
+        this.id = id;
+        this.serverName = serverName;
+        this.title = title;
+        this.communicateWay = communicateWay;
+        this.detail = detail;
+        this.start = start;
+        this.end = end;
+        this.traceId = traceId;
+        this.color = color;
     }
 }

@@ -33,7 +33,7 @@
 
                 <el-form-item>
                   <el-button type="primary"
-                             @click="onSubmit">立即修改</el-button>
+                             @click="onSubmit(props.row)">立即修改</el-button>
                   <!-- <el-button>取消</el-button> -->
                 </el-form-item>
               </el-form>
@@ -81,6 +81,8 @@
         <div style="margin-top:10px;width:100%;text-align:center">
 
           <el-pagination background
+                         @current-change="handleCurrentChange"
+                         :current-page="currentPage"
                          layout="prev, pager, next"
                          :total="total">
           </el-pagination>
@@ -124,16 +126,23 @@
           <el-form-item label="环境行为[10%]1-10分"
                         prop=""
                         label-width="">
-            <el-input v-model="exForm.working_ability"
+            <el-input v-model="exForm.environmental_behavior"
                       placeholder="请输入工作能力分值"></el-input>
           </el-form-item>
 
           <el-form-item label="纪律[10%]1-10分"
                         prop=""
                         label-width="">
-            <el-input v-model="exForm.working_ability"
+            <el-input v-model="exForm.discipline"
                       placeholder="请输入工作能力分值"></el-input>
           </el-form-item>
+          <!-- discipline: '',
+        bonus_point: '',
+        deduct_point: '',
+        judge_time: '',//judge_time
+        juage_people: window.sessionStorage.getItem("username"),//juage_people,
+        judged_people: '',//judged_people -->
+
           <el-form-item label="加分项[20%]1-10分"
                         label-width="">
             <el-input v-model="exForm.bonus_point"
@@ -169,7 +178,7 @@
 <script>
 
 import { } from '../../api/server'
-import { exNum, exAdd, employeeDel, exUp } from '@/api/ex'
+import { exNow, exNum, exAdd, employeeDel, exUp } from '@/api/ex'
 
 export default {
   created () {
@@ -187,6 +196,14 @@ export default {
       this.$message.error('出错了，请联系管理员');
 
     })
+
+
+    // tableData
+    this.handleCurrentChange()
+
+
+
+
   },
   mounted () {
 
@@ -202,14 +219,13 @@ export default {
   },
   data () {
     return {
+      currentPage: 1,
       total: 100,
       form: {
         username: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
+        department: '',
+        email: '',
+        gender: '',
         resource: '',
         desc: ''
       },
@@ -251,12 +267,41 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    handleCurrentChange (e) {
+      if (isNaN(parseInt(e))) {
+        e = 1
+      }
+      let key = this.keyword
       let fd = new FormData()
-      fd.append('username', this.form.username)
-      fd.append('email', this.form.email)
-      fd.append('gender', this.form.gender)
-      fd.append('department', this.form.department)
+      this.currentPage = e
+      this.pageNo = this.currentPage
+      console.log(typeof (e));
+      console.log(parseInt(e));
+      fd.append('keyWord', key)
+      fd.append('pageNo', parseInt(e))
+      fd.append('pageSize', 10)
+      exNow(fd).then(success => {
+        if (success.data.status === 200) {
+          this.$message.success(success.data.message)
+          console.log('test员工', success.data.data)
+          this.tableData = success.data.data
+
+        } else {
+          this.$message.error(success.data.message)
+        }
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+      })
+
+
+    },
+    onSubmit (row) {
+      let fd = new FormData()
+      fd.append('id', row.id)
+      fd.append('username', row.username)
+      fd.append('email', row.email)
+      fd.append('gender', row.gender)
+      fd.append('department', row.department)
       exUp(fd).then(success => {
         if (success.data.status === 200) {
           this.$message.success(success.data.message)
@@ -291,7 +336,7 @@ export default {
         type: 'warning'
       }).then(() => {
         let fd = new FormData()
-        fd.append('pageNo', 1);
+        fd.append('id', row.id);
         employeeDel(fd).then((success) => {
           if (success.data.status === 200) {
 
@@ -370,6 +415,8 @@ export default {
               // this.$message.success(success.data.message);
               console.log('考核', success.data.message);
               this.$message.success(success.data.message);
+              this.$refs.exForm.clearFilter('date');
+              this.exForm = ''
               // this.tableData = success.data.data
             } else {
               this.$message.info(success.data.message);

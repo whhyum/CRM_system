@@ -18,7 +18,7 @@ public class Judge {
     private int discipline;
     private int bonus_point;
     private int deduct_point;
-    private Date judge_time=new Date();
+    private String judge_time= String.valueOf(new Date());
     private String judgePeople;
     private String judgedPeople;
     private double performance;
@@ -46,7 +46,7 @@ public class Judge {
         this.discipline = discipline;
         this.bonus_point = bonus_point;
         this.deduct_point = deduct_point;
-        this.judge_time= judge_time;
+        this.judge_time= String.valueOf(judge_time);
         this.judgePeople = judge_people;
         this.judgedPeople = judged_people;
         this.performance=performance;

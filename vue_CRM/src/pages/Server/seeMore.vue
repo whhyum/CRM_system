@@ -7,7 +7,7 @@
     <!-- <h1 style="margin:30px">{{  }}</h1> -->
     <!-- {{ serverId }}aaaaaaaaaaaaaaa -->
     <div style="margin-bottom:30px">
-      <el-steps :active="form.process_status"
+      <el-steps :active="form.processStatus"
                 align-center>
         <el-step title="阶段一"
                  description="客户交接中..."></el-step>
@@ -65,7 +65,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="服务效果">
-              <el-radio-group v-model="form.trace_result">
+              <el-radio-group v-model="form.traceResult">
                 <el-radio label="优"></el-radio>
                 <el-radio label="中"></el-radio>
                 <el-radio label="差"></el-radio>
@@ -76,12 +76,12 @@
                         style=""></el-input>
             </el-form-item>
             <el-form-item label="服务类型">
-              <el-input v-model="form.trace_type"></el-input>
+              <el-input v-model="form.traceType"></el-input>
             </el-form-item>
 
             <el-form-item label="服务内容">
               <el-input type="textarea"
-                        v-model="form.trace_details"></el-input>
+                        v-model="form.traceDetails"></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -101,9 +101,8 @@
                    label-width="80px">
             <el-form-item label="日期">
               <span v-if="contract_status">{{ contractform.creatTime }}</span>
-              <el-input v-else
-                        v-model="contractform.creatTime"
-                        style=""></el-input>
+              <span v-else
+                    style="">{{ now }}</span>
             </el-form-item>
 
             <el-form-item label="甲方">
@@ -182,20 +181,6 @@
             </el-timeline-item>
           </div>
 
-          <!-- <el-timeline-item timestamp="2018/4/3"
-                            placement="top">
-            <el-card>
-              <h4>更新 Github 模板</h4>
-              <p>王小虎 提交于 2018/4/3 20:46</p>
-            </el-card>
-          </el-timeline-item>
-          <el-timeline-item timestamp="2018/4/2"
-                            placement="top">
-            <el-card>
-              <h4>更新 Github 模板</h4>
-              <p>王小虎 提交于 2018/4/2 20:46</p>
-            </el-card>
-          </el-timeline-item> -->
         </el-timeline>
       </div>
     </template>
@@ -208,6 +193,7 @@ import { contractServer, contractAdd } from '@/api/contract'
 export default {
   data () {
     return {
+      now: '',
       process_status: '',
       process_type: '',
       tag: '',
@@ -219,7 +205,6 @@ export default {
         trace_result: '',
         type: '',
         status: '',
-
       },
       contractform: {
         traceId: '',
@@ -245,6 +230,16 @@ export default {
     }
   },
   created () {
+    let nowDate = new Date();
+    let date = {
+      year: nowDate.getFullYear(),
+      month: nowDate.getMonth() + 1,
+      day: nowDate.getDate(),
+    }
+    console.log(date);
+    let systemDate = date.year + '-' + (date.month >= 10 ? date.month : '0' + date.month) + '-' + (date.day >= 10 ? date.day : '0' + date.day)
+    this.now = systemDate;
+
     this.getParams()
 
     let fd = new FormData();
@@ -328,6 +323,7 @@ export default {
       }
       // this.tag = this.$route.query.tag
       this.form = this.$route.query.data
+      console.log('ceshishujv', this.form);
       this.process_status = this.$route.query.data.process_status
       this.process_type = this.$route.query.data.process_type
 
@@ -345,19 +341,22 @@ export default {
     onSubmit () {
       console.log('submit!')
       let fd = new FormData()
-      fd.append('trace_details', this.form.trace_details);
-      fd.append('trace_type', this.form.trace_type);
-      fd.append('trace_result', this.form.trace_result);
-      fd.append('customer_name', this.form.customer_name);
-      fd.append('process_status', this.form.process_status);
-      fd.append('process_type', this.form.process_type);
-      fd.append('input_user', this.form.input_user);
+      fd.append('traceDetails', this.form.traceDetails);
+      fd.append('traceType', this.form.traceType);
+      fd.append('traceResult', this.form.traceResult);
+      fd.append('customerName', this.form.customerName);
+      fd.append('processStatus', this.form.processStatus);
+      fd.append('processType', this.form.processType);
+      fd.append('inputUser', this.form.inputUser);
       fd.append('status', this.form.status);
       fd.append('type', this.form.type);
+      fd.append('id', this.serverId);
 
       serverUp(fd).then((success) => {
-        console.log('保存修改');
+
         if (success.data.status === 200) {
+          console.log('保存修改');
+          this.contract_status = false
           this.$message.success(success.data.message);
         } else {
           this.$message.info(success.data.message);
@@ -370,8 +369,49 @@ export default {
     },
 
     checkContract () {
+      // contractform: {
+      //         traceId: '',
+      //         part_a: '',
+      //         part_b: '',
+      //         seller: '',
+      //         creatTime: '',
+      //         finishTime: '',
+      //         serverType: '',
+      //         money: '',
+      //         payType: '',
+      //         moneyStatus: '',
+      //         traceId: '',
+      //         job: '',
+      let fd = new FormData()
+      fd.append('traceId', this.contractform.traceId);
+      fd.append('part_a', this.contractform.part_a);
+      fd.append('part_b', this.contractform.part_b);
+      fd.append('seller', this.contractform.seller);
+      fd.append('creatTime', this.contractform.creatTime);
+      fd.append('finishTime', this.contractform.finishTime);
+      fd.append('serverType', this.contractform.serverType);
+      fd.append('money', this.contractform.money);
+      fd.append('payType', this.contractform.payType);
+      fd.append('moneyStatus', this.contractform.moneyStatus);
+      fd.append('traceId', this.contractform.traceId);
+      fd.append('job', this.contractform.job);
+      contractAdd(fd).then((success) => {
+        if (success.data.status === 200) {
 
+          this.$message.success(success.data.message);
+          // this.$forceUpdate()
+          // this.tableData.splice(index, 1)
+          this.resetForm()
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员 ');
 
+      })
+
+      //提交合同
 
 
     }

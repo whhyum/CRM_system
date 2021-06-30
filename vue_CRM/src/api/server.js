@@ -71,3 +71,25 @@ export function selectTop5ByDate(data) {
       data
   })
 }
+
+export function num(data) {
+  return request({
+      url: '/trace/num',
+      headers : {"Content-Type" : "application/json;charset=utf-8"},
+      method: 'post',
+      // dataType: "json",
+      data
+  })
+}
+
+// http://localhost:8082/contract/add
+
+export function contractAdd(data) {
+  return request({
+      url: '/contract/add',
+      headers : {"Content-Type" : "application/json;charset=utf-8"},
+      method: 'post',
+      // dataType: "json",
+      data
+  })
+}

@@ -28,7 +28,7 @@
         <h1>趋势分析</h1>
         <linestack style="width:620px;height:400px"></linestack>
       </el-card>
-      <el-card style="margin-right: 30px;margin-top:20px;width:100%">
+      <!-- <el-card style="margin-right: 30px;margin-top:20px;width:100%">
         <template>
           <el-table ref="multipleTable"
                     :data="tableData"
@@ -56,7 +56,7 @@
             <el-button @click="toggleSelection()">取消选择</el-button>
           </div>
         </template>
-      </el-card>
+      </el-card> -->
     </div>
 
   </div>
@@ -67,38 +67,47 @@
 import ChartLine from '../../components/echart/chartLint.vue'
 import pierose from '../../components/echart/pierose.vue'
 import linestack from '../../components/echart/linestack.vue'
-
+import { getMoneyData, getJudgeData, getJobData, getJobMoneyData } from "@/api/chart";
 export default {
-  created(){
-    this.name = '...'
-    this.xData ='....'
+  created () {
+    this.getData()
+  },
+  mounted () {
+
+
+    // this.drawLine()
 
   },
   data () {
     return {
+      xd: '',
+      yd: '',
       name: '张雪',
       xData: ['2020-02', '2020-03', '2020-04', '2020-05'],
       yData: [30.25, 132, 80, 134],
+
+      //
       optionbar: {
         title: {
           // text: 'ECharts 数据统计'
         },
         tooltip: {},
         legend: {
-          data: ['用户来源']
+          data: ['业绩排行']
         },
         xAxis: {
-          data: ["Android", "IOS", "PC", "Ohter", "tesr"]
+          data: ["1", "2", "3", "4", "5"]
         },
         yAxis: {
-
+          // data: [500, 200, 360, 100, 200]
         },
         series: [{
-          name: '访问量',
+          name: '业绩',
           type: 'bar', //设置图表主题
           data: [500, 200, 360, 100, 200]
         }]
       },
+
       tableData: [{
         date: '2016-05-03',
         name: '王小虎',
@@ -107,50 +116,60 @@ export default {
         date: '2016-05-02',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
+      },],
       multipleSelection: [],
 
     }
-  },
-  mounted () {
-    this.drawLine()
   },
   components: {
     ChartLine, pierose, linestack
   },
   methods: {
-    drawLine: function () {
+    getData () {
+      getJudgeData().then((success) => {
+        if (success.data.status === 200) {
+
+          this.optionbar.xAxis.data = success.data.data.xData
+          this.optionbar.series.data = [111111, 11, 360, 100, 200]
+          // success.data.data.yData
+          // this.optionbar.legend.data = success.data.data.xData
+          // this.xd = success.data.data.xData
+          // this.yd = success.data.data.yData
+
+          // console.log(success.data.data);
+          console.log('初始化业绩yyy数据', this.optionbar.xAxis);
+          console.log('初始化业绩yyy数据', this.optionbar.series[0]);
+          this.drawLine()
+          // this.drawLine()
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        // this.$message.error('出错了，请联系管理员');
+
+      })
+    },
+    drawLine () {
       //基于准本好的DOM，初始化echarts实例
       // let chartmainline = this.$echarts.init(document.getElementById("chartmainline"));
       // let chartmainbar = this.$echarts.init(document.getElementById("chartmainbar"));
-      let chartmainbar = this.$echarts.init(this.$refs.chartmainbar);
-      const { name, xData, yData } = this
-      console.log(this.$refs)
-      this.$refs.chart_line_one.initChart(name, xData, yData)
-      //绘制图表
-      // chartmainline.setOption(this.optionline);
-      console.log(this.$refs)
-      chartmainbar.setOption(this.optionbar);
+
+
+      // setTimeout(() => {
+      console.log('画图', this.optionbar);
+      // this.$refs.chartmainbar.clear();
+      var chartmainbar = this.$echarts.init(this.$refs.chartmainbar);
+
+      // this.getData()
+
+
+      chartmainbar.setOption(this.optionbar, true);
+      // }, 10);
+
+
+
+
     },
     handleSelectionChange (val) {
       this.multipleSelection = val;

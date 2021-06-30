@@ -58,3 +58,16 @@ export function exUp(data) {
 
   })
 }
+
+// http://localhost:8082/employee/list
+
+export function exNow(data) {
+  return request({
+      url: '/employee/list',
+      headers : {"Content-Type" : "application/json;charset=utf-8"},
+      method: 'post',
+      // dataType: "json",
+      data
+
+  })
+}

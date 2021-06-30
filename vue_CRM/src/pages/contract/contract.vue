@@ -80,7 +80,8 @@ export default {
     contractList(fd).then((success) => {
       if (success.data.status === 200) {
         this.$message.success(success.data.message);
-        this.tableData = success.data.data
+        this.tableData = success.data.data.records
+        console.log(success);
       } else {
         this.$message.info(success.data.message);
       }

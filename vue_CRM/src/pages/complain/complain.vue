@@ -7,8 +7,8 @@
              label-width="100px"
              class="demo-ruleForm">
       <el-form-item label="投诉对象"
-                    prop="type">
-        <el-select v-model="ruleForm.name"
+                    prop="username">
+        <el-select v-model="ruleForm.username"
                    placeholder="请选择投诉对象"
                    v-for="(item,index) in employee"
                    :key="index">
@@ -28,11 +28,11 @@
                     prop="rate">
         <el-select v-model="ruleForm.rate"
                    placeholder="请选择投诉分值">
-          <el-option label="-1"
+          <el-option label=-1
                      value=-1></el-option>
-          <el-option label="-2"
+          <el-option label=-2
                      value=-2></el-option>
-          <el-option label="-3"
+          <el-option label=-3
                      value=-3></el-option>
         </el-select>
       </el-form-item>
@@ -49,7 +49,7 @@
 <style>
 </style>
 <script>
-import { userComplain1, userComplain2 } from "@/api/user"
+import { userComplainA, userComplainB } from "@/api/user"
 
 export default {
 
@@ -59,7 +59,7 @@ export default {
       value: null,
       iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
       ruleForm: {
-        name: '',
+        username: '',
         rate: '',
         desc: ''
       },
@@ -67,9 +67,9 @@ export default {
         name: [
           { required: true, message: '请输入活动名称', trigger: 'blur' },
         ],
-        type: [
+        username: [
           { required: true, message: '请选择投诉对象', trigger: 'blur' },
-          { type: 'array', required: true, message: '请选择一个对象', trigger: 'change' }
+
         ],
         rate: [
           { required: true, message: '请选择分数', trigger: 'blur' },
@@ -86,10 +86,10 @@ export default {
         if (valid) {
           // alert('submit!');
           let fd = new FormData();
-          fd.append('input_use', this.form.name);
-          fd.append('code', this.form.rate);
-          fd.append('context', this.form.desc);
-          exUp(fd).then((success) => {
+          fd.append('input_use', this.ruleForm.username);
+          fd.append('core', parseInt(this.ruleForm.rate));
+          fd.append('context', this.ruleForm.desc);
+          userComplainB(fd).then((success) => {
             if (success.data.status === 200) {
 
               // this.$message.success(success.data.message);
@@ -118,12 +118,17 @@ export default {
     }
   },
   created () {
-    userComplain1.then((success) => {
+    let fd = new FormData();
+    fd.append('username', window.sessionStorage.getItem("username"));
+
+    userComplainA(fd).then((success) => {
+
       if (success.data.status === 200) {
 
         // this.$message.success(success.data.message);
         console.log('获取投诉对象信息', success.data.message);
         this.employee = success.data.data
+        this.$message.success(success.data.message, '选择投诉对象');
       } else {
         this.$message.info(success.data.message);
       }

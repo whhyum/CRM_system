@@ -97,7 +97,7 @@ export default {
         // this.calendarOptions.events.end = this.planData.end
         // this.calendarOptions.events.desc = this.planData.detail
         // this.calendarOptions.events.servserName = this.planData.servserName
-
+        // this.calendarOptions.color 
       } else {
         this.$message.info(success.data.message);
       }

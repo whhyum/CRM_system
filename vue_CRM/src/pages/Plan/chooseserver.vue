@@ -48,7 +48,7 @@ export default {
         date: '2016-05-02',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
-      }, ],
+      },],
       currentRow: null
     }
   },
@@ -64,8 +64,8 @@ export default {
     choose (item) {
 
       //获取服务id
-      console.log(item.trace_id);
-      this.choosed = item.trace_id
+      console.log(item.id);
+      this.choosed = item.id
       this.$emit('choose', this.choosed)
 
     }

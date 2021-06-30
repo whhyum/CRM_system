@@ -27,8 +27,10 @@
       <el-form-item label="截止时间">
         <div class="block">
           <!-- <span class="demonstration">默认</span> -->
+
           <el-date-picker v-model="form.end"
                           type="date"
+                          value-format="yyyy-MM-dd"
                           placeholder="选择日期">
           </el-date-picker>
         </div>
@@ -48,11 +50,10 @@ import { addPlan } from '@/api/plan'
 
 export default {
   name: 'newplan',
-  props: {
-    'server': String
-  },
+  props: ['server'],
   mounted () {
-    console.log(this.$props.server);
+    console.log('testserver' + this.$props.server);
+    this.serverId = this.$props.server
   },
 
   watch: {
@@ -71,7 +72,8 @@ export default {
         delivery: false,
         type: [],
         end: '',
-        tractId: ''
+        tractId: '',
+        color: '#B8D6DE',
       },
     }
   },
@@ -89,7 +91,10 @@ export default {
       fd.append('conmmunicateWay', this.form.conmmunicateWay);
       fd.append('detail', this.form.detail);
       fd.append('end', this.form.end);
-      fd.append('tractId', this.tractId);
+      console.log('test服务id', this.serverId);
+      fd.append('tract_id', this.serverId);
+      fd.append('color', this.form.color);
+
 
       addPlan(fd).then((success) => {
         if (success.data.status === 200) {

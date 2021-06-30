@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getMoneyData, getJudgeData, getJobData, getJobMoneyData } from "@/api/chart";
 export default {
   methods: {
 

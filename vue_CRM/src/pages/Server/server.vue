@@ -109,13 +109,19 @@
         </el-table>
         <div class=""
              style="width:auto;text-align:center;margin-top:10px">
-          <span class="demonstration"></span>
-          <el-pagination @current-change="handleCurrentChange"
+          <!-- <span class="demonstration"></span> -->
+          <el-pagination layout="prev, pager, next"
+                         :total="total"
+                         @current-change="handleCurrentChange"
+                         :current-page.sync="currentPage"
+                         :page-size="10">
+          </el-pagination>
+          <!-- <el-pagination @current-change="handleCurrentChange"
                          :current-page.sync="currentPage"
                          :page-size="100"
                          layout="total, prev, pager, next"
-                         :total="1000">
-          </el-pagination>
+                         :total="total">
+          </el-pagination> -->
         </div>
       </template>
     </div>
@@ -123,14 +129,15 @@
 </template>
 
 <script>
-import { serverAdd, serverDel, serverUp, serverList, serverNum, serverStatus } from "@/api/server";
+import { serverAdd, serverDel, serverUp, serverList, serverNum, serverStatus, num } from "@/api/server";
 import addServer from './addServer.vue'
 export default {
   components: { addServer },
   data () {
     return {
       userType: '',//客户分类
-      customerNum: 0,
+      customerNum: 1,
+      total: 1,
       visible: false,
       currentPage: 1,
       dialogTableVisible: false,
@@ -161,21 +168,25 @@ export default {
 
     //获取用户数量
 
-    // serverNum().then((success) => {
-    //   if (success.data.status === 200) {
+    num({}).then((success) => {
+      if (success.data.status == 200) {
 
-    //     console.log('获取数量');
-    //     this.customerNum = success.data.data
-    //     console.log('总',customerNum);
+        console.log('获取数量');
+        this.total = success.data.data
+        console.log('总', this.total);
+        console.log(success);
+        // console.log(success.data);
+        console.log('总test', success.data.data);
 
-    //   } else {
-    //     this.$message.info(success.data.message);
-    //   }
-    //   // console.log("jljklhklh" + this.ruleForm.username);
-    // }).catch(error => {
-    //   this.$message.error('出错了，请联系管理员');
 
-    // })
+      } else {
+        this.$message.info(success.data.message);
+      }
+      // console.log("jljklhklh" + this.ruleForm.username);
+    }).catch(error => {
+      console.log('获取数量失败');
+
+    })
     serverStatus().then((success) => {
       if (success.data.status === 200) {
 
@@ -189,7 +200,7 @@ export default {
       }
       // console.log("jljklhklh" + this.ruleForm.username);
     }).catch(error => {
-      this.$message.error('出错了，请联系管理员');
+      console.log('出错了，请联系管理员');
 
     })
 
@@ -254,8 +265,10 @@ export default {
       console.log(index, row);
     },
     handleDelete (index, row) {
+      let that = this
       let fd = new FormData()
       fd.append('id', row.id)
+      console.log('111', this.tableData);
       this.$confirm('此操作将删除该服务记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -266,19 +279,21 @@ export default {
 
             this.$message.success(success.data.message);
             // this.resetForm()
+            console.log('xiabiao', index);
+            console.log(that.tableData);
+            that.tableData.splice(index, 1)
+
+
           } else {
             this.$message.info(success.data.message);
           }
           // console.log("jljklhklh" + this.ruleForm.username);
         }).catch(error => {
           this.$message.error('出错了，请联系管理员');
+          console.log(that.tableData);
 
         })
 
-        this.$message({
-          type: 'success',
-          message: '移除成功!'
-        });
 
 
       }).catch(() => {
@@ -312,7 +327,7 @@ export default {
         query: {
           //服务id
           serverId: row.id,
-          data: { row },
+          data: row,
           tag: 1
         }
       })

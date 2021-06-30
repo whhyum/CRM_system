@@ -5,10 +5,37 @@
 </template>
 
 <script>
-
+import { getMoneyData, getJudgeData, getJobData, getJobMoneyData } from "@/api/chart";
 // import echarts from "echarts";
 
 export default {
+  created () {
+    getMoneyData().then((success) => {
+      if (success.data.status === 200) {
+
+        this.$message.success(success.data.message);
+
+        this.name = '企业绩效'
+        this.xData = success.data.data.xData
+        this.yData = success.data.data.yData
+        // let chartmainbar = this.$echarts.init(this.$refs.chartmainbar);
+        // const { name, xData, yData } = this
+        // console.log(this.$refs)
+        const { name, xData, yData } = this
+        console.log('jixiaochax', success.data.data);
+        console.log('我在更新', this.name);
+        this.initChart(name, xData, yData)
+        // this.$refs.chart_line_one.initChart(name, xData, yData)
+      } else {
+        this.$message.info(success.data.message);
+      }
+      // console.log("jljklhklh" + this.ruleForm.username);
+    }).catch(error => {
+      this.$message.error('出错了，请联系管理员: ' + error.response.status);
+
+    })
+
+  },
 
   methods: {
 
@@ -47,7 +74,10 @@ export default {
             stack: '总量',
             data: yData
           },
-        ]
+        ],
+        name: '',
+        xData: '',
+        yData: '',
       };
 
       getchart.setOption(option);

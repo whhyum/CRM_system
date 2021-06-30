@@ -98,7 +98,7 @@ export function userSeach(data) {
 
 // http://localhost:8082/selectInput_user
 
-export function userComplain1(data) {
+export function userComplainA(data) {
   return request({
     url: '/selectInput_user',
     method: 'post',
@@ -107,7 +107,7 @@ export function userComplain1(data) {
 }
 // http://localhost:8082/complain/add
 
-export function userComplain2(data) {
+export function userComplainB(data) {
   return request({
     url: '/complain/add',
     method: 'post',
