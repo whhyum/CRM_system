@@ -17,20 +17,35 @@ public class Employee {
     private String gender;
     private Integer age;
     private String department;
-    private Date hire_date;
+    private String hireDate;
     private String state;
     private Integer admin;
-    private Integer role_id;
+    private Integer roleId;
     private Double performance;
 
     public Employee(String username, String password, String email, Integer usertype) {
         this.username=username;
         this.password=password;
         this.email=email;
-        this.role_id=usertype;
-        this.hire_date=new Date();
+        this.roleId=usertype;
+        this.hireDate= String.valueOf(new Date());
     }
 
     public Employee() {
+    }
+
+    public Employee(Integer id, String username, String password, String email, String gender, Integer age, String department, Date hireDate, String state, Integer admin, Integer roleId, Double performance) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.gender = gender;
+        this.age = age;
+        this.department = department;
+        this.hireDate = String.valueOf(hireDate);
+        this.state = state;
+        this.admin = admin;
+        this.roleId = roleId;
+        this.performance = performance;
     }
 }

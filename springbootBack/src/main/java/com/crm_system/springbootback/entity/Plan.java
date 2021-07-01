@@ -14,29 +14,30 @@ import java.util.Date;
 public class Plan {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String server_name;
+    private String serverName;
     private String title;
-    private String communicate_way;
+    private String communicateWay;
     private String detail;
     private String start;
     private String end;
-    private String trace_id;
+    private String traceId;
+    private String color;
 
 
     public Plan(Integer id, String server_name, String title, String communicate_way, String detail, String start, String end) {
         this.id = id;
-        this.server_name = server_name;
+        this.serverName = server_name;
         this.title = title;
-        this.communicate_way = communicate_way;
+        this.communicateWay = communicate_way;
         this.detail = detail;
         this.start = start;
         this.end = end;
     }
 
     public Plan(String server_name, String title, String communicate_way, String detail, String end) {
-        this.server_name = server_name;
+        this.serverName = server_name;
         this.title = title;
-        this.communicate_way = communicate_way;
+        this.communicateWay = communicate_way;
         this.detail = detail;
         this.end = end;
         DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //HH表示24小时制；
@@ -44,5 +45,17 @@ public class Plan {
     }
 
     public Plan() {
+    }
+
+    public Plan(Integer id, String serverName, String title, String communicateWay, String detail, String start, String end, String traceId, String color) {
+        this.id = id;
+        this.serverName = serverName;
+        this.title = title;
+        this.communicateWay = communicateWay;
+        this.detail = detail;
+        this.start = start;
+        this.end = end;
+        this.traceId = traceId;
+        this.color = color;
     }
 }

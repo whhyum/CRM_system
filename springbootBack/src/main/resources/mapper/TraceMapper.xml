@@ -10,8 +10,8 @@
             <if test="fromTime!=null and fromTime !='' and toTime!=null and toTime !='' ">
                 and trace_time between #{fromTime} and #{toTime}
             </if>
-            <if test="trace_type!=null and trace_type !='' ">
-                and trace_type=#{trace_type}
+            <if test="role_id==2">
+                and input_user =#{username}
             </if>
         </where>
     </select>
@@ -28,5 +28,16 @@
         <where>
             input_user=#{input_user} and trace_time between #{date} and DATE_SUB(#{date},INTERVAL -30 day)
         </where>
+    </select>
+    <select id="selectNum" resultType="int">
+        select count(1) from trace
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                customer_name like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectTop4ByDate" resultType="com.crm_system.springbootback.entity.Trace">
+        select * from trace order by trace_time desc  limit 5
     </select>
 </mapper>

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface JudgeMapper extends BaseMapper<Judge> {
     List<Judge> selectAll();
+
+    Object selectPerformanceByDate(String judged_people, String judge_time);
 }

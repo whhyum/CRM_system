@@ -10,9 +10,12 @@ import java.util.List;
 
 @Component
 public interface ContractMapper extends BaseMapper<Contract> {
-    IPage<Contract> selectContractPage(Page<Contract> page, String keyword);
+    double selectMoneyByDate(String date);
 
     Object selectByTrace_id(Integer trace_id);
 
     List<Contract> selectByUsername(String username);
+    IPage<Contract> selectContractPage(Page<Contract> page, String username, Integer role_id);
+    Integer selectNum(String keyWord);
+    Object selectMoneyByDateAndJob(String job, String date);
 }

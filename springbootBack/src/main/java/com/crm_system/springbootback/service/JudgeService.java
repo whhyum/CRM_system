@@ -23,4 +23,8 @@ public class JudgeService {
         public Integer addJudge(Judge judge) {
             return judgeMapper.insert(judge);
         }
+
+    public Object selectPerformanceByDate(String judged_people, String judge_time) {
+            return judgeMapper.selectPerformanceByDate(judged_people,judge_time);
+    }
 }

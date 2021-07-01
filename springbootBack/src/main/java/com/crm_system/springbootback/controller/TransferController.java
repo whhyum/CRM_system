@@ -21,7 +21,7 @@ public class TransferController {
     @Autowired
     private TransferService transferService;
     @PostMapping("/transfer")
-    @UserToken
+//    @UserToken
     public Result addTransfer(@RequestBody TransferDTO transferDTO){
         Transfer transfer=new Transfer(transferDTO);
         userService.updateSeller(transfer.getCustomer(),transfer.getNew_seller());
@@ -34,10 +34,14 @@ public class TransferController {
      * @return
      */
     @PostMapping("/transfer/list")
-    @UserToken
+//    @UserToken
     public Result userList(@RequestBody QueryDTO queryDTO){
         return ResultUtil.success("true",transferService.selectTransferPage(queryDTO));
     }
-
+    @PostMapping("/transfer/num")
+//    @UserToken
+    public Result selectNum(String keyWord){
+        return ResultUtil.success("true",transferService.selectNum(keyWord));
+    }
 
 }

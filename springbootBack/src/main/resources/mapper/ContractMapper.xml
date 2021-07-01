@@ -4,8 +4,11 @@
     <select id="selectContractPage" resultType="com.crm_system.springbootback.entity.Contract">
         select * from contract
         <where>
-            <if test="keyword !=null and keyword !='' ">
-                or servername like CONCAT('%',#{keyword},'%')
+            <if test="role_id==1">
+                and part_b =#{username}
+            </if>
+            <if test="role_id==2">
+                and seller =#{username}
             </if>
         </where>
     </select>
@@ -19,6 +22,29 @@
         select * from contract
         <where>
             trace_id=#{trace_id}
+        </where>
+    </select>
+    <select id="selectMoneyByDate" resultType="double">
+        select sum(money) from contract
+        <where>
+            creat_time between #{date} and DATE_SUB(#{date},INTERVAL -30 day)
+        </where>
+    </select>
+    <select id="selectNum" resultType="int">
+        select count(1) from contract
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or money_status like CONCAT('%',#{keyword},'%')
+                or part_b like CONCAT('%',#{keyword},'%')
+                or seller like CONCAT('%',#{keyword},'%')
+                or money like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectMoneyByDateAndJob" resultType="Object">
+        select sum(money) from contract
+        <where>
+            job=#{job} and creat_time between #{date} and DATE_SUB(#{date},INTERVAL -30 day)
         </where>
     </select>
 </mapper>

@@ -10,8 +10,10 @@ import java.util.List;
 @Component
 public interface TraceMapper extends BaseMapper<Trace> {
 
-    IPage<Trace> selectTracePage(Page<Trace> page, String keyword, String fromTime,String toTime,String trace_type);
+//    IPage<Trace> selectTracePage(Page<Trace> page, String keyword, String fromTime,String toTime,String username,Integer role_id);
+    List<Trace> selectTracePage(String keyword, String fromTime,String toTime,String username,Integer role_id);
     List<String>selectByname(String username);
-
     List<Trace> select(String date, String input_user);
+    Integer selectNum(String keyWord);
+    List<Trace> selectTop4ByDate();
 }

@@ -4,4 +4,10 @@
     <select id="selectAll" resultType="com.crm_system.springbootback.entity.Judge">
         select * from judge
     </select>
+    <select id="selectPerformanceByDate" resultType="com.crm_system.springbootback.entity.Judge">
+        select * from judge
+        <where>
+            judged_people=#{judged_people} and judge_time between #{judge_time} and DATE_SUB(#{judge_time},INTERVAL -30 day)
+        </where>
+    </select>
 </mapper>

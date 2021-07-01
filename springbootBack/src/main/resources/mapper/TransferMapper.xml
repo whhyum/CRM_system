@@ -9,4 +9,12 @@
             </if>
         </where>
     </select>
+    <select id="selectNum" resultType="int">
+        select count(1) from transfer
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or customer like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

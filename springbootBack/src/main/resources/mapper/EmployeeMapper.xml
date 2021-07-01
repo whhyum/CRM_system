@@ -5,7 +5,9 @@
         select * from employee
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or name like CONCAT('%',#{keyword},'%')
+                or username like CONCAT('%',#{keyword},'%')
+                or department like CONCAT('%',#{keyword},'%')
+                or email like CONCAT('%',#{keyword},'%')
             </if>
         </where>
     </select>
@@ -15,4 +17,20 @@
             username=#{judged_people}
         </where>
     </update>
+    <select id="selectNum" resultType="int">
+        select count(1) from employee
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or username like CONCAT('%',#{keyword},'%')
+                or department like CONCAT('%',#{keyword},'%')
+                or email like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="getPerformance" resultType="Double">
+        select performance from employee ORDER BY performance desc limit 6
+    </select>
+    <select id="getUsername" resultType="String">
+        select username from employee ORDER BY performance desc limit 6
+    </select>
 </mapper>

@@ -13,7 +13,7 @@ public class ComplainController {
         ComplainService complainService;
         @PostMapping(value = "/selectInput_user")
         @ResponseBody
-        @UserToken
+//        @UserToken
         public Result selectInput_user(String username){
 
             return complainService.selectInput_user(username);

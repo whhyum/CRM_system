@@ -24,16 +24,6 @@ public class UserServiceImpl implements UserService {
     public List<User> selectStar() {
         return userMapper.selectStar();
     }
-
-    /**
-    * 分页查询
-    **/
-    @Override
-    public IPage<User> selectUserPage(QueryDTO queryDTO) {
-        Page<User> page=new Page<>(queryDTO.getPageNo(),queryDTO.getPageSize());
-        return userMapper.selectUserPage(page,queryDTO.getKeyword());
-    }
-
     @Override
     public Integer addUser(UserDTO userDTO) {
         User user=new User(userDTO.getEmployee(),userDTO.getUsername(),userDTO.getGender(),userDTO.getEmail(),userDTO.getAge(),userDTO.getTel(),
@@ -103,4 +93,39 @@ public class UserServiceImpl implements UserService {
         User user= userMapper.selectById(parseInt);
         return user;
     }
+
+    @Override
+    public int addUser(User user) {
+        return userMapper.insert(user);
+    }
+
+    @Override
+    public Integer selectNum(String keyWord) {
+        return userMapper.selectNum(keyWord);
+    }
+
+    @Override
+    public int getTypeData(String s) {
+        return userMapper.getTypeData(s);
+    }
+
+    @Override
+    public Object selectByJob(String job) {
+        return userMapper.selectByJob(job);
+    }
+
+    @Override
+    public List<User> queryusersByArray(Integer pageNo, Integer pageSize, String keyword) {
+        List<User> user = userMapper.queryusersByArray(keyword);
+//        从第几条数据开始
+        int firstIndex = (pageNo - 1) * pageSize;
+//        到第几条数据结束
+        int lastIndex = pageNo * pageSize;
+        if(lastIndex>user.size()){
+            lastIndex=user.size();
+        }
+        return user.subList(firstIndex, lastIndex);
+//        return user;
+    }
+
 }
