@@ -1,7 +1,7 @@
  <template>
   <div>
     <full-calendar ref='can'
-                   :options="calendarOptions"
+                   :events='data'
                    class="test-fc"
                    first-day='1'
                    @changeMonth="changeMonth"
@@ -112,7 +112,7 @@ export default {
         workingTicketVisible: false, //工作表票详情页面
         eventClick: this.handleEventClick,
       }
-      
+
     }
   },
   // components: {

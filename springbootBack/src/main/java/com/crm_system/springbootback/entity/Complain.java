@@ -24,7 +24,11 @@ public class Complain {
         this.context = context;
         this.inputUser = input_user;
         this.core = core;
+<<<<<<< HEAD
 //        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //HH表示24小时制；
+=======
+        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd"); //HH表示24小时制；
+>>>>>>> 5f77898c925877700b73b514a75a01df4ca86cb1
         this.complainTime=new Date();
     }
 

@@ -9,15 +9,20 @@ import store from './store'
 import axios from 'axios';
 import qs from 'qs'
 import fullCalendar from 'vue-fullcalendar'
+// import echarts from 'echarts'
+// import FullCalendar from '@fullcalendar/vue'
+import * as echarts from 'echarts'
+Vue.prototype.$echarts=echarts;
+
 Vue.component('full-calendar', fullCalendar)
 
 // Vue.use(FullCalendar)
 // var axios = require('axios')
-// axios.defaults.baseURL = "http://cbd277c00321.ngrok.io/api"
+axios.defaults.baseURL = "http://53d2f280c05b.ngrok.io"
 
 Vue.prototype.$axios = axios
 // 跨域 1
-// Vue.prototype.HOME = 'api' 
+// Vue.prototype.HOME = 'api'
 // Vue.use(VueResource)
 Vue.use(ElementUI)
 Vue.prototype.$qs = qs

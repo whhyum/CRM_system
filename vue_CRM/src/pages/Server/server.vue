@@ -1,155 +1,149 @@
 <template>
   <div style="display:flex;flex-direction:row;width:auto;">
-    <div class="block">
-      <h1>近期更新</h1>
-      <el-timeline>
-        <el-timeline-item timestamp="2018/4/12"
-                          placement="top">
-          <el-card>
-            <h4>更新 Github 模板</h4>
-            <p>王小虎 提交于 2018/4/12 20:46</p>
-          </el-card>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2018/4/3"
-                          placement="top">
-          <el-card>
-            <h4>更新 Github 模板</h4>
-            <p>王小虎 提交于 2018/4/3 20:46</p>
-          </el-card>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2018/4/2"
-                          placement="top">
-          <el-card>
-            <h4>更新 Github 模板</h4>
-            <p>王小虎 提交于 2018/4/2 20:46</p>
-          </el-card>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
-    <el-card style="flex:1;margin-left:20px;border-radius:10px;display:flex;flex-direction:column">
-      <h1>服务状态</h1>
-      <div style="text-align:center;width:100%">
-        
-        <el-progress type="circle"
-                     :percentage="0"
-                     format="ssss">
 
-        </el-progress>
-  
-        <el-progress type="circle"
-                     :percentage="25"></el-progress>
-        <el-progress type="circle"
-                     :percentage="100"
-                     status="success"></el-progress>
-        <el-progress type="circle"
-                     :percentage="70"
-                     status="warning"></el-progress>
-        <el-progress type="circle"
-                     :percentage="50"
-                     status="exception"></el-progress>
-      </div>
-      <el-divider></el-divider>
+    <div>
+      <h1>新增服务记录</h1>
+      <addServer @newform="newform"
+                 style="width:500px"></addServer>
+    </div>
+    <div style="margin-left:30px">
+      <el-card style="border-radius:10px;height:auto；padding-left:20px;width:50vw">
+        <h1>客户状态</h1>
+        <div style="display:flex;flex-direction:column;text-align:center;width:auto;margin-left：20px">
+          <div style="display:flex;margin-bottom:10px">
+            <span>&nbsp;&nbsp;&nbsp;潜在客户</span>
+            <el-progress :text-inside="true"
+                         :stroke-width="24"
+                         style="margin-left:20px;width:60%"
+                         :percentage="userType.潜在客户"></el-progress>
+          </div>
+          <div style="display:flex;margin-bottom:10px">
+            <span>&nbsp;&nbsp;&nbsp;正式客户</span>
+            <el-progress :text-inside="true"
+                         :stroke-width="24"
+                         style="margin-left:20px;width:60%"
+                         :percentage="userType.正式客户"
+                         status="success"></el-progress>
+          </div>
+          <div style="display:flex;margin-bottom:10px">
+            <span>&nbsp;&nbsp;&nbsp;流失客户</span>
+            <el-progress :text-inside="true"
+                         :stroke-width="24"
+                         style="margin-left:20px;width:60%"
+                         :percentage="userType.流失"
+                         status="warning"></el-progress>
+          </div>
+
+          <div style="display:flex;margin-bottom:10px">资源池客户
+            <el-progress :text-inside="true"
+                         :stroke-width="24"
+                         style="margin-left:20px;width:60%"
+                         :percentage="userType.资源池客户"
+                         status="exception"></el-progress>
+          </div>
+          <div style="display:flex;margin-bottom:10px">&nbsp;&nbsp;&nbsp;开发失败
+            <el-progress :text-inside="true"
+                         :stroke-width="24"
+                         style="margin-left:20px;width:60%"
+                         :percentage="userType.开发失败"
+                         status="exception"></el-progress>
+          </div>
+
+        </div>
+
+      </el-card>
+      <el-divider>
+
+      </el-divider>
+
       <template style="margin-top:30px">
         <h1>服务管理</h1>
         <!-- <el-button style="
                 margin-top:20px"
                 @click="clearFilter">清除所有过滤器</el-button> -->
-        <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-                  style="width: 100%;">
-
-          <el-table-column prop="date"
+        <el-table :data="tableData"
+                  style="width: 90%;">
+          <!-- :data="tableData.filter(data => !search || data.customerName.toLowerCase().includes(search.toLowerCase()))" -->
+          <!-- v-model="tableData" -->
+          <el-table-column prop="traceTime"
                            label="日期"
                            sortable
-                           width="180"
-                           column-key="date"
-                           :filters="[{text: '2016-05-01', value: '2016-05-01'}, {text: '2016-05-02', value: '2016-05-02'}, {text: '2016-05-03', value: '2016-05-03'}, {text: '2016-05-04', value: '2016-05-04'}]"
-                           :filter-method="filterHandler">
+                           width="150"
+                           column-key="date">
           </el-table-column>
-          <el-table-column label="Name"
-                           prop="name">
+          <el-table-column label="客户名称"
+                           prop="customerName">
           </el-table-column>
-
-          <el-table-column prop="tag"
-                           label="标签"
-                           width="100"
-                           :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
-                           :filter-method="filterTag"
-                           filter-placement="bottom-end">
-            <template slot-scope="scope">
-              <el-tag :type="scope.row.tag === '家' ? 'primary' : 'success'"
-                      disable-transitions>{{scope.row.tag}}</el-tag>
-            </template>
+          <el-table-column label="客户类型"
+                           prop="status">
+          </el-table-column>
+          <el-table-column label="服务类型"
+                           prop="type">
+          </el-table-column>
+          <el-table-column label="服务内容"
+                           prop="traceDetails">
           </el-table-column>
 
-          <el-table-column align="right">
-            <template slot="header"
-                      slot-scope="">
+          <el-table-column align="right"
+                           width="150">
+            <!-- <template slot="header"
+                      slot-scope="scope">
               <el-input v-model="search"
                         size="mini"
                         placeholder="输入关键字搜索" />
-            </template>
-            <template slot-scope="scope">
+            </template> -->
+            <template slot-scope="scope"
+                      style="width:500px"
+                      width="300">
 
               <el-button size="mini"
-                         @click="seeMore()">查看</el-button>
-
-              <!-- <el-dialog :visible.sync="dialogFormVisible">
-                <el-form :model="form"
-                         style="display:flex;flex-direction:column;align-items:flex-start;width:auto">
-                  <h2 style="margin-left:30px">详细信息</h2>
-                  <el-form-item label="活动名称"
-                                :label-width="formLabelWidth">
-                    <el-input v-model="form.name"
-                              autocomplete="off"></el-input>
-                  </el-form-item>
-                  <el-form-item label="活动区域"
-                                :label-width="formLabelWidth">
-                    <el-select v-model="form.region"
-                               placeholder="请选择活动区域">
-                      <el-option label="区域一"
-                                 value="shanghai"></el-option>
-                      <el-option label="区域二"
-                                 value="beijing"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-form>
-                <div slot="footer"
-                     class="dialog-footer">
-                  <el-button @click="dialogFormVisible = false">取 消</el-button>
-                  <el-button type="primary"
-                             @click="dialogFormVisible = false">确 定</el-button>
-                </div>
-              </el-dialog> -->
+                         @click="seeMore(scope.$index, scope.row)">查看</el-button>
 
               <el-button size="mini"
-                         @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-              <el-button size="mini"
+                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+
+              <!-- <el-button size="mini"
                          type="danger"
-                         @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                         @click="handleDelete(scope.$index, scope.row)">Delete</el-button> -->
             </template>
           </el-table-column>
 
         </el-table>
+
         <div class=""
              style="width:auto;text-align:center;margin-top:10px">
-          <span class="demonstration"></span>
-          <el-pagination @size-change="handleSizeChange"
+          <!-- <span class="demonstration"></span> -->
+          <el-pagination layout="prev, pager, next"
+                         :total="total"
                          @current-change="handleCurrentChange"
-                         :current-page.sync="currentPage1"
+                         :current-page.sync="currentPage"
+                         :page-size="10">
+          </el-pagination>
+          <!-- <el-pagination @current-change="handleCurrentChange"
+                         :current-page.sync="currentPage"
                          :page-size="100"
                          layout="total, prev, pager, next"
-                         :total="1000">
-          </el-pagination>
+                         :total="total">
+          </el-pagination> -->
         </div>
       </template>
-    </el-card>
+    </div>
   </div>
 </template>
 
 <script>
+import { serverAdd, serverDel, serverUp, serverList, serverNum, serverStatus, num } from "@/api/server";
+import addServer from './addServer.vue'
 export default {
+  components: { addServer },
   data () {
     return {
+      newdata: '',
+      userType: '',//客户分类
+      customerNum: 1,
+      total: 1,
+      visible: false,
+      currentPage: 1,
       dialogTableVisible: false,
       dialogFormVisible: false,
       form: {
@@ -164,31 +158,195 @@ export default {
       },
       formLabelWidth: '120px',
       tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        customerName: 'test',
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        customerName: '王小虎',
       }],
       search: ''
     }
   },
+  created () {
+
+    //全部页码！！！！！！！！！！
+
+
+    //获取用户数量
+
+    num({}).then((success) => {
+      if (success.data.status == 200) {
+
+        console.log('获取数量');
+        this.total = success.data.data
+        console.log('总', this.total);
+        console.log(success);
+        // console.log(success.data);
+        console.log('总test', success.data.data);
+
+
+      } else {
+        this.$message.info(success.data.message);
+      }
+      // console.log("jljklhklh" + this.ruleForm.username);
+    }).catch(error => {
+      console.log('获取数量失败');
+
+    })
+
+
+    serverStatus().then((success) => {
+      if (success.data.status === 200) {
+
+        // this.$message.success(success.data.message);
+        console.log('获取客户占比', success.data.message);
+
+        this.userType = success.data.data
+
+      } else {
+        this.$message.info(success.data.message);
+      }
+      // console.log("jljklhklh" + this.ruleForm.username);
+    }).catch(error => {
+      console.log('出错了，请联系管理员');
+
+    })
+
+
+    this.handleCurrentChange()
+    console.log('没有是？？');
+    this.getData()
+
+    // let fd = new FormData();
+    // fd.append('username', window.sessionStorage.getItem("username"));
+    // fd.append('role_id', window.sessionStorage.getItem("role_id"));
+    // fd.append('pageNo', 1);
+    // fd.append('pageSize', 10);
+    // serverList(fd).then((success) => {
+    //   if (success.data.status === 200) {
+
+    //     // this.$message.success(success.data.message);
+    //     console.log('获取服务信息', success.data.message);
+    //     this.tableData = success.data.data
+    //   } else {
+    //     this.$message.info(success.data.message);
+    //   }
+    //   // console.log("jljklhklh" + this.ruleForm.username);
+    // }).catch(error => {
+    //   this.$message.error('出错了，请联系管理员');
+
+    // })
+
+
+  },
+  updated () {
+    this.getData()
+  },
   methods: {
+    getData () {
+      let fd = new FormData();
+      fd.append('username', window.sessionStorage.getItem("username"));
+      fd.append('role_id', window.sessionStorage.getItem("role_id"));
+      fd.append('pageNo', this.currentPage);
+      fd.append('pageSize', 10);
+      serverList(fd).then((success) => {
+        if (success.data.status === 200) {
+
+          // this.$message.success(success.data.message);
+          console.log('获取服务信息', success.data.message);
+          this.$forceUpdate()
+          this.tableData = success.data.data
+          this.$forceUpdate()
+          console.log('服务服务服务', this.tableData);
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+
+      })
+    },
+
+    handleCurrentChange (e) {
+      if (isNaN(parseInt(e))) {
+        e = 1
+      }
+      let key = this.keyword
+      let fd = new FormData()
+      this.currentPage = e
+      this.pageNo = this.currentPage
+      console.log(typeof (e));
+      console.log(parseInt(e));
+      fd.append('username', window.sessionStorage.getItem("username"));
+      fd.append('role_id', window.sessionStorage.getItem("role_id"));
+
+      fd.append('keyWord', key)
+      fd.append('pageNo', parseInt(e))
+      fd.append('pageSize', 10)
+      serverList(fd).then(success => {
+        if (success.data.status === 200) {
+          // this.$message.success(success.data.message)
+
+          console.log('test客户', success.data.data)
+
+          this.tableData = success.data.data.records
+
+        } else {
+          this.$message.error(success.data.message)
+        }
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+      })
+    },
     handleEdit (index, row) {
       console.log(index, row);
     },
-    handleDelete (index, row) {
-      console.log(index, row);
+    async handleDelete (index, row) {
+
+      let _that = this
+      let fd = new FormData()
+      console.log('删除测试111', this.tableData, row);
+
+      fd.append('id', row.id)
+      // console.log('111', this.tableData);
+
+      this.$confirm('此操作将删除该服务记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        serverDel(fd).then((success) => {
+
+
+          if (success.data.status === 200) {
+
+            this.$message.success(success.data.message);
+            this.$forceUpdate()
+            // // this.resetForm()
+            // console.log('删除测试', this.tableData);
+            // _that.tableData.splice(index, 1)
+            // row = ''
+            this.getData()
+            // this.tableData = this.tableData.splice(index, 1)
+            this.tableData.splice(index, 1)
+            // this.newform(row)
+          } else {
+            this.$message.info(success.data.message);
+          }
+          // console.log("jljklhklh" + this.ruleForm.username);
+        }).catch(error => {
+          // this.$message.error('出错了，请联系管理员');
+          console.log(_that.tableData);
+
+        })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消移除操作'
+        });
+      });
+
+
     },
     resetDateFilter () {
       this.$refs.filterTable.clearFilter('date');
@@ -206,47 +364,57 @@ export default {
       const property = column['property'];
       return row[property] === value;
     },
-    open () {
-      const h = this.$createElement;
-      this.$msgbox({
-        title: '消息',
-        message: h('p', null, [
-          h('span', null, '内容可以是 '),
-          h('i', { style: 'color: teal' }, 'VNode')
-        ]),
-        showCancelButton: true,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            instance.confirmButtonLoading = true;
-            instance.confirmButtonText = '执行中...';
-            setTimeout(() => {
-              done();
-              setTimeout(() => {
-                instance.confirmButtonLoading = false;
-              }, 300);
-            }, 3000);
-          } else {
-            done();
-          }
-        }
-      }).then(action => {
-        this.$message({
-          type: 'info',
-          message: 'action: ' + action
-        });
-      });
-    },
-    seeMore () {
+    seeMore (index, row) {
       this.$router.push({
         path: '/index/seeMore',
         query: {
-          serverId: 12131315451
+          //服务id
+          serverId: row.id,
+          data: row,
+          tag: 1
         }
       })
+    },
+    newform (data) {
+      // this.tableData = 
+      this.tableData.unshift(this.tableData.length, 1, data)
+      // this.$set(this.tableData.length, id, data.id)
+      console.log('测试更新', this.tableData.length, data.traceid, data.id);
+
     }
-  }//method
+  },
+  watch: {
+    //正确给 Data 赋值的 方法
+
+    // tableData: function (newVal, oldVal) {
+
+    //   this.tableData = newVal
+    //   // newVal && this.draw(); //newVal存在的话执行draw函数
+    // }
+
+  },
+
+  computed: {
+    // newform (data) {
+    //   // this.tableData.splice(this.tableData.length, 1, data)
+    //   // console.log('测试更新', this.tableData.length, data.traceid, data.id);
+
+    //   // this.tableData
+    // }
+
+    // update (data) {
+    //   this.newdata = data
+    //   console.log('这里这里', data);
+    // }
+    // newdata () {
+    //   this.tableData.splice(this.tableData.length(), 1, newdata)
+    // }
+  }
+  //method,
+
+  // updated () {
+  //   newform
+  // }
 }
 </script>
 

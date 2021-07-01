@@ -5,14 +5,21 @@ import store from '@/store'
 
 //创建axios实例
 const service = axios.create({
-    baseURL: process.env.BASE_API, // api的base_url
+    baseURL: 'http://127.0.0.1:8082', // api的base_url
+    headers: {
+      // "Content-Type": "application/x-www-form-urlencoded",
+      // "content-type":"application/json;charset=utf-8",
+      "Content-Type":"multipart/form-data",
+      "token": window.sessionStorage.getItem("token")
+  }
 })
 
 // request 请求拦截
 service.interceptors.request.use(
     config => {
         if (store.getters.getToken) {
-            config.headers['token'] = window.sessionStorage.getItem("token")
+          console.log(store.getters.getToken)
+          config.headers['token'] = window.sessionStorage.getItem("token")
         }
         return config
     },
@@ -23,29 +30,6 @@ service.interceptors.request.use(
     }
 )
 
-//response响应拦截
-// axios.interceptors.response.use(response => {
-//     let res = response.data;
-//     console.log(res)
-
-//     if (res.code === 200) {
-//         return response
-//     } else {
-//         return Promise.reject(response.data.msg)
-//     }
-// },
-//     error => {
-//         console.log(error)
-//         if (error.response.data) {
-//             error.message = error.response.data.msg
-//         }
-
-//         if (error.response.status === 401) {
-//             router.push("/login")
-//         }
-//         return Promise.reject(error)
-//     }
-// )
 axios.interceptors.response.use(success => {
   if (success.status && success.status == 200 && success.data.status == 500) {
     Message.error({message: success.data.msg})
@@ -66,10 +50,12 @@ axios.interceptors.response.use(success => {
   } else {
     if (error.response.data.msg) {
       Message.error({message: error.response.data.msg})
+
     } else {
       Message.error({message: '未知错误!'})
     }
   }
+  // console.log('asafssdfasg')
   return;
 })
 
