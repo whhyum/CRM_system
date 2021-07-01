@@ -110,31 +110,43 @@
                         label-width="">
             {{ exForm.judged_people }}
           </el-form-item>
+          <el-form-item label="考核分数"
+                        label-width="">
+            {{ exForm.performance }}
+          </el-form-item>
 
           <el-form-item label="工作能力[40%]1-10分"
                         prop=""
                         label-width="">
-            <el-input v-model="exForm.working_ability"
+            <el-input v-if="!exStatus"
+                      v-model="exForm.working_ability"
                       placeholder="请输入工作能力分值"></el-input>
+            <span v-else>{{ exForm.working_ability }}</span>
           </el-form-item>
           <el-form-item label="工作态度[20%]1-10分"
                         prop=""
                         label-width="">
-            <el-input v-model="exForm.working_atitude"
+            <el-input v-if="!exStatus"
+                      v-model="exForm.working_atitude"
                       placeholder="请输入工作能力分值"></el-input>
+            <span v-else>{{exForm.working_atitude}}</span>
           </el-form-item>
           <el-form-item label="环境行为[10%]1-10分"
                         prop=""
                         label-width="">
-            <el-input v-model="exForm.environmental_behavior"
+            <el-input v-if="!exStatus"
+                      v-model="exForm.environmental_behavior"
                       placeholder="请输入工作能力分值"></el-input>
+            <span v-else>{{exForm.environmental_behavior}}</span>
           </el-form-item>
 
           <el-form-item label="纪律[10%]1-10分"
                         prop=""
                         label-width="">
-            <el-input v-model="exForm.discipline"
+            <el-input v-if="!exStatus"
+                      v-model="exForm.discipline"
                       placeholder="请输入工作能力分值"></el-input>
+            <span v-else>{{exForm.discipline}}</span>
           </el-form-item>
           <!-- discipline: '',
         bonus_point: '',
@@ -145,13 +157,17 @@
 
           <el-form-item label="加分项[20%]1-10分"
                         label-width="">
-            <el-input v-model="exForm.bonus_point"
+            <el-input v-if="!exStatus"
+                      v-model="exForm.bonus_point"
                       placeholder="请输入工作能力分值"></el-input>
+            <span v-else>{{ exForm.bonus_point }}</span>
           </el-form-item>
           <el-form-item label="扣分项[10%]1-10分"
                         label-width="">
-            <el-input v-model="exForm.deduct_point"
+            <el-input v-if="!exStatus"
+                      v-model="exForm.deduct_point"
                       placeholder="请输入工作能力分值"></el-input>
+            <span v-else>{{exForm.deduct_point}}</span>
           </el-form-item>
 
           <el-form-item label="备注">
@@ -178,7 +194,7 @@
 <script>
 
 import { } from '../../api/server'
-import { exNow, exNum, exAdd, employeeDel, exUp } from '@/api/ex'
+import { exNow, exNum, exAdd, employeeDel, exUp, exCheck } from '@/api/ex'
 
 export default {
   created () {
@@ -196,6 +212,7 @@ export default {
       // this.$message.error('出错了，请联系管理员');
 
     })
+    this.getExData()
 
 
     // tableData
@@ -219,6 +236,7 @@ export default {
   },
   data () {
     return {
+      exStatus: false, //考核状态 = > 未考核false ；考核true
       currentPage: 1,
       total: 100,
       form: {
@@ -319,10 +337,48 @@ export default {
 
     },
     handleEdit (index, row) {
-      console.log(row.name);
-      console.log(this.$refs.exForm);
-      console.log(this.$refs.exForm.username);
-      this.exForm.judged_people = row.username
+      console.log(row.username);
+
+      let nowDate = new Date();
+      let date = {
+        year: nowDate.getFullYear(),
+        month: nowDate.getMonth() + 1,
+        date: nowDate.getDate(),
+      }
+      console.log(date);
+      let systemDate = date.year + '-' + (date.month >= 10 ? date.month : '0' + date.month) + '-' + (date.date >= 10 ? date.date : '0' + date.date);
+
+
+
+      let fd = new FormData()
+      fd.append('judged_people', row.username)
+      fd.append('judge_time', systemDate)
+
+      exCheck(fd).then((success) => {
+        if (success.data.status === 200) {
+
+          // this.$message.success(success.data.message);
+          console.log('获取考核信息', success.data.message, success.data.data);
+          if (success.data.data.performance == 0) {
+            this.exForm.judged_people = row.username
+            this.exStatus = false
+          } else {
+            this.exStatus = true
+            this.exForm = success.data.data
+            // performance
+          }
+
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+
+      })
+
+
+
 
 
 
@@ -365,6 +421,9 @@ export default {
           message: '已取消移除操作'
         });
       });
+
+    },
+    getExData () {
 
     },
     resetDateFilter () {

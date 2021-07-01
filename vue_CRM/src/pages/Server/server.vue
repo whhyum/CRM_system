@@ -252,6 +252,7 @@ export default {
 
           // this.$message.success(success.data.message);
           console.log('获取服务信息', success.data.message);
+          this.$forceUpdate()
           this.tableData = success.data.data
           this.$forceUpdate()
           console.log('服务服务服务', this.tableData);
@@ -319,6 +320,7 @@ export default {
           if (success.data.status === 200) {
 
             this.$message.success(success.data.message);
+            this.$forceUpdate()
             // // this.resetForm()
             // console.log('删除测试', this.tableData);
             // _that.tableData.splice(index, 1)

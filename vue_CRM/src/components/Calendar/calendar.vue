@@ -81,32 +81,38 @@ export default {
     FullCalendar
   },
   methods: {
+    getData () {
+      allPlan().then((success) => {
+        if (success.data.status === 200) {
 
+          // this.$message.success(success.data.message);
+          console.log('获取日程信息', success.data.message);
+          this.planData = success.data.data
+          this.calendarOptions.events = this.planData
+          this.$forceUpdate()
+          console.log(this.planData);
+
+          // this.calendarOptions.events.id = this.planData.tractId
+          // this.calendarOptions.events.start = this.planData.start
+          // this.calendarOptions.events.end = this.planData.end
+          // this.calendarOptions.events.desc = this.planData.detail
+          // this.calendarOptions.events.servserName = this.planData.servserName
+          // this.calendarOptions.color 
+        } else {
+          this.$message.info(success.data.message);
+        }
+        // console.log("jljklhklh" + this.ruleForm.username);
+      }).catch(error => {
+        this.$message.error('出错了，请联系管理员');
+
+      })
+    }
   },
   created () {
-    allPlan().then((success) => {
-      if (success.data.status === 200) {
-
-        // this.$message.success(success.data.message);
-        console.log('获取日程信息', success.data.message);
-        this.planData = success.data.data
-        this.calendarOptions.events = this.planData
-        console.log(this.planData);
-
-        // this.calendarOptions.events.id = this.planData.tractId
-        // this.calendarOptions.events.start = this.planData.start
-        // this.calendarOptions.events.end = this.planData.end
-        // this.calendarOptions.events.desc = this.planData.detail
-        // this.calendarOptions.events.servserName = this.planData.servserName
-        // this.calendarOptions.color 
-      } else {
-        this.$message.info(success.data.message);
-      }
-      // console.log("jljklhklh" + this.ruleForm.username);
-    }).catch(error => {
-      this.$message.error('出错了，请联系管理员');
-
-    })
+    this.getData()
+  },
+  updated () {
+    this.getData()
   }
 }
 </script>

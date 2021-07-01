@@ -23,6 +23,18 @@ export function exNum(data) {
   })
 }
 
+
+export function exCheck(data) {
+  return request({
+      url: '/selectPerformanceByDate',
+      headers : {"Content-Type" : "application/json;charset=utf-8"},
+      method: 'post',
+      // dataType: "json",
+      data
+
+  })
+}
+
 export function exAdd(data) {
   return request({
       url: '/judge/add',

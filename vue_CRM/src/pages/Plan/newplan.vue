@@ -23,7 +23,17 @@
       <el-form-item label="详细计划">
         <el-input v-model="form.detail  "></el-input>
       </el-form-item>
+      <el-form-item label="开始时间">
+        <div class="block">
+          <!-- <span class="demonstration">默认</span> -->
 
+          <el-date-picker v-model="form.start"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择日期">
+          </el-date-picker>
+        </div>
+      </el-form-item>
       <el-form-item label="截止时间">
         <div class="block">
           <!-- <span class="demonstration">默认</span> -->
@@ -92,14 +102,14 @@ export default {
 
       // servserName  title  conmmunicateWay  detail  end  tractId
 
-      fd.append('servserName', this.form.servserName);
+      fd.append('serverName', this.form.servserName);
       fd.append('title', this.form.title);
       fd.append('conmmunicateWay', this.form.conmmunicateWay);
       fd.append('detail', this.form.detail);
       fd.append('end', this.form.end);
-      fd.append('start', this.form.end);
+      fd.append('start', this.form.start);
       console.log('test服务id', this.serverId);
-      fd.append('tract_id', this.serverId);
+      fd.append('trace_id', this.serverId);
       fd.append('color', this.form.color);
 
 
